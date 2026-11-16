@@ -248,8 +248,9 @@ def quarter_series(rows, col):
     out, year = {}, None
     for r in rows:
         a, b = str(r.get("A", "")).strip(), str(r.get("B", "")).strip()
-        if re.fullmatch(r"(19|20)\d\d", a):
-            year = int(a)
+        ym = re.match(r"((?:19|20)\d\d)(?!\d)", a)  # รองรับ "2026p", "2025r" ฯลฯ
+        if ym:
+            year = int(ym.group(1))
         q = b if re.fullmatch(r"Q[1-4]", b) else (a if re.fullmatch(r"Q[1-4]", a) else None)
         if year and q and col in r:
             try:
@@ -272,7 +273,10 @@ def build_gdp():
 
     def series(sheet):
         rows = xlsx_rows(z, sheets[sheet], ss)
-        return quarter_series(rows, gdp_column(rows))
+        col = gdp_column(rows)
+        save_debug(f"qgdp_{sheet.replace(' ', '_')}", f["source_url"],
+                   f"GDP column = {col}\n" + "\n".join(json.dumps(r, ensure_ascii=False) for r in rows[:6] + rows[-14:]))
+        return quarter_series(rows, col)
 
     size = series("Table 1")      # GDP ณ ราคาประจำปี (ล้านบาท)
     qoq = series("Table 6.1")     # GDP ปรับฤดูกาล % QoQ
