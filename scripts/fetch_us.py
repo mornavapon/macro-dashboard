@@ -74,10 +74,9 @@ def strip_tags(html):
 
 def fred(series_id, start=None):
     """คืน list ของ (date, float) จาก FRED CSV (ข้ามค่าที่ว่าง)"""
+    # หมายเหตุ: ส่ง User-Agent แบบเบราว์เซอร์หรือพารามิเตอร์ cosd แล้ว FRED ค้าง จึงขอแบบเรียบๆ
     url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}"
-    if start:
-        url += f"&cosd={start}"
-    text = get(url)
+    text = get(url, headers={"User-Agent": "curl/8.5.0", "Accept": "*/*"}, timeout=60)
     rows = list(csv.reader(io.StringIO(text)))
     out = []
     for r in rows[1:]:
@@ -87,6 +86,9 @@ def fred(series_id, start=None):
             out.append((datetime.date.fromisoformat(r[0]), float(r[1])))
         except ValueError:
             continue  # ค่า "." = ยังไม่มีข้อมูล
+    if start:
+        start_d = datetime.date.fromisoformat(start)
+        out = [(d, v) for d, v in out if d >= start_d]
     if not out:
         save_debug(f"fred_{series_id}", url, text)
         raise ValueError(f"FRED {series_id} ไม่มีข้อมูล")
