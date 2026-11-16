@@ -1,0 +1,27 @@
+run at 2026-11-16T16:31:07.906731+07:00
+
+spx.level OK via Yahoo Finance (^GSPC)
+spx.market_cap TODO
+spx.pe OK via multpl.com
+spx.pbv OK via multpl.com
+nasdaq.level OK via Yahoo Finance (^IXIC)
+nasdaq.market_cap TODO
+nasdaq.pe TODO
+nasdaq.pbv TODO
+set.level OK via Yahoo Finance (^SET.BK)
+set[0] OK  https://www.set.or.th/api/set/index/info/list?type=INDEX -> found nothing (json)
+set[1] OK  https://www.set.or.th/api/set/market/SET/info -> found nothing (json)
+set[2] OK  https://www.set.or.th/api/set/index/SET/info -> found nothing (json)
+set[3] OK  https://www.set.or.th/th/market/index/set/overview -> found nothing (html/text)
+hscei.level OK via Yahoo Finance (^HSCE)
+hscei[0] FAIL https://www.hsi.com.hk/data/eng/rt/index-overview.do -> HTTPError: HTTP Error 404: Not Found
+sse.level OK via Yahoo Finance (000001.SS)
+sse[0] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-16 -> found ['pe', 'market_cap'] (json)
+sse[1] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-15 -> found nothing (json)
+sse[2] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-14 -> found nothing (json)
+sse[3] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-13 -> found nothing (json)
+sse[4] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-12 -> found nothing (json)
+sse[5] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-11 -> found nothing (json)
+sse[6] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-10 -> found nothing (json)
+vni.level OK via Yahoo Finance (^VNINDEX.VN)
+vni[0] FAIL https://finfo-api.vndirect.com.vn/v4/ratios/latest?where=code:VNINDEX&order=reportDate -> URLError: <urlopen error timed out>

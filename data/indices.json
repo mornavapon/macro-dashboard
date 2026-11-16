@@ -1,5 +1,5 @@
 {
-  "updated_at": null,
+  "updated_at": "2026-11-16T16:31+07:00",
   "indices": [
     {
       "id": "spx",
@@ -7,20 +7,26 @@
       "flag": "🇺🇸",
       "market": "สหรัฐฯ",
       "level": {
-        "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "value": 7561.67,
+        "asof": "2026-11-13",
+        "source": "Yahoo Finance (^GSPC)",
+        "change": -30.73,
+        "pct": -0.4
       },
       "market_cap": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "todo": true,
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"
       },
       "pe": {
-        "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "value": 25.81,
+        "asof": "4:00 PM EST, Fri Nov 13",
+        "source": "multpl.com"
       },
       "pbv": {
-        "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "value": 6.0,
+        "asof": "4:00 PM EST, Fri Nov 13",
+        "source": "multpl.com"
       }
     },
     {
@@ -29,20 +35,26 @@
       "flag": "🇺🇸",
       "market": "สหรัฐฯ",
       "level": {
-        "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "value": 25136.27,
+        "asof": "2026-11-13",
+        "source": "Yahoo Finance (^IXIC)",
+        "change": -229.82,
+        "pct": -0.91
       },
       "market_cap": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "todo": true,
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"
       },
       "pe": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "todo": true,
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"
       },
       "pbv": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "todo": true,
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"
       }
     },
     {
@@ -51,20 +63,21 @@
       "flag": "🇹🇭",
       "market": "ไทย",
       "level": {
-        "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "value": 1497.37,
+        "asof": "2026-11-16",
+        "source": "Yahoo Finance (^SET.BK)"
       },
       "market_cap": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล"
       },
       "pe": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล"
       },
       "pbv": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล"
       }
     },
     {
@@ -73,20 +86,23 @@
       "flag": "🇭🇰",
       "market": "ฮ่องกง",
       "level": {
-        "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "value": 7981.54,
+        "asof": "2026-11-16",
+        "source": "Yahoo Finance (^HSCE)",
+        "change": 44.01,
+        "pct": 0.55
       },
       "market_cap": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] HTTPError: HTTP Error 404: Not Found)"
       },
       "pe": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] HTTPError: HTTP Error 404: Not Found)"
       },
       "pbv": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] HTTPError: HTTP Error 404: Not Found)"
       }
     },
     {
@@ -95,20 +111,28 @@
       "flag": "🇨🇳",
       "market": "จีน",
       "level": {
-        "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "value": 3602.57,
+        "asof": "2026-11-16",
+        "source": "Yahoo Finance (000001.SS)",
+        "change": -31.78,
+        "pct": -0.87
       },
       "market_cap": {
-        "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "value": 50151590000000.0,
+        "asof": "20261116",
+        "source": "query.sse.com.cn",
+        "currency": "CNY",
+        "note": "สถิติทั้งตลาดเซี่ยงไฮ้"
       },
       "pe": {
-        "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "value": 13.4,
+        "asof": "20261116",
+        "source": "query.sse.com.cn",
+        "note": "สถิติทั้งตลาดเซี่ยงไฮ้"
       },
       "pbv": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล"
       }
     },
     {
@@ -117,20 +141,21 @@
       "flag": "🇻🇳",
       "market": "เวียดนาม",
       "level": {
-        "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "value": 1736.89,
+        "asof": "2026-11-16",
+        "source": "Yahoo Finance (^VNINDEX.VN)"
       },
       "market_cap": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] URLError: <urlopen error timed out>)"
       },
       "pe": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] URLError: <urlopen error timed out>)"
       },
       "pbv": {
         "value": null,
-        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] URLError: <urlopen error timed out>)"
       }
     }
   ]

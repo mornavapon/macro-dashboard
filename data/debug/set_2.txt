@@ -1,0 +1,4 @@
+URL: https://www.set.or.th/api/set/index/SET/info
+FETCHED: 2026-11-16T16:30:01.488681+07:00
+
+{"symbol":"SET","nameEN":"SET","nameTH":"SET","prior":1504.880000,"open":1501.570000,"high":1501.820000,"low":1492.680000,"last":1498.720000,"change":-6.160000,"percentChange":-0.410000,"volume":10795661219,"value":60557361987.000000,"querySymbol":"SET","marketStatus":"Open2","marketDateTime":"2026-11-16T16:29:42.080288+07:00","marketName":"SET","industryName":"","sectorName":"","level":"INDEX"}
