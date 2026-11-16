@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16T17:00+07:00",
+  "updated_at": "2026-11-16T20:01+07:00",
   "indices": [
     {
       "id": "spx",
@@ -14,9 +14,10 @@
         "pct": -0.4
       },
       "market_cap": {
-        "value": null,
-        "todo": true,
-        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
+        "value": 72696756884523.0,
+        "currency": "USD",
+        "source": "stockanalysis.com",
+        "note": "ผลรวม Market Cap ของ 503 บริษัทใน S&P 500"
       },
       "pe": {
         "value": 25.81,
@@ -42,14 +43,16 @@
         "pct": -0.91
       },
       "market_cap": {
-        "value": null,
-        "todo": true,
-        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
+        "value": 49750950792167.0,
+        "currency": "USD",
+        "source": "stockanalysis.com",
+        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)"
       },
       "pe": {
-        "value": null,
-        "todo": true,
-        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
+        "value": 25.23,
+        "asof": null,
+        "source": "stockanalysis.com",
+        "note": "อ้างอิง ETF ONEQ"
       },
       "pbv": {
         "value": null,
@@ -68,19 +71,19 @@
         "source": "Yahoo Finance (^SET.BK)"
       },
       "market_cap": {
-        "value": 18988401960000.0,
-        "asof": "13 Nov 2026",
+        "value": 18920745190000.0,
+        "asof": "16 Nov 2026",
         "source": "www.set.or.th",
         "currency": "THB"
       },
       "pe": {
-        "value": 14.27,
-        "asof": "13 Nov 2026",
+        "value": 14.04,
+        "asof": "16 Nov 2026",
         "source": "www.set.or.th"
       },
       "pbv": {
-        "value": 1.38,
-        "asof": "13 Nov 2026",
+        "value": 1.37,
+        "asof": "16 Nov 2026",
         "source": "www.set.or.th"
       }
     },
@@ -97,15 +100,17 @@
         "pct": 0.55
       },
       "market_cap": {
-        "value": null,
-        "todo": true,
-        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
+        "value": 20757115000000.0,
+        "currency": "HKD",
+        "asof": "30 Oct 2026",
+        "source": "Hang Seng Indexes (factsheet)",
+        "note": "ข้อมูลรายเดือน"
       },
       "pe": {
-        "value": 10.6,
-        "asof": null,
-        "source": "stockanalysis.com",
-        "note": "อ้างอิง ETF 2828"
+        "value": 11.64,
+        "asof": "30 Oct 2026",
+        "source": "Hang Seng Indexes (factsheet)",
+        "note": "ข้อมูลรายเดือน"
       },
       "pbv": {
         "value": null,
