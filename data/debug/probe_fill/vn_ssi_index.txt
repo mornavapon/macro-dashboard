@@ -1,0 +1,6 @@
+URL https://iboard-query.ssi.com.vn/exchange-index/VNINDEX?hasHistory=false
+LEN 693
+
+
+
+HEAD {"code":"SUCCESS","message":"Call API /exchange-index/VNINDEX?hasHistory=false successful","data":{"latestValue":[],"exchange":"hose","indexId":"VNINDEX","indexValue":1736.89,"prevIndexValue":1734.93,"time":1794816305102,"advances":101,"allQty":526138530,"allValue":11877394952330,"ceiling":4,"change":1.96,"changePercent":0.11,"chartHigh":1753.01,"chartLow":1733.71,"declines":220,"firstM1Seq":6,"floor":4,"lastM1Seq":33287,"nochanges":51,"timeMaker":1794816305102,"totalQtty":405935461,"totalQttyPT":120203069,"totalValue":8540894758680,"totalValuePT":3336500193650,"chartOpen":1733.71,"totalBuyForeignQtty":82178382,"totalSellForeignQtty":90768190,"label":"VNINDEX","exchangeLabel":"HOSE"}}
