@@ -3,14 +3,15 @@ OUT="data/debug/probe_ex"; os.makedirs(OUT, exist_ok=True)
 op=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
 B={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36","Accept":"*/*","Accept-Language":"th,en"}
 def get(url):
-    with op.open(urllib.request.Request(url,headers=B),timeout=60) as r: return r.read().decode("utf-8","replace"), r.headers.get("Content-Type")
+    with op.open(urllib.request.Request(url,headers=B),timeout=60) as r: return r.read().decode("utf-8","replace")
 out=[]
-t,_=get("https://tradereport.moc.go.th/opendata/summarycountries")
-c=re.sub(r"\s+"," ",re.sub(r"(?s)<[^>]+>"," ",re.sub(r"(?is)<style.*?</style>"," ",t)))
-for k in ["GET","Method","URL","year","month","Parameter","ปี","เดือน","Response","Example","json"]:
-    for m in list(re.finditer(k,c))[:3]: out.append(f"[{k}] "+c[max(0,m.start()-200):m.start()+400])
-for q in ["?year=2569&month=10","?year=2026&month=10","?Year=2569&Month=10","?year=2569","?y=2569&m=10"]:
-    try:
-        b,ct=get("https://tradereport.moc.go.th/opendata/summarycountries"+q); out.append(f"Q {q} ct={ct} len={len(b)} :: {b[:600]}")
-    except Exception as e: out.append(f"Q {q} FAIL {e}")
-open(f"{OUT}/probe5.txt","w").write("\n\n".join(out)[:150000]); print("OK")
+for page in ["https://tradereport.moc.go.th/opendata/summarycountries","https://tradereport.moc.go.th/th/stat/reportmonth01"]:
+    t=get(page)
+    scripts=re.findall(r"(?is)<script(?![^>]*src)[^>]*>(.*?)</script>",t)
+    big=[s for s in scripts if len(s)>200]
+    out.append(f"== {page} inline scripts: "+"\n---\n".join(s.strip()[:3500] for s in big[:6]))
+    i=t.find("<main"); j=t.find("</main>")
+    out.append("MAIN "+re.sub(r"\s+"," ",t[i:j])[:6000] if i>0 else "NO MAIN")
+js=get("https://tradereport.moc.go.th/js/app.js")
+out.append("APPJS "+str(sorted(set(re.findall(r'["\'`](/[a-z][^"\'`\s]{3,80})["\'`]',js)))[:200]))
+open(f"{OUT}/probe6.txt","w").write("\n\n".join(out)[:150000]); print("OK")
