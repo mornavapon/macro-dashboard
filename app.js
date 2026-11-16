@@ -75,9 +75,10 @@ function thaiDateTime(iso) {
 
 // ชื่อย่อในตาราง (ให้พอดีจอมือถือ)
 const SHORT = { spx: "S&P 500", nasdaq: "NASDAQ", set: "SET", hscei: "HSCEI", sse: "SSE", vni: "VN-Index" };
-// แตะชื่อดัชนี -> เปิดกราฟใน TradingView
-const TV = { spx: "SP:SPX", nasdaq: "NASDAQ:IXIC", set: "SET:SET", hscei: "HSI:HSCEI", sse: "SSE:000001", vni: "HOSE:VNINDEX" };
-const tvLink = (id) => `https://th.tradingview.com/chart/?symbol=${encodeURIComponent(TV[id] || "")}`;
+// แตะชื่อดัชนี -> เปิดหน้ากราฟของดัชนีนั้นใน TradingView
+// ใช้หน้า /symbols/ (แยกหน้าละดัชนี) เพราะหน้า /chart/ จะจำดัชนีที่เปิดล่าสุดไว้ แล้วเปิดตัวเดิมซ้ำ
+const TV = { spx: "SP-SPX", nasdaq: "NASDAQ-IXIC", set: "SET-SET", hscei: "HSI-HSCEI", sse: "SSE-000001", vni: "HOSE-VNINDEX" };
+const tvLink = (id) => `https://th.tradingview.com/symbols/${TV[id]}/`;
 const CUR = { USD: "$", THB: "฿", HKD: "HK$", CNY: "¥", VND: "₫" };
 
 function fmtCap(v, cur) {
