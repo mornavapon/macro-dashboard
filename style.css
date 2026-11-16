@@ -112,6 +112,17 @@ body {
 }
 .btn:hover { background: rgba(90, 169, 255, .1); }
 
+/* ---------- หน้า 2/3 ---------- */
+.panel-sub { color: var(--muted); font-size: 12.5px; margin: 0 0 10px !important; line-height: 1.6; }
+.panel-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.src { color: var(--muted); font-size: 11.5px; }
+.small { color: var(--muted); font-size: 12px; }
+.badge { background: rgba(90, 169, 255, .15); color: var(--accent); font-size: 10.5px; padding: 1px 6px; border-radius: 6px; margin-left: 4px; font-family: "IBM Plex Sans Thai", sans-serif; white-space: nowrap; }
+.idx-table tr.latest td { background: rgba(90, 169, 255, .06); }
+.idx-table tr.muted td { color: var(--muted); }
+.idx-table td.up { color: var(--up); }
+.idx-table td.down { color: var(--down); }
+
 /* ---------- dots ---------- */
 .dots {
   position: fixed; left: 0; right: 0; bottom: max(14px, env(safe-area-inset-bottom));

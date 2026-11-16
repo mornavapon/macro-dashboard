@@ -126,6 +126,10 @@ def build_cpi():
         prev = by_month.get((d.year - 1, d.month))
         if prev:
             rows.append({"month": d.strftime("%Y-%m"), "yoy": round((v / prev - 1) * 100, 1)})
+        else:
+            # เช่น ต.ค. 2025 ไม่มีข้อมูล (รัฐบาลสหรัฐฯ shutdown) จึงคำนวณ YoY ของ ต.ค. 2026 ไม่ได้
+            rows.append({"month": d.strftime("%Y-%m"), "yoy": None,
+                         "note": f"ไม่มีดัชนี CPI ของเดือนเดียวกันปี {d.year - 1} ให้เทียบ"})
     rows.reverse()
     return {"rows": rows, "source": "BLS ผ่าน FRED",
             "link": "https://th.investing.com/economic-calendar/cpi-733"}
