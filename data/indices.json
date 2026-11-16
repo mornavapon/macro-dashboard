@@ -109,7 +109,8 @@
       },
       "pbv": {
         "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ (HTTPError: HTTP Error 404: Not Found)"
+        "todo": true,
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       }
     },
     {
@@ -159,12 +160,14 @@
         "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       },
       "pe": {
-        "value": null,
-        "error": "ค่าที่เจอ (1.0) ดูผิดปกติ จึงไม่ใช้"
+        "value": 10.8,
+        "asof": null,
+        "source": "24hmoney.vn"
       },
       "pbv": {
         "value": null,
-        "error": "ค่าที่เจอ (186.0) ดูผิดปกติ จึงไม่ใช้"
+        "todo": true,
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       }
     }
   ]
