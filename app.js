@@ -258,10 +258,19 @@ loadUS();
 function renderThGDP(sec) {
   const el = document.getElementById("th-gdp");
   const title = "GDP ไทย";
-  const link = (sec && sec.link) || "https://www.nesdc.go.th/info/economic-aspect/";
-  el.innerHTML = `<h2>${title}</h2>
-    <p><span class="todo">ยังไม่มีแหล่งข้อมูล</span> <span class="small">${esc(((sec && sec.error) || "").replace(/^\w+Error: /, ""))}</span></p>
-    <div class="panel-foot"><a class="btn" href="${esc(link)}" target="_blank" rel="noopener">ดูข้อมูล ↗</a><span class="src">ที่มา: สศช.</span></div>`;
+  if (!sec || !sec.rows) { el.innerHTML = failHTML(title, sec); return; }
+  const rows = sec.rows.map((r, i) => `
+    <tr class="${i === 0 ? "latest" : ""}">
+      <td>Q${r.q}/${r.year + 543}${i === 0 ? ' <span class="badge">ล่าสุด</span>' : ""}</td>
+      <td class="num ${r.growth > 0 ? "up" : r.growth < 0 ? "down" : ""}">${pct1(r.growth)}</td>
+      <td class="num">${pct1(r.yoy)}</td>
+      <td class="num">${r.size_mb == null ? "–" : "฿" + fmt(r.size_mb / 1e6, 2) + "T"}</td>
+    </tr>`).join("");
+  const rel = sec.release_date ? ` · สศช. เผยแพร่ ${esc(thaiDate(sec.release_date))}` : "";
+  el.innerHTML = sectionShell(title,
+    `QoQ = เทียบไตรมาสก่อน (ปรับฤดูกาล) · YoY = เทียบไตรมาสเดียวกันปีก่อน · ขนาด GDP = มูลค่า ณ ราคาประจำปีของไตรมาสนั้น (T = ล้านล้านบาท)${rel}`,
+    `<table class="idx-table"><thead><tr><th>ไตรมาส</th><th class="num">QoQ (SA)</th><th class="num">YoY</th><th class="num">ขนาด GDP</th></tr></thead><tbody>${rows}</tbody></table>`,
+    sec);
 }
 
 function renderThMPC(sec) {

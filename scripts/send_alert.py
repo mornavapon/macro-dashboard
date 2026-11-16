@@ -29,6 +29,8 @@ TOPICS = {
     "th_mpc": {"file": "th.json", "release": "mpc", "data": "mpc", "tag": "thailand",
                "link": "https://www.bot.or.th/th/our-roles/monetary-policy/mpc-meeting.html"},
     # เงินเฟ้อไทยไม่มีปฏิทินประกาศล่วงหน้าที่ดึงได้ -> แจ้ง "วันที่ตัวเลขออก" แทน (ดู th_cpi_new)
+    "th_gdp": {"file": "th.json", "release": None, "data": "gdp", "tag": "thailand",
+               "link": "https://www.nesdc.go.th/info/economic-aspect/"},
     "th_cpi": {"file": "th.json", "release": None, "data": "cpi", "tag": "thailand",
                "link": "https://index.tpso.go.th/cpi"},
 }
@@ -92,12 +94,35 @@ def th_cpi_new(cfg, test):
     send(title, msg, cfg["link"], ["chart_with_upwards_trend", cfg["tag"]])
 
 
+def th_gdp_new(cfg, test):
+    """GDP ไทย: แจ้งเมื่อ สศช. อัปโหลดไฟล์ GDP ไตรมาสใหม่ในวันนี้"""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import fetch_th  # noqa: E402
+    g = fetch_th.build_gdp()
+    today = datetime.datetime.now(BKK).date().isoformat()
+    if not test and g["release_date"] != today:
+        print(f"th_gdp: วันนี้ยังไม่มีตัวเลขใหม่ (ไฟล์ล่าสุด {g['release_date']})")
+        return
+    r = g["rows"][0]
+    q = f"Q{r['q']}/{r['year'] + 543}"
+    msg = (f"GDP ไทย {q}\n"
+           f"เทียบไตรมาสก่อน (ปรับฤดูกาล): {r['growth']:+.1f}%\n"
+           f"เทียบไตรมาสเดียวกันปีก่อน: {r['yoy']:+.1f}%")
+    if r.get("size_mb"):
+        msg += f"\nขนาด GDP ไตรมาสนี้: {r['size_mb'] / 1e6:.2f} ล้านล้านบาท"
+    title = ("[ทดสอบ] " if test else "") + f"GDP ไทย {q} ออกแล้ว"
+    send(title, msg, cfg["link"], ["chart_with_upwards_trend", cfg["tag"]])
+
+
 def main():
     key = sys.argv[1]
     test = "--test" in sys.argv
     cfg = TOPICS[key]
     if key == "th_cpi":
         th_cpi_new(cfg, test)
+        return
+    if key == "th_gdp":
+        th_gdp_new(cfg, test)
         return
     with open(os.path.join(ROOT, "data", cfg["file"]), encoding="utf-8") as f:
         data = json.load(f)

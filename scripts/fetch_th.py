@@ -8,7 +8,7 @@
 - ตารางประชุม กนง.     : bot.or.th หน้า "การประชุม กนง." (สำรองด้วยรายการวันที่ในไฟล์นี้)
 - ดอกเบี้ยนโยบาย/มติ     : ไฟล์ Excel ตารางมติ กนง. ของ ธปท. (ลิงก์อยู่ในหน้า "อัตราดอกเบี้ยนโยบาย")
 - เงินเฟ้อทั่วไป (CPI)  : index.tpso.go.th (สนค. กระทรวงพาณิชย์)
-- GDP ไทย              : ยังไม่มีแหล่งที่ดึงอัตโนมัติได้ (เว็บ สศช. ดึงข้อมูลออกยาก)
+- GDP ไทย              : ไฟล์ Excel 'All Tables QGDP' ของ สศช. (หาผ่าน WordPress API ของเว็บ สศช.)
 """
 import datetime
 import html
@@ -200,8 +200,92 @@ def build_cpi():
 
 
 # ---------------------------------------------------------------- GDP
+# สศช. อัปโหลดไฟล์ Excel "All Tables QGDP" ทุกครั้งที่แถลง GDP -> หาไฟล์ล่าสุดผ่าน WordPress API ของเว็บ สศช.
+# ** ถ้า สศช. เปลี่ยนชื่อไฟล์/โครงสร้างตาราง ส่วนนี้จะพัง -> ต้องหาแหล่งใหม่ **
+NESDC_MEDIA = ("https://www.nesdc.go.th/wp-json/wp/v2/media?per_page=10&orderby=date&order=desc"
+               "&search=All%20Tables%20QGDP")
+
+
+def xlsx_sheets(z):
+    wb = z.read("xl/workbook.xml").decode("utf-8")
+    rels = z.read("xl/_rels/workbook.xml.rels").decode("utf-8")
+    relmap = {}
+    for tag in re.findall(r"<Relationship [^>]*>", rels):
+        rid = re.search(r'Id="([^"]+)"', tag).group(1)
+        relmap[rid] = re.search(r'Target="([^"]+)"', tag).group(1)
+    out = {}
+    for tag in re.findall(r"<sheet [^>]*>", wb):
+        name = html.unescape(re.search(r'name="([^"]+)"', tag).group(1))
+        rid = re.search(r'r:id="([^"]+)"', tag).group(1)
+        target = relmap[rid].lstrip("/")
+        out[name.strip()] = target if target.startswith("xl/") else "xl/" + target
+    return out
+
+
+def xlsx_rows(z, path, ss):
+    rows = []
+    for row in re.findall(r"<row [^>]*>(.*?)</row>", z.read(path).decode("utf-8"), re.S):
+        cells = {}
+        for col, attrs, v in re.findall(
+                r'<c r="([A-Z]+)\d+"([^>]*?)(?:/>|>(?:<f>.*?</f>)?(?:<v>([^<]*)</v>)?</c>)', row):
+            if v != "":
+                cells[col] = ss[int(v)] if 't="s"' in attrs else v
+        rows.append(cells)
+    return rows
+
+
+def gdp_column(rows):
+    """หาคอลัมน์ที่หัวตารางขึ้นต้นด้วย 'Gross domestic product' (คอลัมน์ GDP รวม)"""
+    for r in rows[:8]:
+        cols = [c for c, v in r.items() if re.match(r"\s*gross domestic product", str(v), re.I)]
+        if cols:
+            return cols[-1]
+    raise ValueError("หาคอลัมน์ GDP ในตารางไม่เจอ")
+
+
+def quarter_series(rows, col):
+    """คืน dict {(ปี ค.ศ., ไตรมาส): ค่า} รองรับทั้งแบบ ปี|Q อยู่คนละคอลัมน์ และแบบแถวปีแล้วตามด้วย Q1..Q4"""
+    out, year = {}, None
+    for r in rows:
+        a, b = str(r.get("A", "")).strip(), str(r.get("B", "")).strip()
+        if re.fullmatch(r"(19|20)\d\d", a):
+            year = int(a)
+        q = b if re.fullmatch(r"Q[1-4]", b) else (a if re.fullmatch(r"Q[1-4]", a) else None)
+        if year and q and col in r:
+            try:
+                out[(year, int(q[1]))] = float(r[col])
+            except ValueError:
+                pass
+    return out
+
+
 def build_gdp():
-    raise ValueError("ยังไม่มีแหล่งข้อมูลที่ดึงอัตโนมัติได้ (เว็บ สศช. ไม่เปิดให้ดึงข้อมูลตรงๆ)")
+    media = json.loads(get(NESDC_MEDIA, headers={"Accept": "application/json"}))
+    files = [m for m in media if str(m.get("source_url", "")).lower().endswith(".xlsx")]
+    if not files:
+        raise ValueError("ไม่พบไฟล์ Excel 'All Tables QGDP' ในเว็บ สศช.")
+    f = files[0]
+    z = zipfile.ZipFile(io.BytesIO(get(f["source_url"], binary=True, timeout=120)))
+    ss = [html.unescape(re.sub(r"<[^>]+>", "", x)) for x in
+          re.findall(r"<si>(.*?)</si>", z.read("xl/sharedStrings.xml").decode("utf-8"), re.S)]
+    sheets = xlsx_sheets(z)
+
+    def series(sheet):
+        rows = xlsx_rows(z, sheets[sheet], ss)
+        return quarter_series(rows, gdp_column(rows))
+
+    size = series("Table 1")      # GDP ณ ราคาประจำปี (ล้านบาท)
+    qoq = series("Table 6.1")     # GDP ปรับฤดูกาล % QoQ
+    yoy = series("Table 2.1")     # GDP % YoY
+    keys = sorted(qoq)[-4:]
+    rows = [{"year": y, "q": q, "growth": round(qoq[(y, q)], 1),
+             "yoy": round(yoy[(y, q)], 1) if (y, q) in yoy else None,
+             "size_mb": size.get((y, q))} for y, q in reversed(keys)]
+    LOG.append(f"NESDC QGDP: ล่าสุด Q{rows[0]['q']}/{rows[0]['year']} QoQ {rows[0]['growth']}% "
+               f"({f['source_url'].rsplit('/', 1)[-1]})")
+    return {"rows": rows, "release_date": str(f.get("date", ""))[:10], "file": f["source_url"],
+            "source": "สศช. (ไฟล์ All Tables QGDP)",
+            "link": "https://www.nesdc.go.th/info/economic-aspect/"}
 
 
 # ---------------------------------------------------------------- runner
@@ -247,7 +331,6 @@ def main():
         "cpi": run_section("cpi", build_cpi, old.get("cpi")),
         "releases": build_releases(mpc),
     }
-    out["gdp"].update({"todo": True, "link": "https://www.nesdc.go.th/info/economic-aspect/"})
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
