@@ -1,6 +1,11 @@
-run at 2026-11-16T17:07:11.680089+07:00
+run at 2026-11-16T17:41:28.975187+07:00
 
-gdp: FAIL TimeoutError: The read operation timed out
+FRED GDP OK (27 แถว, ล่าสุด 2026-07-01)
+FRED A191RL1Q225SBEA OK (27 แถว, ล่าสุด 2026-07-01)
+gdp: OK
 FOMC meetings 2026: 8 ครั้ง (federalreserve.gov)
-fed: FAIL TimeoutError: The read operation timed out
-cpi: FAIL TimeoutError: The read operation timed out
+FRED DFEDTARU OK (350 แถว, ล่าสุด 2026-11-15)
+FRED DFEDTARL OK (350 แถว, ล่าสุด 2026-11-15)
+fed: OK
+FRED CPIAUCNS OK (93 แถว, ล่าสุด 2026-10-01)
+cpi: OK

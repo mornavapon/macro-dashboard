@@ -1,15 +1,212 @@
 {
-  "updated_at": "2026-11-16T17:05+07:00",
+  "updated_at": "2026-11-16T17:41+07:00",
   "gdp": {
-    "ok": false,
-    "error": "TimeoutError: The read operation timed out"
+    "rows": [
+      {
+        "quarter": "Q3 2026",
+        "date": "2026-07-01",
+        "growth": 3.4,
+        "size_bn": 33010.0
+      },
+      {
+        "quarter": "Q2 2026",
+        "date": "2026-04-01",
+        "growth": 2.2,
+        "size_bn": 32563.0
+      },
+      {
+        "quarter": "Q1 2026",
+        "date": "2026-01-01",
+        "growth": 2.5,
+        "size_bn": 31906.3
+      },
+      {
+        "quarter": "Q4 2025",
+        "date": "2025-10-01",
+        "growth": 0.2,
+        "size_bn": 31462.5
+      }
+    ],
+    "source": "BEA ผ่าน FRED",
+    "link": "https://www.investing.com/economic-calendar/gdp-375",
+    "ok": true,
+    "fetched_at": "2026-11-16T17:41+07:00"
   },
   "fed": {
-    "ok": false,
-    "error": "TimeoutError: The read operation timed out"
+    "year": 2026,
+    "meetings": [
+      {
+        "start": "2026-01-27",
+        "end": "2026-01-28",
+        "thai_date": "2026-01-29",
+        "thai_time": "02:00",
+        "previous": 3.75,
+        "previous_range": [
+          3.5,
+          3.75
+        ],
+        "actual": 3.75,
+        "actual_range": [
+          3.5,
+          3.75
+        ],
+        "status": "done"
+      },
+      {
+        "start": "2026-03-17",
+        "end": "2026-03-18",
+        "thai_date": "2026-03-19",
+        "thai_time": "01:00",
+        "previous": 3.75,
+        "previous_range": [
+          3.5,
+          3.75
+        ],
+        "actual": 3.75,
+        "actual_range": [
+          3.5,
+          3.75
+        ],
+        "status": "done"
+      },
+      {
+        "start": "2026-04-28",
+        "end": "2026-04-29",
+        "thai_date": "2026-04-30",
+        "thai_time": "01:00",
+        "previous": 3.75,
+        "previous_range": [
+          3.5,
+          3.75
+        ],
+        "actual": 3.75,
+        "actual_range": [
+          3.5,
+          3.75
+        ],
+        "status": "done"
+      },
+      {
+        "start": "2026-06-16",
+        "end": "2026-06-17",
+        "thai_date": "2026-06-18",
+        "thai_time": "01:00",
+        "previous": 3.75,
+        "previous_range": [
+          3.5,
+          3.75
+        ],
+        "actual": 3.75,
+        "actual_range": [
+          3.5,
+          3.75
+        ],
+        "status": "done"
+      },
+      {
+        "start": "2026-07-28",
+        "end": "2026-07-29",
+        "thai_date": "2026-07-30",
+        "thai_time": "01:00",
+        "previous": 3.75,
+        "previous_range": [
+          3.5,
+          3.75
+        ],
+        "actual": 3.75,
+        "actual_range": [
+          3.5,
+          3.75
+        ],
+        "status": "done"
+      },
+      {
+        "start": "2026-09-15",
+        "end": "2026-09-16",
+        "thai_date": "2026-09-17",
+        "thai_time": "01:00",
+        "previous": 3.75,
+        "previous_range": [
+          3.5,
+          3.75
+        ],
+        "actual": 4.0,
+        "actual_range": [
+          3.75,
+          4.0
+        ],
+        "status": "done"
+      },
+      {
+        "start": "2026-10-27",
+        "end": "2026-10-28",
+        "thai_date": "2026-10-29",
+        "thai_time": "01:00",
+        "previous": 4.0,
+        "previous_range": [
+          3.75,
+          4.0
+        ],
+        "actual": 4.0,
+        "actual_range": [
+          3.75,
+          4.0
+        ],
+        "status": "done"
+      },
+      {
+        "start": "2026-12-08",
+        "end": "2026-12-09",
+        "thai_date": "2026-12-10",
+        "thai_time": "02:00",
+        "previous": 4.0,
+        "previous_range": [
+          3.75,
+          4.0
+        ],
+        "actual": null,
+        "actual_range": null,
+        "status": "upcoming",
+        "next": true
+      }
+    ],
+    "calendar_source": "federalreserve.gov",
+    "current_range": [
+      3.75,
+      4.0
+    ],
+    "rate_asof": "2026-11-15",
+    "source": "Federal Reserve ผ่าน FRED",
+    "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "ok": true,
+    "fetched_at": "2026-11-16T17:41+07:00"
   },
   "cpi": {
-    "ok": false,
-    "error": "TimeoutError: The read operation timed out"
+    "rows": [
+      {
+        "month": "2026-09",
+        "yoy": 3.7
+      },
+      {
+        "month": "2026-08",
+        "yoy": 3.4
+      },
+      {
+        "month": "2026-07",
+        "yoy": 3.4
+      },
+      {
+        "month": "2026-06",
+        "yoy": 3.5
+      },
+      {
+        "month": "2026-05",
+        "yoy": 4.2
+      }
+    ],
+    "source": "BLS ผ่าน FRED",
+    "link": "https://th.investing.com/economic-calendar/cpi-733",
+    "ok": true,
+    "fetched_at": "2026-11-16T17:41+07:00"
   }
 }
