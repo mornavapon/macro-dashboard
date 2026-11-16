@@ -142,6 +142,73 @@ def regex_by_keys(text, keys):
     return None
 
 
+def norm_date(v):
+    """แปลง 20261116 -> 2026-11-16 (ถ้าเป็นรูปแบบอื่นคืนค่าเดิม)"""
+    if v is None:
+        return None
+    v = str(v).strip()
+    if re.fullmatch(r"\d{8}", v):
+        return f"{v[:4]}-{v[4:6]}-{v[6:]}"
+    if re.match(r"\d{4}-\d{2}-\d{2}T", v):
+        return v[:10]
+    return v
+
+
+def strip_tags(html):
+    html = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", html)
+    text = re.sub(r"(?s)<[^>]+>", " ", html)
+    text = text.replace("&nbsp;", " ").replace("&amp;", "&")
+    return re.sub(r"\s+", " ", text)
+
+
+SANE = {"pe": (3, 60), "pbv": (0.3, 10)}  # กันตัวเลขผิดที่ regex ไปจับมั่ว
+
+
+def html_probe(tag, url, patterns, headers=None, cap_scale=1.0, cap_currency=None,
+               asof_regex=None, note=None, source=None, discover=None,
+               decimal_comma=False):
+    """
+    ดึงหน้าเว็บ (HTML) แล้วหาตัวเลขด้วย regex จากข้อความที่ตัด tag ออกแล้ว
+    patterns: {"pe": r"...(ตัวเลข)", ...}
+    discover: regex สำหรับเก็บ URL ของ API ที่ซ่อนอยู่ในหน้า (เพื่อใช้ปรับปรุงรอบหน้า)
+    """
+    html = get(url, headers=headers or {"Accept": "text/html"})
+    text = strip_tags(html)
+    save_debug(f"{tag}_html", url, text)
+    if discover:
+        found_urls = sorted(set(re.findall(discover, html)))[:200]
+        save_debug(f"{tag}_discover", url, "\n".join(found_urls))
+    asof = None
+    if asof_regex:
+        m = re.search(asof_regex, text)
+        asof = m.group(1) if m else None
+    out = {}
+    for field, rx in patterns.items():
+        m = re.search(rx, text)
+        if not m or to_num(m.group(1)) is None:
+            out[field] = {"value": None, "error": "ดึงข้อมูลไม่สำเร็จ / หาตัวเลขในหน้าเว็บไม่เจอ"}
+            continue
+        raw = m.group(1)
+        if decimal_comma:  # รูปแบบเวียดนาม 13,4 = 13.4
+            raw = raw.replace(".", "").replace(",", ".")
+        v = to_num(raw)
+        if v is None:
+            out[field] = {"value": None, "error": "อ่านตัวเลขไม่ได้"}
+            continue
+        if field in SANE and not (SANE[field][0] <= v <= SANE[field][1]):
+            out[field] = {"value": None, "error": f"ค่าที่เจอ ({v}) ดูผิดปกติ จึงไม่ใช้"}
+            continue
+        r = {"value": v * cap_scale if field == "market_cap" else round(v, 2),
+             "asof": asof, "source": source or url.split("/")[2]}
+        if field == "market_cap":
+            r["currency"] = cap_currency
+        if note:
+            r["note"] = note
+        out[field] = r
+    PROBE_LOG.append(f"{tag} html {url} -> found {[k for k, v in out.items() if v.get('value') is not None] or 'nothing'}")
+    return out
+
+
 # ------------------------------------------------------- index level sources
 def yahoo_level(symbol):
     last_err = None
@@ -209,7 +276,8 @@ FIELD_LABEL = {"pe": "P/E", "pbv": "P/BV", "market_cap": "Market Cap"}
 
 
 def probe_json(tag, candidates, keymap, select=None, cap_scale=1.0,
-               cap_currency=None, date_keys=None, note=None):
+               cap_currency=None, date_keys=None, note=None, stop_on_hit=False,
+               todo_fields=None):
     """
     ลองดึงจากหลาย URL ตามลำดับ แล้วค้นหาค่าตาม keymap
     candidates: list ของ (url, headers)
@@ -223,6 +291,8 @@ def probe_json(tag, candidates, keymap, select=None, cap_scale=1.0,
     errors = []
     for i, (url, headers) in enumerate(candidates):
         if all(f in found for f in keymap):
+            break
+        if stop_on_hit and found:
             break
         try:
             text = get(url, headers=headers)
@@ -255,7 +325,7 @@ def probe_json(tag, candidates, keymap, select=None, cap_scale=1.0,
                     continue
                 v = find_by_keys(scope, keys)
                 if v is not None:
-                    found[field] = {"value": v, "asof": asof, "source": url.split("/")[2]}
+                    found[field] = {"value": v, "asof": norm_date(asof), "source": url.split("/")[2]}
                     got_here.append(field)
         else:
             for field, keys in keymap.items():
@@ -284,6 +354,8 @@ def probe_json(tag, candidates, keymap, select=None, cap_scale=1.0,
             out[field] = {"value": None,
                           "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล"
                           + (f" ({'; '.join(errors)})" if errors else "")}
+    for field in todo_fields or []:
+        out[field] = todo("แหล่งข้อมูลนี้ไม่มีค่านี้")
     return out
 
 
@@ -317,19 +389,36 @@ def sse_candidates():
     return out
 
 
-def set_warmup():
-    try:
-        get("https://www.set.or.th/th/home", headers={"Accept": "text/html"})
-    except Exception:  # noqa: BLE001
-        pass
+def first_ok(*fns, todo_fields=()):
+    """ลองหลายแหล่งตามลำดับ ช่องไหนได้จากแหล่งแรกแล้ว ไม่ต้องใช้แหล่งถัดไป"""
+    res = {}
+    errs = []
+    for fn in fns:
+        try:
+            r = fn()
+        except Exception as e:  # noqa: BLE001
+            errs.append(err_text(e))
+            PROBE_LOG.append(f"  source FAIL {err_text(e)}")
+            continue
+        for k, v in r.items():
+            if k not in res or (res[k].get("value") is None and v.get("value") is not None):
+                res[k] = v
+    for f in todo_fields:
+        res[f] = todo("ยังไม่มีแหล่งข้อมูลฟรี")
+    for f in ("market_cap", "pe", "pbv"):
+        if f not in res:
+            res[f] = {"value": None, "error": "ดึงข้อมูลไม่สำเร็จ (" + " | ".join(errs) + ")"}
+    return res
 
+
+NUM = r"(-?[\d,]+(?:\.\d+)?)"
 
 INDICES = [
     {
         "id": "spx", "name": "S&P 500", "flag": "🇺🇸", "market": "สหรัฐฯ",
         "level": [lambda: yahoo_level("^GSPC")],
         "fund": {  # แยกทีละช่อง: ช่องไหนพัง ช่องอื่นไม่พังตาม
-            "market_cap": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"),
+            "market_cap": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี"),
             "pe": lambda: multpl("s-p-500-pe-ratio", "pe"),
             "pbv": lambda: multpl("s-p-500-price-to-book", "pbv"),
         },
@@ -338,56 +427,77 @@ INDICES = [
         "id": "nasdaq", "name": "NASDAQ Composite", "flag": "🇺🇸", "market": "สหรัฐฯ",
         "level": [lambda: yahoo_level("^IXIC")],
         "fund": {
-            "market_cap": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"),
-            "pe": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"),
-            "pbv": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"),
+            "market_cap": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี"),
+            "pe": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี"),
+            "pbv": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี"),
         },
     },
     {
         "id": "set", "name": "SET Index", "flag": "🇹🇭", "market": "ไทย",
         "level": [lambda: yahoo_level("^SET.BK")],
-        "fund": lambda: (set_warmup(), probe_json(
-            "set",
-            [
-                ("https://www.set.or.th/api/set/index/info/list?type=INDEX", {"Referer": "https://www.set.or.th/"}),
-                ("https://www.set.or.th/api/set/market/SET/info", {"Referer": "https://www.set.or.th/"}),
-                ("https://www.set.or.th/api/set/index/SET/info", {"Referer": "https://www.set.or.th/"}),
-                ("https://www.set.or.th/th/market/index/set/overview", {"Accept": "text/html"}),
-            ],
-            {"pe": ["pe", "peRatio", "p_e"], "pbv": ["pbv", "pbvRatio", "pbRatio", "p_bv"],
-             "market_cap": ["marketCap", "mktCap", "marketCapitalization"]},
-            select=["SET"], cap_currency="THB"))[1],
+        # หน้า "Key Market Statistics" ของ SET (ตลาด SET ไม่รวม mai)
+        "fund": lambda: first_ok(
+            lambda: html_probe(
+                "set_en", "https://www.set.or.th/en/market/product/stock/overview",
+                {"market_cap": r"Market Cap\.?\s*\(M\.\s*Baht\)\s*" + NUM,
+                 "pe": r"P/E\s*\(times\)\s*" + NUM,
+                 "pbv": r"P/BV\s*\(times\)\s*" + NUM},
+                cap_scale=1e6, cap_currency="THB",
+                asof_regex=r"As of\s+(\d{1,2}\s+\w{3}\s+\d{4})",
+                discover=r"/api/set/[A-Za-z0-9/_\-?=&.{}$]+"),
+            lambda: html_probe(
+                "set_th", "https://www.set.or.th/th/market/product/stock/overview",
+                {"market_cap": r"มูลค่าหลักทรัพย์ตามราคาตลาด\s*\(ล้านบาท\)\s*" + NUM,
+                 "pe": r"P/E\s*\(เท่า\)\s*" + NUM,
+                 "pbv": r"P/BV\s*\(เท่า\)\s*" + NUM},
+                cap_scale=1e6, cap_currency="THB",
+                asof_regex=r"ข้อมูล ณ วันที่\s*(\d{1,2}\s*\S+\s*\d{4})"),
+        ),
     },
     {
         "id": "hscei", "name": "Hang Seng China Enterprises (HSCEI)", "flag": "🇭🇰", "market": "ฮ่องกง",
         "level": [lambda: yahoo_level("^HSCE")],
-        "fund": lambda: probe_json(
-            "hscei",
-            [("https://www.hsi.com.hk/data/eng/rt/index-overview.do", {"Referer": "https://www.hsi.com.hk/"})],
-            {"pe": ["peRatio", "pe", "per"], "pbv": ["pbRatio", "pb", "pbv"],
-             "market_cap": ["marketCap", "mktCap", "marketCapitalization"]},
-            select=["HSCE", "HSCEI", "Hang Seng China Enterprises Index"], cap_currency="HKD"),
+        "fund": lambda: first_ok(
+            # หน้าเว็บทางการของ Hang Seng Indexes (เก็บ URL API ที่ซ่อนอยู่ไว้ดูด้วย)
+            lambda: html_probe(
+                "hscei_hsi", "https://www.hsi.com.hk/en/indexes/all-indexes/hscei",
+                {"pe": r"P/E\s*Ratio[^0-9]{0,40}" + NUM,
+                 "pbv": r"P/B[^0-9]{0,40}" + NUM},
+                discover=r"(?:https?://[a-z.]*hsi\.com\.hk)?/data/[A-Za-z0-9/_\-?=&.]+"),
+            # สำรอง: P/E ของ ETF 2828 ที่ลอกตามดัชนี HSCEI
+            lambda: html_probe(
+                "hscei_etf", "https://stockanalysis.com/quote/hkg/2828/",
+                {"pe": r"PE Ratio\s*" + NUM},
+                note="อ้างอิง ETF 2828", source="stockanalysis.com"),
+            todo_fields=("market_cap",),
+        ),
     },
     {
         "id": "sse", "name": "SSE Composite (000001)", "flag": "🇨🇳", "market": "จีน",
         "level": [lambda: yahoo_level("000001.SS")],
         "fund": lambda: probe_json(
             "sse", sse_candidates(),
-            {"pe": ["AVG_PE_RATE", "PE_RATE"], "pbv": ["PB_RATE", "AVG_PB_RATE"],
-             "market_cap": ["TOTAL_VALUE", "MARKET_VALUE"]},
-            cap_scale=1e8, cap_currency="CNY",  # SSE รายงานหน่วย 亿元 (ร้อยล้านหยวน)
-            note="สถิติทั้งตลาดเซี่ยงไฮ้"),
+            {"pe": ["AVG_PE_RATE"], "market_cap": ["TOTAL_VALUE"]},
+            select=["17"],            # PRODUCT_CODE 17 = หุ้นทั้งหมดในตลาดเซี่ยงไฮ้
+            cap_scale=1e8, cap_currency="CNY",  # หน่วย 亿元 (ร้อยล้านหยวน)
+            note="สถิติทั้งตลาดเซี่ยงไฮ้", stop_on_hit=True, todo_fields=["pbv"]),
     },
     {
         "id": "vni", "name": "VN-Index", "flag": "🇻🇳", "market": "เวียดนาม",
-        "level": [vndirect_level, lambda: yahoo_level("^VNINDEX.VN")],
-        "fund": lambda: probe_json(
-            "vni",
-            [("https://finfo-api.vndirect.com.vn/v4/ratios/latest?where=code:VNINDEX&order=reportDate",
-              {"Referer": "https://dstock.vndirect.com.vn/"})],
-            {"pe": ["PRICE_TO_EARNINGS", "PE", "pe"], "pbv": ["PRICE_TO_BOOK", "PB", "pb", "pbv"],
-             "market_cap": ["MARKETCAP", "MARKET_CAP", "marketCap"]},
-            cap_currency="VND"),
+        "level": [lambda: yahoo_level("^VNINDEX.VN"), vndirect_level],
+        "fund": lambda: first_ok(
+            lambda: html_probe(
+                "vni_simplize", "https://simplize.vn/chi-so/VNINDEX",
+                {"pe": r"P/E[^0-9]{0,30}" + NUM,
+                 "pbv": r"P/B[^0-9]{0,30}" + NUM},
+                discover=r"https?://api[a-z0-9.\-]*/[A-Za-z0-9/_\-?=&.]+", decimal_comma=True),
+            lambda: html_probe(
+                "vni_24h", "https://24hmoney.vn/indices/vn-index",
+                {"pe": r"P/E[^0-9]{0,30}" + NUM,
+                 "pbv": r"P/B[^0-9]{0,30}" + NUM},
+                discover=r"https?://api[a-z0-9.\-]*/[A-Za-z0-9/_\-?=&.]+", decimal_comma=True),
+            todo_fields=("market_cap",),
+        ),
     },
 ]
 
