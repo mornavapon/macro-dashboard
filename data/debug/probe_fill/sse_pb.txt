@@ -1,6 +1,0 @@
-URL https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_GPSJZM_TJSJ_L&PRODUCT_NAME=%E8%82%A1%E7%A5%A8&type=inParams
-LEN 755
-
-
-
-HEAD {"actionErrors":[],"actionMessages":[],"fieldErrors":{},"isPagination":"false","jsonCallBack":"","locale":"en_US","pageHelp":{"beginPage":1,"cacheSize":5,"data":null,"endDate":null,"endPage":null,"objectResult":null,"pageCount":null,"pageNo":1,"pageSize":10,"pageSizeWithOutLimit":10,"searchDate":null,"sort":null,"startDate":null,"total":0},"pageNo":null,"pageSize":null,"queryDate":"","result":[{"NEGO_ISSUE_VOL":"48793.09","TOTAL_VALUE":"631359.87","AVG_PE_RATIO":"15.81","LIST_COM_NUM":"2322","SECURITY_NUM":"2360","NEGO_VALUE":"568520.5","TRADE_DATE":"20261116","TOTAL_TRADE_AMT":"7066.62","TOTAL_ISSUE_VOL":"51845.6","PRODUCT_NAME":"股票"}],"securityCode":"","sqlId":"COMMON_SSE_SJ_GPSJ_GPSJZM_TJSJ_L","texts":null,"type":"inParams","validateCode":""}

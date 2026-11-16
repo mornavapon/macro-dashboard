@@ -75,6 +75,9 @@ body {
 .idx-table .num { text-align: right; font-family: var(--mono); }
 .idx-table th.num { font-family: inherit; }
 .idx-table .name { font-weight: 600; }
+.idx-table a.tv { color: var(--text); text-decoration: none; border-bottom: 1px dashed var(--muted); }
+.idx-table a.tv:hover { color: var(--accent); border-color: var(--accent); }
+.tv-ico { color: var(--accent); font-size: .85em; }
 .idx-table .date { color: var(--muted); font-size: 13px; }
 
 .fail { color: var(--down); background: var(--fail-bg); font-size: 12px; padding: 1px 6px; border-radius: 6px; font-family: "IBM Plex Sans Thai", sans-serif; }

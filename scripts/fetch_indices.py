@@ -11,6 +11,7 @@
 """
 import datetime
 import http.cookiejar
+import io
 import json
 import os
 import re
@@ -36,7 +37,7 @@ def now_bkk():
     return datetime.datetime.now(BKK)
 
 
-def get(url, headers=None, timeout=25):
+def get(url, headers=None, timeout=25, binary=False):
     h = {
         "User-Agent": UA,
         "Accept": "application/json,text/html;q=0.9,*/*;q=0.8",
@@ -47,7 +48,7 @@ def get(url, headers=None, timeout=25):
     with _opener.open(urllib.request.Request(url, headers=h), timeout=timeout) as r:
         raw = r.read()
         cs = r.headers.get_content_charset() or "utf-8"
-    return raw.decode(cs, errors="replace")
+    return raw if binary else raw.decode(cs, errors="replace")
 
 
 def save_debug(name, url, text):
@@ -371,6 +372,43 @@ def multpl(path, label):
             "asof": ts.group(1) if ts else None, "source": "multpl.com"}
 
 
+def stockanalysis_mcap_sum(tag, url, min_count, note=None):
+    """รวม Market Cap ของหุ้นทุกตัวในรายชื่อของ stockanalysis.com (ข้อมูลฝังอยู่ในหน้าเว็บ)"""
+    text = get(url, headers={"Accept": "text/html"})
+    caps = [float(x) for x in re.findall(r"marketCap:\s*([0-9.]+(?:e\+?\d+)?)", text)]
+    save_debug(f"{tag}_sa_list", url, f"พบ {len(caps)} บริษัท รวม {sum(caps):,.0f}\n" + text[-3000:])
+    if len(caps) < min_count:
+        raise ValueError(f"อ่านรายชื่อได้แค่ {len(caps)} บริษัท (น้อยผิดปกติ)")
+    r = {"value": sum(caps), "currency": "USD", "source": "stockanalysis.com"}
+    if note:
+        r["note"] = note.format(n=len(caps))
+    return r
+
+
+def hsi_factsheet(code):
+    """Factsheet รายเดือนของ Hang Seng Indexes (PDF): P/E และ Total Market Value"""
+    from pypdf import PdfReader  # ติดตั้งใน workflow
+    url = f"https://www.hsi.com.hk/static/uploads/contents/en/dl_centre/factsheets/{code}e.pdf"
+    pdf = PdfReader(io.BytesIO(get(url, binary=True)))
+    text = "\n".join(p.extract_text() or "" for p in pdf.pages)
+    save_debug(f"{code}_factsheet", url, text)
+    out = {}
+    m = re.search(r"INDEX FUNDAMENTALS.*?\n\s*HSCEI\s+([\d.]+)\s+([\d.]+)", text, re.S)
+    asof = re.search(r"(?:as at|As at|as of)\s+(\d{1,2}\s+\w{3,9}\s+\d{4})", text)
+    asof = asof.group(1) if asof else None
+    if m:
+        out["pe"] = {"value": round(float(m.group(2)), 2), "asof": asof,
+                     "source": "Hang Seng Indexes (factsheet)", "note": "ข้อมูลรายเดือน"}
+    m = re.search(r"INDEX STATISTICS.*?\n\s*HSCEI\s+([\d,]+)", text, re.S)
+    if m:
+        out["market_cap"] = {"value": to_num(m.group(1)) * 1e6, "currency": "HKD", "asof": asof,
+                             "source": "Hang Seng Indexes (factsheet)", "note": "ข้อมูลรายเดือน"}
+    PROBE_LOG.append(f"hscei factsheet -> found {list(out) or 'nothing'}")
+    if not out:
+        raise ValueError("อ่านตัวเลขใน factsheet ไม่ได้ (รูปแบบเอกสารอาจเปลี่ยน)")
+    return out
+
+
 def todo(reason="ยังไม่มีแหล่งข้อมูล"):
     return {"value": None, "todo": True, "error": reason}
 
@@ -404,7 +442,8 @@ def first_ok(*fns, todo_fields=()):
             if k not in res or (res[k].get("value") is None and v.get("value") is not None):
                 res[k] = v
     for f in todo_fields:
-        res[f] = todo("ยังไม่มีแหล่งข้อมูลฟรี")
+        if f not in res or res[f].get("value") is None:
+            res[f] = todo("ยังไม่มีแหล่งข้อมูลฟรี")
     for f in ("market_cap", "pe", "pbv"):
         if f not in res:
             res[f] = {"value": None, "error": "ดึงข้อมูลไม่สำเร็จ (" + " | ".join(errs) + ")"}
@@ -418,7 +457,9 @@ INDICES = [
         "id": "spx", "name": "S&P 500", "flag": "🇺🇸", "market": "สหรัฐฯ",
         "level": [lambda: yahoo_level("^GSPC")],
         "fund": {  # แยกทีละช่อง: ช่องไหนพัง ช่องอื่นไม่พังตาม
-            "market_cap": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี"),
+            "market_cap": lambda: stockanalysis_mcap_sum(
+                "spx", "https://stockanalysis.com/list/sp-500-stocks/", 480,
+                note="ผลรวม Market Cap ของ {n} บริษัทใน S&P 500"),
             "pe": lambda: multpl("s-p-500-pe-ratio", "pe"),
             "pbv": lambda: multpl("s-p-500-price-to-book", "pbv"),
         },
@@ -427,8 +468,13 @@ INDICES = [
         "id": "nasdaq", "name": "NASDAQ Composite", "flag": "🇺🇸", "market": "สหรัฐฯ",
         "level": [lambda: yahoo_level("^IXIC")],
         "fund": {
-            "market_cap": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี"),
-            "pe": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี"),
+            "market_cap": lambda: stockanalysis_mcap_sum(
+                "nasdaq", "https://stockanalysis.com/list/nasdaq-stocks/", 400,
+                note="ผลรวม Market Cap ของ {n} บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)"),
+            # ONEQ = ETF ที่ลอกตามดัชนี Nasdaq Composite
+            "pe": lambda: html_probe("nasdaq_oneq", "https://stockanalysis.com/etf/oneq/",
+                                     {"pe": r"PE Ratio\s*" + NUM},
+                                     note="อ้างอิง ETF ONEQ", source="stockanalysis.com")["pe"],
             "pbv": lambda: todo("ยังไม่มีแหล่งข้อมูลฟรี"),
         },
     },
@@ -458,12 +504,8 @@ INDICES = [
         "id": "hscei", "name": "Hang Seng China Enterprises (HSCEI)", "flag": "🇭🇰", "market": "ฮ่องกง",
         "level": [lambda: yahoo_level("^HSCE")],
         "fund": lambda: first_ok(
-            # หน้าเว็บทางการของ Hang Seng Indexes (เก็บ URL API ที่ซ่อนอยู่ไว้ดูด้วย)
-            lambda: html_probe(
-                "hscei_hsi", "https://www.hsi.com.hk/en/indexes/all-indexes/hscei",
-                {"pe": r"P/E\s*Ratio[^0-9]{0,40}" + NUM,
-                 "pbv": r"P/B[^0-9]{0,40}" + NUM},
-                discover=r"(?:https?://[a-z.]*hsi\.com\.hk)?/data/[A-Za-z0-9/_\-?=&.]+"),
+            # factsheet รายเดือนของ Hang Seng Indexes (P/E และมูลค่าตลาดของดัชนี)
+            lambda: hsi_factsheet("hscei"),
             # สำรอง: P/E ของ ETF 2828 ที่ลอกตามดัชนี HSCEI
             lambda: html_probe(
                 "hscei_etf", "https://stockanalysis.com/quote/hkg/2828/",

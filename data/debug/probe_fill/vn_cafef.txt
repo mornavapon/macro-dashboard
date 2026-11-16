@@ -1,6 +1,0 @@
-URL https://s.cafef.vn/Ajax/PageNew/DataHistory/PriceHistory.ashx?Symbol=VNINDEX&PageIndex=1&PageSize=1
-LEN 65
-
-
-
-HEAD {"Data":null,"Message":"symbol is null or empty","Success":false}

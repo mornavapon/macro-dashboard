@@ -1,6 +1,0 @@
-sa_sp500: OK len=388311 marketCap=512
-sa_nasdaq: OK len=387998 marketCap=511
-sa_api1: FAIL HTTP Error 404: Not Found
-sa_api2: FAIL HTTP Error 404: Not Found
-hscei_fs: OK pdf
-hsi_fs: OK pdf

@@ -67,6 +67,9 @@ function thaiDateTime(iso) {
 
 // ชื่อย่อในตาราง (ให้พอดีจอมือถือ)
 const SHORT = { spx: "S&P 500", nasdaq: "NASDAQ", set: "SET", hscei: "HSCEI", sse: "SSE (000001)", vni: "VN-Index" };
+// แตะชื่อดัชนี -> เปิดกราฟใน TradingView
+const TV = { spx: "SP:SPX", nasdaq: "NASDAQ:IXIC", set: "SET:SET", hscei: "HSI:HSCEI", sse: "SSE:000001", vni: "HOSE:VNINDEX" };
+const tvLink = (id) => `https://th.tradingview.com/chart/?symbol=${encodeURIComponent(TV[id] || "")}`;
 const CUR = { USD: "$", THB: "฿", HKD: "HK$", CNY: "¥", VND: "₫" };
 
 function fmtCap(v, cur) {
@@ -94,7 +97,9 @@ function rowHTML(x) {
   const L = x.level || {};
   const date = L.value != null ? esc(thaiDate(L.asof)) : "–";
   return `<tr>
-    <td class="name">${esc(SHORT[x.id] || x.name)}</td>
+    <td class="name">${TV[x.id]
+      ? `<a class="tv" href="${tvLink(x.id)}" target="_blank" rel="noopener" title="ดูกราฟใน TradingView">${esc(SHORT[x.id] || x.name)} <span class="tv-ico">↗</span></a>`
+      : esc(SHORT[x.id] || x.name)}</td>
     ${cell(L, "level")}
     ${cell(x.market_cap, "cap")}
     ${cell(x.pe, "x")}
@@ -135,7 +140,7 @@ async function loadIndices() {
         </tr></thead>
         <tbody>${data.indices.map(rowHTML).join("")}</tbody>
       </table>
-      <p class="legend"><span class="fail">ดึงไม่สำเร็จ</span> = ดึงข้อมูลไม่สำเร็จ · – = ยังไม่มีแหล่งข้อมูล · ⚠ = ข้อมูลเก่า · T = ล้านล้าน, B = พันล้าน</p>
+      <p class="legend">แตะชื่อดัชนีเพื่อดูกราฟใน TradingView · <span class="fail">ดึงไม่สำเร็จ</span> = ดึงข้อมูลไม่สำเร็จ · – = ยังไม่มีแหล่งข้อมูล · ⚠ = ข้อมูลเก่า · T = ล้านล้าน, B = พันล้าน</p>
       ${detailsHTML(data.indices)}`;
   } catch (e) {
     upd.innerHTML = `<span class="fail">ดึงข้อมูลไม่สำเร็จ</span> โหลดไฟล์ข้อมูลดัชนีไม่ได้ (${esc(e.message)})`;
