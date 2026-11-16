@@ -1,8 +1,9 @@
-run at 2026-11-16T18:57:00.481259+07:00
+run at 2026-11-16T19:45:17.198185+07:00
 
 MPC 2026: 6 ครั้ง (bot.or.th)
 BOT xlsx: 205 มติ ล่าสุด 2026-10-28 = 1.0%
 mpc: OK
-gdp: FAIL ValueError: ยังไม่มีแหล่งข้อมูลที่ดึงอัตโนมัติได้ (เว็บ สศช. ไม่เปิดให้ดึงข้อมูลตรงๆ)
+NESDC QGDP: ล่าสุด Q3/2026 QoQ 0.3% (All-Tables-QGDP-Download-Excel-Files-1.xlsx)
+gdp: OK
 TPSO CPI: ล่าสุด 2026-10 = 3.9%
 cpi: OK

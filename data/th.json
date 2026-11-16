@@ -1,10 +1,42 @@
 {
-  "updated_at": "2026-11-16T18:56+07:00",
+  "updated_at": "2026-11-16T19:44+07:00",
   "gdp": {
-    "ok": false,
-    "error": "ValueError: ยังไม่มีแหล่งข้อมูลที่ดึงอัตโนมัติได้ (เว็บ สศช. ไม่เปิดให้ดึงข้อมูลตรงๆ)",
-    "todo": true,
-    "link": "https://www.nesdc.go.th/info/economic-aspect/"
+    "rows": [
+      {
+        "year": 2026,
+        "q": 3,
+        "growth": 0.3,
+        "yoy": null,
+        "size_mb": null
+      },
+      {
+        "year": 2026,
+        "q": 2,
+        "growth": 0.0,
+        "yoy": null,
+        "size_mb": null
+      },
+      {
+        "year": 2026,
+        "q": 1,
+        "growth": 0.8,
+        "yoy": null,
+        "size_mb": null
+      },
+      {
+        "year": 2025,
+        "q": 4,
+        "growth": 1.8,
+        "yoy": null,
+        "size_mb": null
+      }
+    ],
+    "release_date": "2026-11-16",
+    "file": "https://www.nesdc.go.th/wp-content/uploads/2026/11/All-Tables-QGDP-Download-Excel-Files-1.xlsx",
+    "source": "สศช. (ไฟล์ All Tables QGDP)",
+    "link": "https://www.nesdc.go.th/info/economic-aspect/",
+    "ok": true,
+    "fetched_at": "2026-11-16T19:45+07:00"
   },
   "mpc": {
     "year": 2026,
@@ -64,7 +96,7 @@
     "source": "ธนาคารแห่งประเทศไทย",
     "link": "https://www.bot.or.th/th/our-roles/monetary-policy/mpc-meeting.html",
     "ok": true,
-    "fetched_at": "2026-11-16T18:56+07:00"
+    "fetched_at": "2026-11-16T19:44+07:00"
   },
   "cpi": {
     "rows": [
@@ -109,7 +141,7 @@
     "source": "สนค. กระทรวงพาณิชย์",
     "link": "https://index.tpso.go.th/cpi",
     "ok": true,
-    "fetched_at": "2026-11-16T18:57+07:00"
+    "fetched_at": "2026-11-16T19:45+07:00"
   },
   "releases": {
     "mpc": {
