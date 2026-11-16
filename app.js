@@ -55,6 +55,14 @@ function thaiDate(s) {
   return d.toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "numeric" });
 }
 
+// วันที่แบบสั้น เช่น "13 พ.ย. 69" (ใช้ในตารางดัชนีให้พอดีจอมือถือ)
+function thaiDateShort(s) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s || "");
+  if (!m) return s || "";
+  const d = new Date(+m[1], +m[2] - 1, +m[3]);
+  return d.toLocaleDateString("th-TH", { day: "numeric", month: "short", year: "2-digit" });
+}
+
 function thaiDateTime(iso) {
   if (!iso) return "";
   const d = new Date(iso);
@@ -66,7 +74,7 @@ function thaiDateTime(iso) {
 }
 
 // ชื่อย่อในตาราง (ให้พอดีจอมือถือ)
-const SHORT = { spx: "S&P 500", nasdaq: "NASDAQ", set: "SET", hscei: "HSCEI", sse: "SSE (000001)", vni: "VN-Index" };
+const SHORT = { spx: "S&P 500", nasdaq: "NASDAQ", set: "SET", hscei: "HSCEI", sse: "SSE", vni: "VN-Index" };
 // แตะชื่อดัชนี -> เปิดกราฟใน TradingView
 const TV = { spx: "SP:SPX", nasdaq: "NASDAQ:IXIC", set: "SET:SET", hscei: "HSI:HSCEI", sse: "SSE:000001", vni: "HOSE:VNINDEX" };
 const tvLink = (id) => `https://th.tradingview.com/chart/?symbol=${encodeURIComponent(TV[id] || "")}`;
@@ -74,8 +82,8 @@ const CUR = { USD: "$", THB: "฿", HKD: "HK$", CNY: "¥", VND: "₫" };
 
 function fmtCap(v, cur) {
   const sym = CUR[cur] || "";
-  if (v >= 1e12) return `${sym}${fmt(v / 1e12, 2)}T`;
-  if (v >= 1e9) return `${sym}${fmt(v / 1e9, 2)}B`;
+  if (v >= 1e12) return `${sym}${fmt(v / 1e12, 1)}T`;
+  if (v >= 1e9) return `${sym}${fmt(v / 1e9, 1)}B`;
   return `${sym}${fmt(v, 0)}`;
 }
 
@@ -95,7 +103,7 @@ function cell(f, kind) {
 
 function rowHTML(x) {
   const L = x.level || {};
-  const date = L.value != null ? esc(thaiDate(L.asof)) : "–";
+  const date = L.value != null ? esc(thaiDateShort(L.asof)) : "–";
   return `<tr>
     <td class="name">${TV[x.id]
       ? `<a class="tv" href="${tvLink(x.id)}" target="_blank" rel="noopener" title="ดูกราฟใน TradingView">${esc(SHORT[x.id] || x.name)} <span class="tv-ico">↗</span></a>`

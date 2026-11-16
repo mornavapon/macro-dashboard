@@ -20,6 +20,7 @@ body {
   color: var(--text);
   font-family: "IBM Plex Sans Thai", system-ui, sans-serif;
   overflow: hidden;
+  font-size: 110%;
 }
 
 /* ---------- top bar ---------- */
@@ -36,7 +37,7 @@ body {
 .tabs { display: flex; gap: 4px; }
 .tabs button {
   background: none; border: 0; color: var(--muted);
-  font: inherit; font-size: 14px; padding: 6px 10px; border-radius: 8px; cursor: pointer;
+  font: inherit; font-size: 15.5px; padding: 6px 10px; border-radius: 8px; cursor: pointer;
 }
 .tabs button.active { color: var(--text); background: var(--panel-2); }
 
@@ -58,45 +59,49 @@ body {
   padding: 72px 16px 56px;
 }
 .page-head { max-width: 1100px; margin: 0 auto 14px; }
-.page-head h1 { font-size: 22px; margin: 6px 0 2px; font-weight: 600; }
-.sub { color: var(--muted); margin: 0; font-size: 13px; }
-.hint { text-align: center; color: var(--muted); font-size: 12px; margin-top: 18px; }
+.page-head h1 { font-size: 24px; margin: 6px 0 2px; font-weight: 600; }
+.sub { color: var(--muted); margin: 0; font-size: 14.5px; }
+.hint { text-align: center; color: var(--muted); font-size: 14px; margin-top: 18px; }
 
 /* ---------- ตารางดัชนี ---------- */
 .grid { max-width: 900px; margin: 0 auto; }
 .idx-table {
   width: 100%; border-collapse: collapse;
   background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-  font-size: 15px;
+  font-size: 16.5px;
 }
 .idx-table th, .idx-table td { padding: 11px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
 .idx-table tr:last-child td { border-bottom: 0; }
-.idx-table th { color: var(--muted); font-weight: 500; font-size: 12.5px; background: var(--panel-2); }
+.idx-table th { color: var(--muted); font-weight: 500; font-size: 14.5px; background: var(--panel-2); }
 .idx-table .num { text-align: right; font-family: var(--mono); }
 .idx-table th.num { font-family: inherit; }
 .idx-table .name { font-weight: 600; }
-.idx-table a.tv { color: var(--text); text-decoration: none; border-bottom: 1px dashed var(--muted); }
-.idx-table a.tv:hover { color: var(--accent); border-color: var(--accent); }
-.tv-ico { color: var(--accent); font-size: .85em; }
-.idx-table .date { color: var(--muted); font-size: 13px; }
+.idx-table a.tv { color: #ffd479; text-decoration: none; border-bottom: 1px dashed rgba(255, 212, 121, .5); }
+.idx-table a.tv:hover, .idx-table a.tv:visited:hover { color: #ffe6a8; border-color: #ffe6a8; }
+.idx-table a.tv:visited { color: #ffd479; }
+.tv-ico { color: #ffd479; font-size: .8em; opacity: .8; }
+.idx-table .date { color: var(--muted); font-size: 14.5px; }
 
-.fail { color: var(--down); background: var(--fail-bg); font-size: 12px; padding: 1px 6px; border-radius: 6px; font-family: "IBM Plex Sans Thai", sans-serif; }
+.fail { color: var(--down); background: var(--fail-bg); font-size: 14px; padding: 1px 6px; border-radius: 6px; font-family: "IBM Plex Sans Thai", sans-serif; }
 .fail-text { color: var(--down); }
 .todo { color: var(--muted); }
 .stale { color: var(--warn); }
 
-.legend { color: var(--muted); font-size: 12px; margin: 10px 2px 0; line-height: 1.8; }
-.details { margin-top: 10px; color: var(--muted); font-size: 12.5px; }
+.legend { color: var(--muted); font-size: 14px; margin: 10px 2px 0; line-height: 1.8; }
+.details { margin-top: 10px; color: var(--muted); font-size: 14.5px; }
 .details summary { cursor: pointer; }
 .details ul { padding-left: 18px; line-height: 1.7; }
 
 @media (max-width: 600px) {
-  .page { padding-left: 8px; padding-right: 8px; }
-  .idx-table { font-size: 12px; }
-  .idx-table th { font-size: 10.5px; white-space: normal; }
-  .idx-table th, .idx-table td { padding: 9px 4px; }
-  .idx-table .date { font-size: 10.5px; white-space: normal; }
-  .fail { font-size: 10px; padding: 1px 3px; white-space: normal; display: inline-block; }
+  .page { padding-left: 6px; padding-right: 6px; }
+  .panel { padding: 12px 8px; }
+  .badge { display: none; }  /* แถวล่าสุด/ครั้งถัดไปมีแถบสีไฮไลต์อยู่แล้ว */
+  .idx-table { font-size: 14px; }
+  .idx-table th { font-size: 12px; white-space: normal; }
+  .idx-table th, .idx-table td { padding: 9px 3px; }
+  .idx-table td.name { white-space: normal; }
+  .idx-table .date { font-size: 12px; white-space: normal; }
+  .fail { font-size: 11.5px; padding: 1px 3px; white-space: normal; display: inline-block; }
 }
 
 /* ---------- panels (หน้า 2/3) ---------- */
@@ -105,23 +110,23 @@ body {
   background: var(--panel); border: 1px solid var(--line);
   border-radius: 14px; padding: 16px;
 }
-.panel h2 { font-size: 16px; margin: 0 0 6px; font-weight: 600; }
-.panel p { margin: 0 0 10px; color: var(--muted); font-size: 14px; }
+.panel h2 { font-size: 17.5px; margin: 0 0 6px; font-weight: 600; }
+.panel p { margin: 0 0 10px; color: var(--muted); font-size: 15.5px; }
 .placeholder { border-style: dashed; }
 .btn {
   display: inline-block; text-decoration: none;
   color: var(--accent); border: 1px solid var(--accent);
-  padding: 6px 12px; border-radius: 8px; font-size: 14px;
+  padding: 6px 12px; border-radius: 8px; font-size: 15.5px;
 }
 .btn:hover { background: rgba(90, 169, 255, .1); }
 
 /* ---------- หน้า 2/3 ---------- */
-.panel-sub { color: var(--muted); font-size: 12.5px; margin: 0 0 10px !important; line-height: 1.6; }
+.panel-sub { color: var(--muted); font-size: 14.5px; margin: 0 0 10px !important; line-height: 1.6; }
 .panel-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
-.next-rel { font-size: 13px; margin: 0 0 10px; color: var(--text); }
-.src { color: var(--muted); font-size: 11.5px; }
-.small { color: var(--muted); font-size: 12px; }
-.badge { background: rgba(90, 169, 255, .15); color: var(--accent); font-size: 10.5px; padding: 1px 6px; border-radius: 6px; margin-left: 4px; font-family: "IBM Plex Sans Thai", sans-serif; white-space: nowrap; }
+.next-rel { font-size: 14.5px; margin: 0 0 10px; color: var(--text); }
+.src { color: var(--muted); font-size: 13px; }
+.small { color: var(--muted); font-size: 14px; }
+.badge { background: rgba(90, 169, 255, .15); color: var(--accent); font-size: 12px; padding: 1px 6px; border-radius: 6px; margin-left: 4px; font-family: "IBM Plex Sans Thai", sans-serif; white-space: nowrap; }
 .idx-table tr.latest td { background: rgba(90, 169, 255, .06); }
 .idx-table tr.muted td { color: var(--muted); }
 .idx-table td.up { color: var(--up); }
