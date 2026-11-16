@@ -1,0 +1,279 @@
+/_next/static/XAqBL9wf1wjpuwlP8QpYl/_buildManifest.js: /:nextInternalLocale(th|en)/api-docs/:path*
+/_next/static/chunks/1610-bdfade2329e21837.js: /api/
+/_next/static/chunks/1610-bdfade2329e21837.js: /api/tsbpo/master
+/_next/static/chunks/5242-dde0f837d302ab0b.js: /api/cpig/master
+/_next/static/chunks/5242-dde0f837d302ab0b.js: /api/cpip/master
+/_next/static/chunks/7926-fa5dd38e63094a79.js: /api/ReportAll/
+/_next/static/chunks/7926-fa5dd38e63094a79.js: /api/csrf-token
+/_next/static/chunks/7926-fa5dd38e63094a79.js: /api/stat/pagecount
+/_next/static/chunks/8191-1482124918f537d3.js: /api/tsbpp/master
+/_next/static/chunks/9692-92a1cf1a9732c765.js: /api/
+/_next/static/chunks/main-3d296411bfd5d307.js: /api
+/_next/static/chunks/main-3d296411bfd5d307.js: /api/
+/_next/static/chunks/main-3d296411bfd5d307.js: https://fonts.googleapis.com/css
+/_next/static/chunks/pages/construction-material-prices-87d4dd771f0bf83d.js: /api/cmip/master
+/_next/static/chunks/pages/construction-material-prices/dissemination-process-f7fc2b3e83c51677.js: /api/stat/PageCount
+/_next/static/chunks/pages/construction-material-prices/list-construction-materials-bf756b29b0fcb211.js: /api/CsiNote
+/_next/static/chunks/pages/construction-material-prices/list-construction-materials-bf756b29b0fcb211.js: /api/CsiNote/Search
+/_next/static/chunks/pages/construction-material-prices/list-construction-materials-bf756b29b0fcb211.js: /api/cmip/master
+/_next/static/chunks/pages/construction-material-prices/list-construction-materials-bf756b29b0fcb211.js: /api/stat/PageCount
+/_next/static/chunks/pages/construction-material-prices/list-construction-materials/[id]-cb81139ba456cc57.js: /api/CsiNote
+/_next/static/chunks/pages/construction-material-prices/list-construction-materials/[id]-cb81139ba456cc57.js: /api/CsiNote/Search
+/_next/static/chunks/pages/construction-material-prices/list-construction-materials/[id]-cb81139ba456cc57.js: /api/stat/PageCount
+/_next/static/chunks/pages/construction-material-prices/prices-building-materials-88be4f1bef9dc5b2.js: /api/CsiNote/Search
+/_next/static/chunks/pages/construction-material-prices/prices-building-materials-88be4f1bef9dc5b2.js: /api/cmip/filter
+/_next/static/chunks/pages/construction-material-prices/prices-building-materials-88be4f1bef9dc5b2.js: /api/cmip/master
+/_next/static/chunks/pages/construction-material-prices/prices-building-materials-88be4f1bef9dc5b2.js: /api/cmip/search
+/_next/static/chunks/pages/construction-material-prices/prices-building-materials-88be4f1bef9dc5b2.js: /api/imex/master
+/_next/static/chunks/pages/construction-material-prices/prices-building-materials/[id]-415ab57b76cb82f2.js: /api/CsiNote/Search
+/_next/static/chunks/pages/construction-material-prices/prices-building-materials/[id]-415ab57b76cb82f2.js: /api/cmip/filter
+/_next/static/chunks/pages/construction-material-prices/prices-building-materials/[id]-415ab57b76cb82f2.js: /api/cmip/master
+/_next/static/chunks/pages/construction-material-prices/prices-building-materials/[id]-415ab57b76cb82f2.js: /api/cmip/search
+/_next/static/chunks/pages/construction-material-prices/prices-building-materials/[id]-415ab57b76cb82f2.js: /api/stat/PageCount
+/_next/static/chunks/pages/consumerconfidence-d2ba15ed20813356.js: /api/cci/filter
+/_next/static/chunks/pages/consumerconfidence-d2ba15ed20813356.js: /api/cci/lastestmonth
+/_next/static/chunks/pages/consumerconfidence-d2ba15ed20813356.js: /api/stat/PageCount
+/_next/static/chunks/pages/consumerconfidence/overall-consumer-c3b09aa9356be1ec.js: /api/cci/filter
+/_next/static/chunks/pages/consumerconfidence/overall-consumer-c3b09aa9356be1ec.js: /api/stat/PageCount
+/_next/static/chunks/pages/consumerconfidence/report-monthly-00daaddd88c9a95b.js: /api/cci/lastestmonth
+/_next/static/chunks/pages/consumerconfidence/report-monthly-00daaddd88c9a95b.js: /api/stat/PageCount
+/_next/static/chunks/pages/consumerconfidence/statement-5cf34644e96e1261.js: /api/stat/PageCount
+/_next/static/chunks/pages/consumerconfidence/statement-5cf34644e96e1261.js: https://index-api.tpso.go.th/docs/กระบวนการจัดทำและเผยแพร่ดัชนี-cci.pdf
+/_next/static/chunks/pages/cpi-75053e487747b7b1.js: /api/
+/_next/static/chunks/pages/cpi-75053e487747b7b1.js: /api/cpig/master
+/_next/static/chunks/pages/cpi-75053e487747b7b1.js: /api/cpil/master
+/_next/static/chunks/pages/cpi-75053e487747b7b1.js: /api/cpiu/master
+/_next/static/chunks/pages/cpi-75053e487747b7b1.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpi/compare-price-index/[id]-82ab13ef08c065b2.js: /api/
+/_next/static/chunks/pages/cpi/compare-price-index/[id]-82ab13ef08c065b2.js: /api/cpig/master
+/_next/static/chunks/pages/cpi/compare-price-index/[id]-82ab13ef08c065b2.js: /api/cpip/master
+/_next/static/chunks/pages/cpi/compare-price-index/[id]-82ab13ef08c065b2.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpi/index-analysis-report/[id]-dcc756b3e892b2a9.js: /api/cpig/ChangeRate
+/_next/static/chunks/pages/cpi/index-analysis-report/[id]-dcc756b3e892b2a9.js: /api/cpil/ChangeRate
+/_next/static/chunks/pages/cpi/index-analysis-report/[id]-dcc756b3e892b2a9.js: /api/cpiu/ChangeRate
+/_next/static/chunks/pages/cpi/index-analysis-report/[id]-dcc756b3e892b2a9.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpi/index-price-change-rate/[id]-39d96be931d63cc8.js: /api/
+/_next/static/chunks/pages/cpi/index-price-change-rate/[id]-39d96be931d63cc8.js: /api/k/master
+/_next/static/chunks/pages/cpi/index-price-change-rate/[id]-39d96be931d63cc8.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpi/statement-4fc12bb9628bc12e.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpip-b014d99f6e63a1fc.js: /api/cpip/master
+/_next/static/chunks/pages/cpip-b014d99f6e63a1fc.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpip/Index-rate-change-5780ce911c8fb76c.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpip/Index-rate-change/[id]-c45a818d250ce491.js: /api/cpip/filter
+/_next/static/chunks/pages/cpip/Index-rate-change/[id]-c45a818d250ce491.js: /api/cpip/filter/half
+/_next/static/chunks/pages/cpip/Index-rate-change/[id]-c45a818d250ce491.js: /api/cpip/filter/quarter
+/_next/static/chunks/pages/cpip/Index-rate-change/[id]-c45a818d250ce491.js: /api/cpip/year
+/_next/static/chunks/pages/cpip/Index-rate-change/[id]-c45a818d250ce491.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpip/comparison-of-consumer-a43f62c8e53b2d26.js: /api/cpip/filter
+/_next/static/chunks/pages/cpip/comparison-of-consumer-a43f62c8e53b2d26.js: /api/cpip/filter/half
+/_next/static/chunks/pages/cpip/comparison-of-consumer-a43f62c8e53b2d26.js: /api/cpip/filter/quarter
+/_next/static/chunks/pages/cpip/comparison-of-consumer-a43f62c8e53b2d26.js: /api/k/master
+/_next/static/chunks/pages/cpip/comparison-of-consumer-a43f62c8e53b2d26.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpip/consumer-price-index-report-f8d54539b67cc4cc.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpip/consumer-price-index-report/[id]-e2d1a744eac1a0ff.js: /api/cpip/ChangeRate
+/_next/static/chunks/pages/cpip/consumer-price-index-report/[id]-e2d1a744eac1a0ff.js: /api/stat/PageCount
+/_next/static/chunks/pages/cpip/provincial-consumer-price-index-0a89085ce19037a9.js: /api/cpig/master
+/_next/static/chunks/pages/cpip/provincial-consumer-price-index-0a89085ce19037a9.js: /api/cpip/master
+/_next/static/chunks/pages/cpip/statement-aed7ab8477b80bcb.js: /api/stat/PageCount
+/_next/static/chunks/pages/document/cci/post-year-d5f2c82ca538f442.js: POST : /cci-api/api/CCI/getcci
+/_next/static/chunks/pages/document/cmi/get-month-fb22ab337bdc6ff7.js: API : ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/cmi/get-month-fb22ab337bdc6ff7.js: GET : /OpenApi/Cmi/Month/MasterData
+/_next/static/chunks/pages/document/cmi/get-month-fb22ab337bdc6ff7.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cmi/get-month-fb22ab337bdc6ff7.js: ข้อมูลการเชื่อมต่อ API ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/cmi/get-quarter-ef83c6fbd4e4676a.js: GET : /OpenApi/Cmi/Quarter/MasterData
+/_next/static/chunks/pages/document/cmi/get-quarter-ef83c6fbd4e4676a.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cmi/post-month-893942b79a9e8204.js: POST : /OpenApi/Cmi/Month
+/_next/static/chunks/pages/document/cmi/post-month-893942b79a9e8204.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cmi/post-quarter-e83cc89dfa2a92a3.js: POST : /OpenApi/Cmi/Quarter
+/_next/static/chunks/pages/document/cmi/post-quarter-e83cc89dfa2a92a3.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cmi/post-year-327ac26d4af02745.js: POST : /OpenApi/Cmi/Year
+/_next/static/chunks/pages/document/cmi/post-year-327ac26d4af02745.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpig/get-month-dfc2e0e8720dd84d.js: API : ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/cpig/get-month-dfc2e0e8720dd84d.js: GET : /OpenApi/Cpig/Month/MasterData
+/_next/static/chunks/pages/document/cpig/get-month-dfc2e0e8720dd84d.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpig/get-month-dfc2e0e8720dd84d.js: ข้อมูลการเชื่อมต่อ API ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/cpig/get-quarter-729f9f15f9730ebd.js: GET : /OpenApi/Cpig/Quarter/MasterData
+/_next/static/chunks/pages/document/cpig/get-quarter-729f9f15f9730ebd.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpig/post-month-bb55cd833122b855.js: POST : /OpenApi/Cpig/Month
+/_next/static/chunks/pages/document/cpig/post-month-bb55cd833122b855.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpig/post-quarter-dbb3e9b15ad86fce.js: POST : /OpenApi/Cpig/Quarter
+/_next/static/chunks/pages/document/cpig/post-quarter-dbb3e9b15ad86fce.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpig/post-year-4134d3a40247a816.js: POST : /OpenApi/Cpig/Year
+/_next/static/chunks/pages/document/cpig/post-year-4134d3a40247a816.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpil/get-month-8eae600cd009a942.js: API : ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/cpil/get-month-8eae600cd009a942.js: GET : /OpenApi/Cpil/Month/MasterData
+/_next/static/chunks/pages/document/cpil/get-month-8eae600cd009a942.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpil/get-month-8eae600cd009a942.js: ข้อมูลการเชื่อมต่อ API ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/cpil/get-quarter-9cd66a847a9c4ade.js: GET : /OpenApi/Cpil/Quarter/MasterData
+/_next/static/chunks/pages/document/cpil/get-quarter-9cd66a847a9c4ade.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpil/post-month-3e632fa1013b86e6.js: POST : /OpenApi/Cpil/Month
+/_next/static/chunks/pages/document/cpil/post-month-3e632fa1013b86e6.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpil/post-quarter-a2bf9e0045943de7.js: POST : /OpenApi/Cpil/Quarter
+/_next/static/chunks/pages/document/cpil/post-quarter-a2bf9e0045943de7.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpil/post-year-8de3308f31eef419.js: POST : /OpenApi/Cpil/Year
+/_next/static/chunks/pages/document/cpil/post-year-8de3308f31eef419.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpip/get-month-bea8d5913c59ad60.js: API : ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/cpip/get-month-bea8d5913c59ad60.js: GET : /OpenApi/Cpip/Month/MasterData
+/_next/static/chunks/pages/document/cpip/get-month-bea8d5913c59ad60.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpip/get-month-bea8d5913c59ad60.js: ข้อมูลการเชื่อมต่อ API ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/cpip/get-quarter-dd1afe44df319960.js: GET : /OpenApi/Cpip/Quarter/MasterData
+/_next/static/chunks/pages/document/cpip/get-quarter-dd1afe44df319960.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpip/post-month-93c45544a5ce0051.js: POST : /OpenApi/Cpip/Month
+/_next/static/chunks/pages/document/cpip/post-month-93c45544a5ce0051.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpip/post-quarter-bc44fdd95eed33af.js: POST : /OpenApi/Cpip/Quarter
+/_next/static/chunks/pages/document/cpip/post-quarter-bc44fdd95eed33af.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpip/post-year-59c7c04dc4dbd978.js: POST : /OpenApi/Cpip/Year
+/_next/static/chunks/pages/document/cpip/post-year-59c7c04dc4dbd978.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpiu/get-month-56e2eb9ebecc86f5.js: API : ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/cpiu/get-month-56e2eb9ebecc86f5.js: GET : /OpenApi/Cpiu/Month/MasterData
+/_next/static/chunks/pages/document/cpiu/get-month-56e2eb9ebecc86f5.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpiu/get-month-56e2eb9ebecc86f5.js: ข้อมูลการเชื่อมต่อ API ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/cpiu/get-quarter-3bdcbbcf2ee88b46.js: GET : /OpenApi/Cpiu/Quarter/MasterData
+/_next/static/chunks/pages/document/cpiu/get-quarter-3bdcbbcf2ee88b46.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpiu/post-month-3d79a72a676a7b09.js: POST : /OpenApi/Cpiu/Month
+/_next/static/chunks/pages/document/cpiu/post-month-3d79a72a676a7b09.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpiu/post-quarter-beb3e8ecf79bb0c7.js: POST : /OpenApi/Cpiu/Quarter
+/_next/static/chunks/pages/document/cpiu/post-quarter-beb3e8ecf79bb0c7.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/cpiu/post-year-75ec25437af88337.js: POST : /OpenApi/Cpiu/Year
+/_next/static/chunks/pages/document/cpiu/post-year-75ec25437af88337.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/csi/get-month-dbad5445797a0298.js: GET : /OpenApi/CmiPrice/Month/MasterData
+/_next/static/chunks/pages/document/csi/get-month-dbad5445797a0298.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/csi/post-month-2cdcb894677cf86c.js: POST : /OpenApi/CmiPrice/Month
+/_next/static/chunks/pages/document/csi/post-month-2cdcb894677cf86c.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/imi-exi/get-month-12563a0ea07480df.js: API : ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/imi-exi/get-month-12563a0ea07480df.js: GET : /OpenApi/Imex/Month/MasterData
+/_next/static/chunks/pages/document/imi-exi/get-month-12563a0ea07480df.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/imi-exi/get-month-12563a0ea07480df.js: ข้อมูลการเชื่อมต่อ API ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/imi-exi/get-quarter-6de31637ea04c613.js: GET : /OpenApi/Ppi/Quarter/MasterData
+/_next/static/chunks/pages/document/imi-exi/get-quarter-6de31637ea04c613.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/imi-exi/post-month-84da33282fdd90ec.js: POST : /OpenApi/Imex/Month
+/_next/static/chunks/pages/document/imi-exi/post-month-84da33282fdd90ec.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/imi-exi/post-quarter-38db1cbfe9b51da9.js: POST : /OpenApi/Imex/Quarter
+/_next/static/chunks/pages/document/imi-exi/post-quarter-38db1cbfe9b51da9.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/imi-exi/post-year-53d4a99e07566bf3.js: POST : /OpenApi/Imex/Year
+/_next/static/chunks/pages/document/imi-exi/post-year-53d4a99e07566bf3.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/k/get-month-380235d4359b52ed.js: GET : /OpenApi/K/Month/MasterData
+/_next/static/chunks/pages/document/k/get-month-380235d4359b52ed.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/k/post-month-6635a98cf056f1ee.js: POST : /OpenApi/K/Month
+/_next/static/chunks/pages/document/k/post-month-6635a98cf056f1ee.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/k/post-year-eb8a601c4fdd5bf2.js: POST : /OpenApi/K/Year
+/_next/static/chunks/pages/document/k/post-year-eb8a601c4fdd5bf2.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/ppi/get-month-f2e8632f95f2f324.js: API : ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/ppi/get-month-f2e8632f95f2f324.js: GET : /OpenApi/Ppi/Month/MasterData
+/_next/static/chunks/pages/document/ppi/get-month-f2e8632f95f2f324.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/ppi/get-month-f2e8632f95f2f324.js: ข้อมูลการเชื่อมต่อ API ขอบเขตข้อมูล รายเดือน/ปี
+/_next/static/chunks/pages/document/ppi/get-quarter-e0a57ee2907a0bce.js: GET : /OpenApi/Ppi/Quarter/MasterData
+/_next/static/chunks/pages/document/ppi/get-quarter-e0a57ee2907a0bce.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/ppi/post-month-c4fdede47a499284.js: POST : /OpenApi/Ppi/Month
+/_next/static/chunks/pages/document/ppi/post-month-c4fdede47a499284.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/ppi/post-quarter-241125fba9bf1b30.js: POST : /OpenApi/Ppi/Quarter
+/_next/static/chunks/pages/document/ppi/post-quarter-241125fba9bf1b30.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/ppi/post-year-465872271f14f8ac.js: POST : /OpenApi/Ppi/Quarter
+/_next/static/chunks/pages/document/ppi/post-year-465872271f14f8ac.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/rfti/get-quarter-6c6fc5360faebbf4.js: GET : /OpenApi/Rfti/Quarter/MasterData
+/_next/static/chunks/pages/document/rfti/get-quarter-6c6fc5360faebbf4.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/rfti/post-quarter-287d04bdbd81eb40.js: POST : /OpenApi/Rfti/Quarter
+/_next/static/chunks/pages/document/rfti/post-quarter-287d04bdbd81eb40.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/document/rfti/post-year-2f4f0cb1e377d8b2.js: POST : /OpenApi/Rfti/Year
+/_next/static/chunks/pages/document/rfti/post-year-2f4f0cb1e377d8b2.js: URL : https://index-api.tpso.go.th
+/_next/static/chunks/pages/escalation-factors-3f99420f0b79b0da.js: /api/k/master
+/_next/static/chunks/pages/escalation-factors-3f99420f0b79b0da.js: /api/stat/PageCount
+/_next/static/chunks/pages/escalation-factors/calculation-formula-k-79a549ce86aa2a9c.js: /api/stat/PageCount
+/_next/static/chunks/pages/escalation-factors/daily-escalation-factor-b3d83d71ff0c1f08.js: /api/stat/PageCount
+/_next/static/chunks/pages/escalation-factors/escalation-factors-statistics-1ffc48f924562743.js: /api/k/filter
+/_next/static/chunks/pages/escalation-factors/escalation-factors-statistics-1ffc48f924562743.js: /api/k/master
+/_next/static/chunks/pages/escalation-factors/escalation-factors-statistics-1ffc48f924562743.js: /api/k/year
+/_next/static/chunks/pages/escalation-factors/explanation-454b5ddc5e882a1f.js: /api/stat/PageCount
+/_next/static/chunks/pages/escalation-factors/report-monthly-bb97bb056a00573e.js: /api/cmi/master
+/_next/static/chunks/pages/escalation-factors/report-monthly-bb97bb056a00573e.js: /api/stat/PageCount
+/_next/static/chunks/pages/export-Import-price-2c379eea026d3643.js: /api/imex/master
+/_next/static/chunks/pages/export-Import-price-2c379eea026d3643.js: /api/stat/PageCount
+/_next/static/chunks/pages/export-Import-price/change-export-price-a2bf32e3eae90bd9.js: /api/imex/filter
+/_next/static/chunks/pages/export-Import-price/change-export-price-a2bf32e3eae90bd9.js: /api/imex/master
+/_next/static/chunks/pages/export-Import-price/change-import-price-846f6b37da626398.js: /api/imex/filter
+/_next/static/chunks/pages/export-Import-price/change-import-price-846f6b37da626398.js: /api/imex/master
+/_next/static/chunks/pages/export-Import-price/export-import-price-index-4476ff2ed0003fb1.js: /api/stat/PageCount
+/_next/static/chunks/pages/export-Import-price/export-price-report-337419188faff297.js: /api/imex/filter
+/_next/static/chunks/pages/export-Import-price/export-price-report-337419188faff297.js: /api/imex/filter/half
+/_next/static/chunks/pages/export-Import-price/export-price-report-337419188faff297.js: /api/imex/filter/quarter
+/_next/static/chunks/pages/export-Import-price/export-price-report-337419188faff297.js: /api/imex/master
+/_next/static/chunks/pages/export-Import-price/export-price-report-337419188faff297.js: /api/imex/year
+/_next/static/chunks/pages/export-Import-price/export-price-report-337419188faff297.js: /api/stat/PageCount
+/_next/static/chunks/pages/export-Import-price/import-price-report-f9f511a1bcef5684.js: /api/imex/filter
+/_next/static/chunks/pages/export-Import-price/import-price-report-f9f511a1bcef5684.js: /api/imex/filter/half
+/_next/static/chunks/pages/export-Import-price/import-price-report-f9f511a1bcef5684.js: /api/imex/filter/quarter
+/_next/static/chunks/pages/export-Import-price/import-price-report-f9f511a1bcef5684.js: /api/imex/master
+/_next/static/chunks/pages/export-Import-price/import-price-report-f9f511a1bcef5684.js: /api/imex/year
+/_next/static/chunks/pages/export-Import-price/import-price-report-f9f511a1bcef5684.js: /api/stat/PageCount
+/_next/static/chunks/pages/export-Import-price/report-monthly-f93f9681fe8e5ed7.js: /api/imex/ChangeRate
+/_next/static/chunks/pages/export-Import-price/report-monthly-f93f9681fe8e5ed7.js: /api/imex/master
+/_next/static/chunks/pages/export-Import-price/report-monthly-f93f9681fe8e5ed7.js: /api/stat/PageCount
+/_next/static/chunks/pages/index-summary-a856f44e081e1c59.js: /api/stat/PageCount
+/_next/static/chunks/pages/index-summary/summary-42361fe9115b8eb7.js: /api/AllIndex/search
+/_next/static/chunks/pages/index-summary/summary-42361fe9115b8eb7.js: /api/stat/PageCount
+/_next/static/chunks/pages/materials-price-index-1f73858a332d693a.js: /api/cmi/master
+/_next/static/chunks/pages/materials-price-index-1f73858a332d693a.js: /api/stat/PageCount
+/_next/static/chunks/pages/materials-price-index/performance-report-17197f1b1dbc0b9f.js: /api/stat/PageCount
+/_next/static/chunks/pages/materials-price-index/report-monthly-426ce1c92ada0440.js: /api/cmi/ChangeRate
+/_next/static/chunks/pages/materials-price-index/report-monthly-426ce1c92ada0440.js: /api/cmi/master
+/_next/static/chunks/pages/materials-price-index/report-monthly-426ce1c92ada0440.js: /api/stat/PageCount
+/_next/static/chunks/pages/materials-price-index/weight-index/[id]-0a1c88a1bc93a01b.js: /api/cmi/filter
+/_next/static/chunks/pages/materials-price-index/weight-index/[id]-0a1c88a1bc93a01b.js: /api/cmi/filter/half
+/_next/static/chunks/pages/materials-price-index/weight-index/[id]-0a1c88a1bc93a01b.js: /api/cmi/filter/quarter
+/_next/static/chunks/pages/materials-price-index/weight-index/[id]-0a1c88a1bc93a01b.js: /api/cmi/master
+/_next/static/chunks/pages/materials-price-index/weight-index/[id]-0a1c88a1bc93a01b.js: /api/cmi/year
+/_next/static/chunks/pages/materials-price-index/weight-index/[id]-0a1c88a1bc93a01b.js: /api/stat/PageCount
+/_next/static/chunks/pages/producer-price-index-87376b13363365b0.js: /api/ppi/master
+/_next/static/chunks/pages/producer-price-index-87376b13363365b0.js: /api/stat/PageCount
+/_next/static/chunks/pages/producer-price-index/producer-price-index-7a96711bec3eed26.js: /api/stat/PageCount
+/_next/static/chunks/pages/producer-price-index/report-monthly-6f15308829552edd.js: /api/PPI/ChangeRate
+/_next/static/chunks/pages/producer-price-index/report-monthly-6f15308829552edd.js: /api/ppi/master
+/_next/static/chunks/pages/producer-price-index/report-monthly-6f15308829552edd.js: /api/stat/PageCount
+/_next/static/chunks/pages/producer-price-index/weight-index-cpa-6c0ff4a6a48f988e.js: /api/ppi/filter
+/_next/static/chunks/pages/producer-price-index/weight-index-cpa-6c0ff4a6a48f988e.js: /api/ppi/filter/half
+/_next/static/chunks/pages/producer-price-index/weight-index-cpa-6c0ff4a6a48f988e.js: /api/ppi/filter/quarter
+/_next/static/chunks/pages/producer-price-index/weight-index-cpa-6c0ff4a6a48f988e.js: /api/ppi/master
+/_next/static/chunks/pages/producer-price-index/weight-index-cpa-6c0ff4a6a48f988e.js: /api/ppi/year
+/_next/static/chunks/pages/producer-price-index/weight-index-cpa-6c0ff4a6a48f988e.js: /api/stat/PageCount
+/_next/static/chunks/pages/producer-price-index/weight-index-sop-06ab6d1f0c6663ac.js: /api/ppi/filter
+/_next/static/chunks/pages/producer-price-index/weight-index-sop-06ab6d1f0c6663ac.js: /api/ppi/filter/half
+/_next/static/chunks/pages/producer-price-index/weight-index-sop-06ab6d1f0c6663ac.js: /api/ppi/filter/quarter
+/_next/static/chunks/pages/producer-price-index/weight-index-sop-06ab6d1f0c6663ac.js: /api/ppi/master
+/_next/static/chunks/pages/producer-price-index/weight-index-sop-06ab6d1f0c6663ac.js: /api/ppi/year
+/_next/static/chunks/pages/producer-price-index/weight-index-sop-06ab6d1f0c6663ac.js: /api/stat/PageCount
+/_next/static/chunks/pages/rfti-1762d85746d28a4f.js: /api/rfti/master
+/_next/static/chunks/pages/rfti-1762d85746d28a4f.js: /api/stat/PageCount
+/_next/static/chunks/pages/rfti/cpa-e1f0c28d4a61c82a.js: /api/rfti/filter
+/_next/static/chunks/pages/rfti/cpa-e1f0c28d4a61c82a.js: /api/rfti/master
+/_next/static/chunks/pages/rfti/cpa-e1f0c28d4a61c82a.js: /api/rfti/year
+/_next/static/chunks/pages/rfti/cpa-e1f0c28d4a61c82a.js: /api/stat/PageCount
+/_next/static/chunks/pages/rfti/freight-fee-index-vehicle-5a04a5d935362032.js: /api/rfti/filter
+/_next/static/chunks/pages/rfti/freight-fee-index-vehicle-5a04a5d935362032.js: /api/rfti/master
+/_next/static/chunks/pages/rfti/freight-fee-index-vehicle-5a04a5d935362032.js: /api/rfti/year
+/_next/static/chunks/pages/rfti/freight-fee-index-vehicle-5a04a5d935362032.js: /api/stat/PageCount
+/_next/static/chunks/pages/rfti/performance-report-6c0442c11efc0138.js: /api/stat/PageCount
+/_next/static/chunks/pages/rfti/proportion-of-road-5319656c81606883.js: /api/rfti/master
+/_next/static/chunks/pages/rfti/quarterly-analysis-aec7ed58a6278f27.js: /api/rfti/ChangeRate
+/_next/static/chunks/pages/rfti/quarterly-analysis-aec7ed58a6278f27.js: /api/rfti/master
+/_next/static/chunks/pages/rfti/quarterly-analysis-aec7ed58a6278f27.js: /api/stat/PageCount
+/_next/static/chunks/pages/rfti/rates-of-change-b9d8046c723e8dea.js: /api/rfti/filter
+/_next/static/chunks/pages/rfti/rates-of-change-b9d8046c723e8dea.js: /api/rfti/master
+/_next/static/chunks/pages/rfti/road-freight-index-556fecdb6b503a82.js: /api/rfti/filter
+/_next/static/chunks/pages/rfti/road-freight-index-556fecdb6b503a82.js: /api/rfti/master
+/_next/static/chunks/pages/southernborder-f8ea169378e85de8.js: /api/stat/PageCount
+/_next/static/chunks/pages/southernborder/assistance-18fbeae4b67d757d.js: /api/
+/_next/static/chunks/pages/southernborder/assistance-18fbeae4b67d757d.js: /api/stat/PageCount
+/_next/static/chunks/pages/southernborder/assistance-18fbeae4b67d757d.js: /api/tsbpd/filter
+/_next/static/chunks/pages/southernborder/assistance-18fbeae4b67d757d.js: /api/tsbpo/master
+/_next/static/chunks/pages/southernborder/explanation-3649ee55e99f31ce.js: /api/stat/PageCount
+/_next/static/chunks/pages/southernborder/explanation-3649ee55e99f31ce.js: https://index-api.tpso.go.th/docs/กระบวนการจัดทำและเผยแพร่ดัชนี-cci.pdf-s
+/_next/static/chunks/pages/southernborder/explore-problems-ca7cf3f9c73fc84d.js: /api/
+/_next/static/chunks/pages/southernborder/explore-problems-ca7cf3f9c73fc84d.js: /api/stat/PageCount
+/_next/static/chunks/pages/southernborder/explore-problems-ca7cf3f9c73fc84d.js: /api/tsbpo/master
+/_next/static/chunks/pages/southernborder/explore-problems-ca7cf3f9c73fc84d.js: /api/tsbpp/filter
+/_next/static/chunks/pages/southernborder/quarterly-analysis-25f645c9d8fa9201.js: /api/stat/PageCount
+/_next/static/chunks/pages/southernborder/quarterly-analysis-25f645c9d8fa9201.js: /api/tsbpo/filter
+/_next/static/chunks/pages/southernborder/quarterly-analysis-25f645c9d8fa9201.js: /api/tsbpo/master
+/_next/static/chunks/pages/southernborder/sentiment-index-southern-f85c9537c1d75dad.js: /api/stat/PageCount
+/_next/static/chunks/pages/southernborder/sentiment-index-southern-f85c9537c1d75dad.js: /api/tsbp/filter
+/_next/static/chunks/pages/stat-28529aeb3b296cf7.js: /api/stat
