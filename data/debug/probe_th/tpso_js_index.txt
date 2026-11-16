@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="next-head-count" content="2"/><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/><link rel="icon" type="image/x-icon" href="/tpso-icon.jpg"/><link rel="preload" href="/_next/static/css/a5a200632b809ded.css" as="style"/><link rel="stylesheet" href="/_next/static/css/a5a200632b809ded.css" data-n-g=""/><link rel="preload" href="/_next/static/css/ed5c0e527bc7c5ea.css" as="style"/><link rel="stylesheet" href="/_next/static/css/ed5c0e527bc7c5ea.css" data-n-p=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js"></script><script src="/_next/static/chunks/webpack-fc336b3a0bf1e0df.js" defer=""></script><script src="/_next/static/chunks/framework-b928bb58b683c5a2.js" defer=""></script><script src="/_next/static/chunks/main-3d296411bfd5d307.js" defer=""></script><script src="/_next/static/chunks/pages/_app-fd8bace0daa5ef46.js" defer=""></script><script src="/_next/static/chunks/29107295-75edf0bf34e24b1e.js" defer=""></script><script src="/_next/static/chunks/1274-bff02e0f61c34540.js" defer=""></script><script src="/_next/static/chunks/7801-88a3d08e9d5098ff.js" defer=""></script><script src="/_next/static/chunks/9203-74c0572aada40c7b.js" defer=""></script><script src="/_next/static/chunks/5342-87ac2cef5d15278a.js" defer=""></script><script src="/_next/static/chunks/9234-e707f8ff624b1de9.js" defer=""></script><script src="/_next/static/chunks/7498-a8385d8954506c39.js" defer=""></script><script src="/_next/static/chunks/8833-d9722e364619c130.js" defer=""></script><script src="/_next/static/chunks/7926-fa5dd38e63094a79.js" defer=""></script><script src="/_next/static/chunks/1227-e7baf2a392082873.js" defer=""></script><script src="/_next/static/chunks/8191-1482124918f537d3.js" defer=""></script><script src="/_next/static/chunks/pages/index-d1a07d9fc4e69009.js" defer=""></script><script src="/_next/static/XAqBL9wf1wjpuwlP8QpYl/_buildManifest.js" defer=""></script><script src="/_next/static/XAqBL9wf1wjpuwlP8QpYl/_ssgManifest.js" defer=""></script></head><body><div id="__next"><div></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"_nextI18Next":{"initialI18nStore":{"th":{"common":{"navbar":{"home":"หน้าหลัก","priceIndexInflation":"ดัชนีราคาและภาวะเงินเฟ้อ","cpi":"ดัชนีราคาผู้บริโภค/เงินเฟ้อ  (CPI)","cpip":"ดัชนีราคาผู้บริโภคระดับจังหวัด (CPIP)","producerPriceIndex":"ดัชนีราคาผู้ผลิต (PPI)","materialsPriceIndex":"ดัชนีราคาวัสดุก่อสร้าง (CMI)","escalationFactors":"ดัชนีราคาเพื่อใช้ประกอบการคำนวณหา Escalation factor (K)","rfti":"ดัชนีค่าบริการขนส่งสินค้าทางถนน (RFTI)","exportImportPrice":"ดัชนีราคาส่งออก - นำเข้า (EXI-IMI)","economicIndex":"ดัชนีเศรษฐกิจ","consumerconfidence":"ดัชนีค
+['/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js', '/_next/static/chunks/webpack-fc336b3a0bf1e0df.js', '/_next/static/chunks/framework-b928bb58b683c5a2.js', '/_next/static/chunks/main-3d296411bfd5d307.js', '/_next/static/chunks/pages/_app-fd8bace0daa5ef46.js', '/_next/static/chunks/29107295-75edf0bf34e24b1e.js', '/_next/static/chunks/1274-bff02e0f61c34540.js', '/_next/static/chunks/7801-88a3d08e9d5098ff.js', '/_next/static/chunks/9203-74c0572aada40c7b.js', '/_next/static/chunks/5342-87ac2cef5d15278a.js', '/_next/static/chunks/9234-e707f8ff624b1de9.js', '/_next/static/chunks/7498-a8385d8954506c39.js', '/_next/static/chunks/8833-d9722e364619c130.js', '/_next/static/chunks/7926-fa5dd38e63094a79.js', '/_next/static/chunks/1227-e7baf2a392082873.js', '/_next/static/chunks/8191-1482124918f537d3.js', '/_next/static/chunks/pages/index-d1a07d9fc4e69009.js', '/_next/static/XAqBL9wf1wjpuwlP8QpYl/_buildManifest.js', '/_next/static/XAqBL9wf1wjpuwlP8QpYl/_ssgManifest.js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js']
+--- https://index.tpso.go.th/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js (91334)
+http://a
+http://a#б
+http://a/c%20d?a=1&c=3
+http://x
+http://тест
+https://a@b
+--- https://index.tpso.go.th/_next/static/chunks/webpack-fc336b3a0bf1e0df.js (6141)
+
+--- https://index.tpso.go.th/_next/static/chunks/framework-b928bb58b683c5a2.js (141046)
+http://www.w3.org/1998/Math/MathML
+http://www.w3.org/1999/xhtml
+http://www.w3.org/1999/xlink
+http://www.w3.org/2000/svg
+http://www.w3.org/XML/1998/namespace
+https://reactjs.org/docs/error-decoder.html?invariant=
+--- https://index.tpso.go.th/_next/static/chunks/main-3d296411bfd5d307.js (113570)
+http://f
+http://n
+https://fonts.googleapis.com/css
+https://use.typekit.net/
+--- https://index.tpso.go.th/_next/static/chunks/pages/_app-fd8bace0daa5ef46.js (266122)
+
+--- https://index.tpso.go.th/_next/static/chunks/29107295-75edf0bf34e24b1e.js (69576)
+
+--- https://index.tpso.go.th/_next/static/chunks/1274-bff02e0f61c34540.js (455198)
+http://www.w3.org/2000/svg
+--- https://index.tpso.go.th/_next/static/chunks/7801-88a3d08e9d5098ff.js (146316)

@@ -1,0 +1,83 @@
+<!DOCTYPE html><html lang="th"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width"/><title>สำนักงานนโยบายและยุทธศาสตร์การค้า</title><meta name="robots" content="index,follow"/><meta name="description" content="สำนักงานนโยบายและยุทธศาสตร์การค้า"/><meta property="og:title" content="สำนักงานนโยบายและยุทธศาสตร์การค้า"/><meta property="og:description" content="สำนักงานนโยบายและยุทธศาสตร์การค้า"/><meta property="og:url" content="https://www.tpso.go.th"/><meta property="og:type" content="website"/><meta property="og:image" content="https://www.tpso.go.th/tpso-square.jpg"/><meta property="og:image:alt" content="สำนักงานนโยบายและยุทธศาสตร์การค้า"/><meta property="og:image:width" content="800"/><meta property="og:image:height" content="600"/><meta property="og:locale" content="th_TH"/><meta property="og:site_name" content="สำนักงานนโยบายและยุทธศาสตร์การค้า"/><meta name="next-head-count" content="15"/><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/><script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          </script><link data-next-font="" rel="preconnect" href="/" crossorigin="anonymous"/><link rel="preload" href="/_next/static/css/b63597b9e78b0b94.css" as="style"/><link rel="stylesheet" href="/_next/static/css/b63597b9e78b0b94.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script><script src="/_next/static/chunks/webpack-ed39dd08f70e3cf1.js" defer=""></script><script src="/_next/static/chunks/framework-697c4146ea9d0138.js" defer=""></script><script src="/_next/static/chunks/main-e5d3fe1123d310bb.js" defer=""></script><script src="/_next/static/chunks/pages/_app-d7403aeaff623fb0.js" defer=""></script><script src="/_next/static/chunks/5675-3f76248a20ec402c.js" defer=""></script><script src="/_next/static/chunks/pages/intro-0ca8e6c15cc97098.js" defer=""></script><script src="/_next/static/QS_yyRA2dENmQPRuE0eY3/_buildManifest.js" defer=""></script><script src="/_next/static/QS_yyRA2dENmQPRuE0eY3/_ssgManifest.js" defer=""></script></head><body><div id="__next"><style>
+    #nprogress {
+      pointer-events: none;
+    }
+    #nprogress .bar {
+      background: #fecb03;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+    }
+    #nprogress .peg {
+      display: block;
+      position: absolute;
+      right: 0px;
+      width: 100px;
+      height: 100%;
+      box-shadow: 0 0 10px #fecb03, 0 0 5px #fecb03;
+      opacity: 1;
+      -webkit-transform: rotate(3deg) translate(0px, -4px);
+      -ms-transform: rotate(3deg) translate(0px, -4px);
+      transform: rotate(3deg) translate(0px, -4px);
+    }
+    #nprogress .spinner {
+      display: block;
+      position: fixed;
+      z-index: 1031;
+      top: 15px;
+      right: 15px;
+    }
+    #nprogress .spinner-ico
+['/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js', '/_next/static/chunks/webpack-ed39dd08f70e3cf1.js', '/_next/static/chunks/framework-697c4146ea9d0138.js', '/_next/static/chunks/main-e5d3fe1123d310bb.js', '/_next/static/chunks/pages/_app-d7403aeaff623fb0.js', '/_next/static/chunks/5675-3f76248a20ec402c.js', '/_next/static/chunks/pages/intro-0ca8e6c15cc97098.js', '/_next/static/QS_yyRA2dENmQPRuE0eY3/_buildManifest.js', '/_next/static/QS_yyRA2dENmQPRuE0eY3/_ssgManifest.js']
+--- https://www.tpso.go.th/_next/static/chunks/polyfills-c67a75d1b6f99dc8.js (91413)
+http://a
+http://a#б
+http://a/c%20d?a=1&c=3
+http://x
+http://тест
+https://a@b
+--- https://www.tpso.go.th/_next/static/chunks/webpack-ed39dd08f70e3cf1.js (5226)
+
+--- https://www.tpso.go.th/_next/static/chunks/framework-697c4146ea9d0138.js (140964)
+http://www.w3.org/1998/Math/MathML
+http://www.w3.org/1999/xhtml
+http://www.w3.org/1999/xlink
+http://www.w3.org/2000/svg
+http://www.w3.org/XML/1998/namespace
+https://reactjs.org/docs/error-decoder.html?invariant=
+--- https://www.tpso.go.th/_next/static/chunks/main-e5d3fe1123d310bb.js (113978)
+http://f
+http://n
+https://fonts.googleapis.com/
+https://fonts.googleapis.com/css
+https://fonts.gstatic.com
+https://use.typekit.net
+https://use.typekit.net/
+--- https://www.tpso.go.th/_next/static/chunks/pages/_app-d7403aeaff623fb0.js (412681)
+/api/auth/signin?
+http://localhost
+http://localhost:3000/api/auth
+http://nscr.nesdc.go.th/
+https://${e}
+https://acoc-pettition.moc.go.th/#/public/home
+https://api.ipify.org/?format=json
+https://example.com
+https://ipinfo.io/json
+https://serviceapi.tpso.go.th
+https://serviceapi.tpso.go.th/SYS_IPAddress/create
+https://www.googletagmanager.com/gtag/js?id=
+https://www.moc.go.th/th/content/category/index/id/179
+https://www.tpso.go.th
+https://www.tpso.go.th/tpso-square.jpg
+--- https://www.tpso.go.th/_next/static/chunks/5675-3f76248a20ec402c.js (9605)
+http://www.w3.org/2000/svg
+--- https://www.tpso.go.th/_next/static/chunks/pages/intro-0ca8e6c15cc97098.js (13281)
+https://www.tpso.go.th
+--- https://www.tpso.go.th/_next/static/QS_yyRA2dENmQPRuE0eY3/_buildManifest.js (9925)
