@@ -1,17 +1,17 @@
 import urllib.request, re, os, http.cookiejar, json
 OUT="data/debug/probe_ex"; os.makedirs(OUT, exist_ok=True)
 op=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
-B={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36","Accept":"*/*","Accept-Language":"th,en"}
+B={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0 Safari/537.36","Accept":"application/json, text/plain, */*","Accept-Language":"th,en","X-Requested-With":"XMLHttpRequest"}
 def get(url):
-    with op.open(urllib.request.Request(url,headers=B),timeout=60) as r: return r.read().decode("utf-8","replace")
+    with op.open(urllib.request.Request(url,headers=B),timeout=60) as r: return r.read().decode("utf-8","replace"), r.headers.get("Content-Type")
 out=[]
-for page in ["https://tradereport.moc.go.th/opendata/summarycountries","https://tradereport.moc.go.th/th/stat/reportmonth01"]:
-    t=get(page)
-    scripts=re.findall(r"(?is)<script(?![^>]*src)[^>]*>(.*?)</script>",t)
-    big=[s for s in scripts if len(s)>200]
-    out.append(f"== {page} inline scripts: "+"\n---\n".join(s.strip()[:3500] for s in big[:6]))
-    i=t.find("<main"); j=t.find("</main>")
-    out.append("MAIN "+re.sub(r"\s+"," ",t[i:j])[:6000] if i>0 else "NO MAIN")
-js=get("https://tradereport.moc.go.th/js/app.js")
-out.append("APPJS "+str(sorted(set(re.findall(r'["\'`](/[a-z][^"\'`\s]{3,80})["\'`]',js)))[:200]))
-open(f"{OUT}/probe6.txt","w").write("\n\n".join(out)[:150000]); print("OK")
+js,_=get("https://tradereport.moc.go.th/js/app.js")
+for k in ["/api/summarycountries","/home/summary/result","report-month01","opendata-summary"]:
+    for m in list(re.finditer(re.escape(k),js))[:3]: out.append(f"## {k}\n"+js[max(0,m.start()-1500):m.end()+1500])
+for q in ["/api/summarycountries","/api/summarycountries?year=2026&month=9","/api/summarycountries?year=2569&month=9","/home/summary/result"]:
+    try: b,ct=get("https://tradereport.moc.go.th"+q); out.append(f"Q {q} ct={ct} len={len(b)} :: {b[:1500]}")
+    except Exception as e:
+        try: msg=e.read().decode()[:500]
+        except Exception: msg=""
+        out.append(f"Q {q} FAIL {e} {msg}")
+open(f"{OUT}/probe7.txt","w").write("\n\n".join(out)[:200000]); print("OK")
