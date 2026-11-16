@@ -1,1 +1,37 @@
+name: อัปเดตข้อมูลดัชนี (หน้า 1)
 
+on:
+  schedule:
+    # ทุก 3 ชั่วโมง (เวลา UTC) ครอบคลุมเวลาปิดตลาดเอเชียและอเมริกา
+    - cron: "17 */3 * * *"
+  workflow_dispatch: {}   # กดรันเองได้จากแท็บ Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commit
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ดึงข้อมูลดัชนี
+        run: python3 scripts/fetch_indices.py
+
+      - name: บันทึกข้อมูลกลับเข้า repo
+        run: |
+          git config user.name "macro-bot"
+          git config user.email "macro-bot@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "ไม่มีข้อมูลใหม่"
+          else
+            git commit -m "update indices data"
+            git pull --rebase
+            git push
+          fi
