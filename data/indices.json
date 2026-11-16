@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16T20:03+07:00",
+  "updated_at": "2026-11-17T04:59+07:00",
   "indices": [
     {
       "id": "spx",
@@ -7,26 +7,26 @@
       "flag": "🇺🇸",
       "market": "สหรัฐฯ",
       "level": {
-        "value": 7561.67,
-        "asof": "2026-11-13",
+        "value": 7416.59,
+        "asof": "2026-11-16",
         "source": "Yahoo Finance (^GSPC)",
-        "change": -30.73,
-        "pct": -0.4
+        "change": -145.08,
+        "pct": -1.92
       },
       "market_cap": {
-        "value": 72696756884523.0,
+        "value": 71252566991445.0,
         "currency": "USD",
         "source": "stockanalysis.com",
         "note": "ผลรวม Market Cap ของ 503 บริษัทใน S&P 500"
       },
       "pe": {
-        "value": 25.81,
-        "asof": "4:00 PM EST, Fri Nov 13",
+        "value": 25.3,
+        "asof": "4:00 PM EST, Mon Nov 16",
         "source": "multpl.com"
       },
       "pbv": {
-        "value": 6.0,
-        "asof": "4:00 PM EST, Fri Nov 13",
+        "value": 5.88,
+        "asof": "4:00 PM EST, Mon Nov 16",
         "source": "multpl.com"
       }
     },
@@ -36,17 +36,20 @@
       "flag": "🇺🇸",
       "market": "สหรัฐฯ",
       "level": {
-        "value": 25136.27,
-        "asof": "2026-11-13",
+        "value": 24509.76,
+        "asof": "2026-11-16",
         "source": "Yahoo Finance (^IXIC)",
-        "change": -229.82,
-        "pct": -0.91
+        "change": -626.51,
+        "pct": -2.49
       },
       "market_cap": {
         "value": 49750950792167.0,
         "currency": "USD",
         "source": "stockanalysis.com",
-        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)"
+        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)",
+        "stale": true,
+        "error": "ดึงข้อมูลไม่สำเร็จ (ValueError: อ่านรายชื่อได้แค่ 100 บริษัท (น้อยผิดปกติ))",
+        "checked_at": "2026-11-17T04:59+07:00"
       },
       "pe": {
         "value": 25.23,
