@@ -1,0 +1,6 @@
+run at 2026-11-16T17:07:11.680089+07:00
+
+gdp: FAIL TimeoutError: The read operation timed out
+FOMC meetings 2026: 8 ครั้ง (federalreserve.gov)
+fed: FAIL TimeoutError: The read operation timed out
+cpi: FAIL TimeoutError: The read operation timed out
