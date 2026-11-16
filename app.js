@@ -253,3 +253,74 @@ async function loadUS() {
 }
 
 loadUS();
+
+// ---------------- หน้า 3: ไทย ----------------
+function renderThGDP(sec) {
+  const el = document.getElementById("th-gdp");
+  const title = "GDP ไทย";
+  const link = (sec && sec.link) || "https://www.nesdc.go.th/info/economic-aspect/";
+  el.innerHTML = `<h2>${title}</h2>
+    <p><span class="todo">ยังไม่มีแหล่งข้อมูล</span> <span class="small">${esc(sec && sec.error)}</span></p>
+    <div class="panel-foot"><a class="btn" href="${esc(link)}" target="_blank" rel="noopener">ดูข้อมูล ↗</a><span class="src">ที่มา: สศช.</span></div>`;
+}
+
+function renderThMPC(sec) {
+  const el = document.getElementById("th-mpc");
+  const title = "ตารางประชุม กนง.";
+  if (!sec || !sec.meetings) { el.innerHTML = failHTML(title, sec); return; }
+  const list = [...sec.meetings].reverse();
+  const rows = list.map((m) => {
+    let actual = "", cls = "";
+    if (m.actual != null) {
+      const d = m.actual - m.previous;
+      cls = d > 0 ? "up" : d < 0 ? "down" : "";
+      actual = `${pct(m.actual)}${d > 0 ? " ▲" : d < 0 ? " ▼" : ""}`;
+    } else if (m.status === "waiting") {
+      actual = `<span class="small">รอข้อมูล</span>`;
+    }
+    const badge = m.next ? ' <span class="badge">ครั้งถัดไป</span>' : "";
+    return `<tr class="${m.next ? "latest" : ""} ${m.status === "upcoming" && !m.next ? "muted" : ""}">
+      <td>${esc(thaiDate(m.thai_date))}${badge}</td>
+      <td class="small">${esc(m.decision || "")}</td>
+      <td class="num ${cls}">${actual}</td>
+      <td class="num">${pct(m.previous)}</td>
+    </tr>`;
+  }).join("");
+  el.innerHTML = sectionShell(`${title} ปี ${sec.year + 543}`,
+    `ดอกเบี้ยนโยบายปัจจุบัน <b>${pct(sec.current)}</b> · แถลงผลเวลา 14:00 น.`,
+    `<table class="idx-table"><thead><tr><th>วันที่แถลงผล</th><th>มติ</th><th class="num">ผล</th><th class="num">ก่อนหน้า</th></tr></thead><tbody>${rows}</tbody></table>`,
+    sec);
+}
+
+function renderThCPI(sec) {
+  const el = document.getElementById("th-cpi");
+  const title = "เงินเฟ้อไทย (CPI ทั่วไป)";
+  if (!sec || !sec.rows) { el.innerHTML = failHTML(title, sec); return; }
+  const rows = sec.rows.map((r, i) => `
+    <tr class="${i === 0 ? "latest" : ""}">
+      <td>${esc(thaiMonth(r.month))}${i === 0 ? ' <span class="badge">ล่าสุด</span>' : ""}</td>
+      <td class="num">${pct(r.yoy)}</td>
+      <td class="num">${r.mom == null ? "–" : pct(r.mom)}</td>
+    </tr>`).join("");
+  const upd = sec.last_updated ? `อัปเดตโดย สนค. ${esc(thaiDateTime(sec.last_updated))}` : "";
+  el.innerHTML = sectionShell(title, `เงินเฟ้อทั่วไป เทียบเดือนเดียวกันปีก่อน (YoY) และเทียบเดือนก่อน (MoM) · ${upd}`,
+    `<table class="idx-table"><thead><tr><th>เดือน</th><th class="num">YoY</th><th class="num">MoM</th></tr></thead><tbody>${rows}</tbody></table>`,
+    sec);
+}
+
+async function loadTH() {
+  const upd = document.getElementById("th-updated");
+  try {
+    const r = await fetch("data/th.json?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const d = await r.json();
+    upd.textContent = "อัปเดตล่าสุด: " + thaiDateTime(d.updated_at) + " (เวลาไทย)";
+    for (const [fn, sec] of [[renderThGDP, d.gdp], [renderThMPC, d.mpc], [renderThCPI, d.cpi]]) {
+      try { fn(sec); } catch (e) { console.error(e); }
+    }
+  } catch (e) {
+    upd.innerHTML = `<span class="fail">ดึงข้อมูลไม่สำเร็จ</span> โหลดไฟล์ข้อมูลไทยไม่ได้ (${esc(e.message)})`;
+  }
+}
+
+loadTH();

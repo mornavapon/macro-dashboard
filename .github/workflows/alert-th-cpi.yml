@@ -1,0 +1,24 @@
+name: แจ้งเตือน เงินเฟ้อไทย (วันที่ตัวเลขออก)
+
+# สนค. ไม่มีปฏิทินประกาศล่วงหน้าที่ดึงได้ จึงแจ้งในวันที่ตัวเลขเดือนใหม่ออกแทน
+# ปิดแจ้งเตือนอันนี้: แท็บ Actions > คลิกชื่อ workflow นี้ > ปุ่ม ... มุมขวา > Disable workflow
+on:
+  schedule:
+    - cron: "13 13 * * *"   # ทุกวัน 20:13 น. เวลาไทย
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "ส่งข้อความทดสอบทันที"
+        type: boolean
+        default: true
+
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: ส่งแจ้งเตือน
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC_MACRO }}
+        run: python3 scripts/send_alert.py th_cpi ${{ inputs.test && '--test' || '' }}

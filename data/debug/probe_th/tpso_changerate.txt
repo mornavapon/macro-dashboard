@@ -1,2 +1,0 @@
-== none OK
-[{"type":"TG","typeName":"ดัชนีราคาผู้บริโภคทั่วไปของ ประเทศ","commodityCode":"00000","commodityNameTH":"รวมทุกรายการ","commodityNameEN":null,"yearBase":2566,"year":2569,"weightBar":null,"weightCurrent":null,"currentMonthIndex":103.9,"previousMonthIndex":102.93,"previousYearIndex":100.0,"avgYearIndex":102.05,"change":0.94,"changeYear":3.9,"changeAvg":1.77,"children":[]}]

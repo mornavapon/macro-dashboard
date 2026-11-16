@@ -26,6 +26,11 @@ TOPICS = {
                "link": "https://www.investing.com/economic-calendar/gdp-375"},
     "us_cpi": {"file": "us.json", "release": "cpi", "data": "cpi", "tag": "us",
                "link": "https://th.investing.com/economic-calendar/cpi-733"},
+    "th_mpc": {"file": "th.json", "release": "mpc", "data": "mpc", "tag": "thailand",
+               "link": "https://www.bot.or.th/th/our-roles/monetary-policy/mpc-meeting.html"},
+    # เงินเฟ้อไทยไม่มีปฏิทินประกาศล่วงหน้าที่ดึงได้ -> แจ้ง "วันที่ตัวเลขออก" แทน (ดู th_cpi_new)
+    "th_cpi": {"file": "th.json", "release": None, "data": "cpi", "tag": "thailand",
+               "link": "https://index.tpso.go.th/cpi"},
 }
 
 TH_DOW = ["จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์", "อาทิตย์"]
@@ -42,6 +47,8 @@ def previous_value(key, data):
         if key == "us_gdp":
             r = data["gdp"]["rows"][0]
             return f"ครั้งล่าสุด: {r['quarter']} โต {r['growth']}% (QoQ ปรับเป็นรายปี)"
+        if key == "th_mpc":
+            return f"ดอกเบี้ยนโยบายปัจจุบัน: {data['mpc']['current']:.2f}%"
         if key == "us_cpi":
             r = next(x for x in data["cpi"]["rows"] if x.get("yoy") is not None)
             return f"ครั้งล่าสุดที่มีตัวเลข: เดือน {r['month']} = {r['yoy']}% YoY"
@@ -64,10 +71,34 @@ def send(title, message, link, tags):
         print("ntfy:", r.status)
 
 
+def th_cpi_new(cfg, test):
+    """เงินเฟ้อไทย: แจ้งเมื่อ สนค. อัปเดตตัวเลขเดือนใหม่ในวันนี้"""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import fetch_th  # noqa: E402
+    master = json.loads(fetch_th.get(fetch_th.TPSO + "/api/cpig/master",
+                                     headers={"Accept": "application/json"}))
+    upd = datetime.datetime.fromisoformat(master["lastUpdated"].replace("Z", "+00:00")).astimezone(BKK)
+    today = datetime.datetime.now(BKK).date()
+    end = master["period"]["end"]
+    if not test and upd.date() != today:
+        print(f"th_cpi: วันนี้ยังไม่มีตัวเลขใหม่ (อัปเดตล่าสุด {upd.date()})")
+        return
+    r = fetch_th.tpso_change(end["year"], end["month"], max(master.get("yearBase") or [2566]))
+    mon = f"{TH_MON[end['month']]} {end['year']}"
+    msg = (f"เงินเฟ้อทั่วไปเดือน {mon}: {r['changeYear']:+.2f}% (YoY)\n"
+           f"เทียบเดือนก่อน: {r['change']:+.2f}% (MoM)\n"
+           f"เฉลี่ยตั้งแต่ต้นปี: {r['changeAvg']:+.2f}%")
+    title = ("[ทดสอบ] " if test else "") + f"เงินเฟ้อไทย {mon} ออกแล้ว"
+    send(title, msg, cfg["link"], ["chart_with_upwards_trend", cfg["tag"]])
+
+
 def main():
     key = sys.argv[1]
     test = "--test" in sys.argv
     cfg = TOPICS[key]
+    if key == "th_cpi":
+        th_cpi_new(cfg, test)
+        return
     with open(os.path.join(ROOT, "data", cfg["file"]), encoding="utf-8") as f:
         data = json.load(f)
     rel = (data.get("releases") or {}).get(cfg["release"]) or {}
