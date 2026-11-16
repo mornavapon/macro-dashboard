@@ -1,5 +1,5 @@
 URL: https://www.nesdc.go.th/wp-content/uploads/2026/11/All-Tables-QGDP-Download-Excel-Files-1.xlsx
-FETCHED: 2026-11-16T20:42:41.938605+07:00
+FETCHED: 2026-11-17T05:22:34.220098+07:00
 
 GDP column = N
 {"A": "Table 2.1 :  Expenditure on gross domestic product, chain volume measures [reference year = 2002] (original)  y-o-y growth rate"}
