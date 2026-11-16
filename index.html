@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Macro Dashboard</title>
+  <meta name="theme-color" content="#0f1419">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Macro Dashboard</div>
+    <nav class="tabs" id="tabs">
+      <button data-page="0" class="active">ดัชนีโลก</button>
+      <button data-page="1">อเมริกา</button>
+      <button data-page="2">ไทย</button>
+    </nav>
+  </header>
+
+  <main class="pager" id="pager">
+    <!-- ======================= หน้า 1: ดัชนีสำคัญ ======================= -->
+    <section class="page" id="page-indices">
+      <div class="page-head">
+        <h1>ดัชนีสำคัญ</h1>
+        <p class="sub" id="indices-updated">กำลังโหลด…</p>
+      </div>
+      <div class="grid" id="indices-grid"></div>
+      <p class="hint">ปัดซ้าย/ขวา เพื่อเปลี่ยนหน้า →</p>
+    </section>
+
+    <!-- ======================= หน้า 2: อเมริกา ======================= -->
+    <section class="page" id="page-us">
+      <div class="page-head">
+        <h1>เศรษฐกิจอเมริกา</h1>
+        <p class="sub">🚧 กำลังพัฒนา (เฟสถัดไป)</p>
+      </div>
+      <div class="stack">
+        <article class="panel placeholder">
+          <h2>GDP สหรัฐฯ</h2>
+          <p>GDP size + GDP growth % (QoQ) ย้อนหลัง 4 ไตรมาส</p>
+          <a class="btn" href="https://www.investing.com/economic-calendar/gdp-375" target="_blank" rel="noopener">ดูข้อมูล ↗</a>
+        </article>
+        <article class="panel placeholder">
+          <h2>ตารางประชุมเฟด (FOMC)</h2>
+          <p>ตารางประชุมทั้งปี พร้อมผลการตัดสินดอกเบี้ย</p>
+        </article>
+        <article class="panel placeholder">
+          <h2>เงินเฟ้อ CPI สหรัฐฯ (YoY)</h2>
+          <p>ตัวเลขประกาศรายเดือน</p>
+          <a class="btn" href="https://th.investing.com/economic-calendar/cpi-733" target="_blank" rel="noopener">ดูข้อมูล ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= หน้า 3: ไทย ======================= -->
+    <section class="page" id="page-th">
+      <div class="page-head">
+        <h1>เศรษฐกิจไทย</h1>
+        <p class="sub">🚧 กำลังพัฒนา (เฟสถัดไป)</p>
+      </div>
+      <div class="stack">
+        <article class="panel placeholder">
+          <h2>GDP ไทย</h2>
+          <p>GDP size + GDP growth % (QoQ) ย้อนหลัง 4 ไตรมาส</p>
+          <a class="btn" href="https://www.nesdc.go.th/info/economic-aspect/" target="_blank" rel="noopener">ดูข้อมูล ↗</a>
+        </article>
+        <article class="panel placeholder">
+          <h2>ดอกเบี้ยนโยบาย กนง.</h2>
+          <p>ตารางประชุม กนง. ทั้งปี</p>
+        </article>
+        <article class="panel placeholder">
+          <h2>เงินเฟ้อไทย</h2>
+          <p>รอพัฒนา</p>
+        </article>
+        <article class="panel placeholder">
+          <h2>การส่งออกไทย</h2>
+          <p>เอาไว้ทีหลัง</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="dots" id="dots"><span class="on"></span><span></span><span></span></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

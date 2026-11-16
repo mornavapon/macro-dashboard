@@ -1,0 +1,137 @@
+{
+  "updated_at": null,
+  "indices": [
+    {
+      "id": "spx",
+      "name": "S&P 500",
+      "flag": "🇺🇸",
+      "market": "สหรัฐฯ",
+      "level": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "market_cap": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pe": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pbv": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      }
+    },
+    {
+      "id": "nasdaq",
+      "name": "NASDAQ Composite",
+      "flag": "🇺🇸",
+      "market": "สหรัฐฯ",
+      "level": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "market_cap": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pe": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pbv": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      }
+    },
+    {
+      "id": "set",
+      "name": "SET Index",
+      "flag": "🇹🇭",
+      "market": "ไทย",
+      "level": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "market_cap": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pe": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pbv": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      }
+    },
+    {
+      "id": "hscei",
+      "name": "Hang Seng China Enterprises (HSCEI)",
+      "flag": "🇭🇰",
+      "market": "ฮ่องกง",
+      "level": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "market_cap": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pe": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pbv": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      }
+    },
+    {
+      "id": "sse",
+      "name": "SSE Composite (000001)",
+      "flag": "🇨🇳",
+      "market": "จีน",
+      "level": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "market_cap": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pe": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pbv": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      }
+    },
+    {
+      "id": "vni",
+      "name": "VN-Index",
+      "flag": "🇻🇳",
+      "market": "เวียดนาม",
+      "level": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "market_cap": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pe": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      },
+      "pbv": {
+        "value": null,
+        "error": "ยังไม่ได้รันการดึงข้อมูลครั้งแรก (ไปที่แท็บ Actions แล้วกด Run workflow)"
+      }
+    }
+  ]
+}
