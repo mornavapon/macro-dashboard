@@ -1,0 +1,126 @@
+{
+  "updated_at": "2026-11-16T18:56+07:00",
+  "gdp": {
+    "ok": false,
+    "error": "ValueError: ยังไม่มีแหล่งข้อมูลที่ดึงอัตโนมัติได้ (เว็บ สศช. ไม่เปิดให้ดึงข้อมูลตรงๆ)",
+    "todo": true,
+    "link": "https://www.nesdc.go.th/info/economic-aspect/"
+  },
+  "mpc": {
+    "year": 2026,
+    "meetings": [
+      {
+        "thai_date": "2026-02-25",
+        "thai_time": "14:00",
+        "actual": 1.0,
+        "previous": 1.25,
+        "decision": "ปรับลด 25 bps",
+        "status": "done"
+      },
+      {
+        "thai_date": "2026-04-29",
+        "thai_time": "14:00",
+        "actual": 1.0,
+        "previous": 1.0,
+        "decision": "คง",
+        "status": "done"
+      },
+      {
+        "thai_date": "2026-06-24",
+        "thai_time": "14:00",
+        "actual": 1.0,
+        "previous": 1.0,
+        "decision": "คง",
+        "status": "done"
+      },
+      {
+        "thai_date": "2026-08-26",
+        "thai_time": "14:00",
+        "actual": 1.0,
+        "previous": 1.0,
+        "decision": "คง",
+        "status": "done"
+      },
+      {
+        "thai_date": "2026-10-28",
+        "thai_time": "14:00",
+        "actual": 1.0,
+        "previous": 1.0,
+        "decision": "คง",
+        "status": "done"
+      },
+      {
+        "thai_date": "2026-12-23",
+        "thai_time": "14:00",
+        "actual": null,
+        "previous": 1.0,
+        "decision": null,
+        "status": "upcoming",
+        "next": true
+      }
+    ],
+    "current": 1.0,
+    "calendar_source": "bot.or.th",
+    "source": "ธนาคารแห่งประเทศไทย",
+    "link": "https://www.bot.or.th/th/our-roles/monetary-policy/mpc-meeting.html",
+    "ok": true,
+    "fetched_at": "2026-11-16T18:56+07:00"
+  },
+  "cpi": {
+    "rows": [
+      {
+        "month": "2026-10",
+        "yoy": 3.9,
+        "mom": 0.94,
+        "index": 103.9
+      },
+      {
+        "month": "2026-09",
+        "yoy": 2.82,
+        "mom": 0.25,
+        "index": 102.93
+      },
+      {
+        "month": "2026-08",
+        "yoy": 2.53,
+        "mom": 0.56,
+        "index": 102.67
+      },
+      {
+        "month": "2026-07",
+        "yoy": 1.95,
+        "mom": -0.73,
+        "index": 102.1
+      },
+      {
+        "month": "2026-06",
+        "yoy": 2.42,
+        "mom": -0.34,
+        "index": 102.85
+      },
+      {
+        "month": "2026-05",
+        "yoy": 2.79,
+        "mom": 0.17,
+        "index": 103.2
+      }
+    ],
+    "last_updated": "2026-11-06T11:22:17.045463Z",
+    "source": "สนค. กระทรวงพาณิชย์",
+    "link": "https://index.tpso.go.th/cpi",
+    "ok": true,
+    "fetched_at": "2026-11-16T18:57+07:00"
+  },
+  "releases": {
+    "mpc": {
+      "ok": true,
+      "items": [
+        {
+          "thai_date": "2026-12-23",
+          "thai_time": "14:00",
+          "title": "ประชุม กนง. (ดอกเบี้ยนโยบายไทย)"
+        }
+      ]
+    }
+  }
+}
