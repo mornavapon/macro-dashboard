@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16T17:41+07:00",
+  "updated_at": "2026-11-16T17:44+07:00",
   "gdp": {
     "rows": [
       {
@@ -30,7 +30,7 @@
     "source": "BEA ผ่าน FRED",
     "link": "https://www.investing.com/economic-calendar/gdp-375",
     "ok": true,
-    "fetched_at": "2026-11-16T17:41+07:00"
+    "fetched_at": "2026-11-16T17:44+07:00"
   },
   "fed": {
     "year": 2026,
@@ -179,10 +179,15 @@
     "source": "Federal Reserve ผ่าน FRED",
     "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
     "ok": true,
-    "fetched_at": "2026-11-16T17:41+07:00"
+    "fetched_at": "2026-11-16T17:44+07:00"
   },
   "cpi": {
     "rows": [
+      {
+        "month": "2026-10",
+        "yoy": null,
+        "note": "ไม่มีดัชนี CPI ของเดือนเดียวกันปี 2025 ให้เทียบ"
+      },
       {
         "month": "2026-09",
         "yoy": 3.7
@@ -207,6 +212,6 @@
     "source": "BLS ผ่าน FRED",
     "link": "https://th.investing.com/economic-calendar/cpi-733",
     "ok": true,
-    "fetched_at": "2026-11-16T17:41+07:00"
+    "fetched_at": "2026-11-16T17:44+07:00"
   }
 }
