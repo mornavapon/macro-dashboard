@@ -35,3 +35,5 @@ data/debug/                          ผลดิบจากแต่ละแ�
 4. **Settings → Actions → General** → Workflow permissions: *Read and write permissions* → Save
 5. **Actions** → *อัปเดตข้อมูลดัชนี (หน้า 1)* → **Run workflow**
 6. เปิดเว็บที่ `https://<ชื่อผู้ใช้>.github.io/<ชื่อ repo>/`
+
+เปิดสิทธิ์ fine grain token ให้ claude แก้ไข repo นี้ได้ (ถ้าสิทธิ์หมดอายุแล้วอยากแก้ไขrepo ใหม่ ให้บอก claude)
