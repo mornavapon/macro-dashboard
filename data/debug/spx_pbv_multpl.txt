@@ -1,5 +1,5 @@
 URL: https://www.multpl.com/s-p-500-price-to-book
-FETCHED: 2026-11-16T16:29:58.373212+07:00
+FETCHED: 2026-11-16T16:59:57.486040+07:00
 
 <!DOCTYPE html>
 <html lang="en">

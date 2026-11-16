@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16T16:31+07:00",
+  "updated_at": "2026-11-16T17:00+07:00",
   "indices": [
     {
       "id": "spx",
@@ -16,7 +16,7 @@
       "market_cap": {
         "value": null,
         "todo": true,
-        "error": "ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       },
       "pe": {
         "value": 25.81,
@@ -44,17 +44,17 @@
       "market_cap": {
         "value": null,
         "todo": true,
-        "error": "ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       },
       "pe": {
         "value": null,
         "todo": true,
-        "error": "ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       },
       "pbv": {
         "value": null,
         "todo": true,
-        "error": "ยังไม่มีแหล่งข้อมูลฟรี (กำลังหา)"
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       }
     },
     {
@@ -63,21 +63,25 @@
       "flag": "🇹🇭",
       "market": "ไทย",
       "level": {
-        "value": 1497.37,
+        "value": 1499.53,
         "asof": "2026-11-16",
         "source": "Yahoo Finance (^SET.BK)"
       },
       "market_cap": {
-        "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล"
+        "value": 18988401960000.0,
+        "asof": "13 Nov 2026",
+        "source": "www.set.or.th",
+        "currency": "THB"
       },
       "pe": {
-        "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล"
+        "value": 14.27,
+        "asof": "13 Nov 2026",
+        "source": "www.set.or.th"
       },
       "pbv": {
-        "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล"
+        "value": 1.38,
+        "asof": "13 Nov 2026",
+        "source": "www.set.or.th"
       }
     },
     {
@@ -94,15 +98,18 @@
       },
       "market_cap": {
         "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] HTTPError: HTTP Error 404: Not Found)"
+        "todo": true,
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       },
       "pe": {
-        "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] HTTPError: HTTP Error 404: Not Found)"
+        "value": 10.6,
+        "asof": null,
+        "source": "stockanalysis.com",
+        "note": "อ้างอิง ETF 2828"
       },
       "pbv": {
         "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] HTTPError: HTTP Error 404: Not Found)"
+        "error": "ดึงข้อมูลไม่สำเร็จ (HTTPError: HTTP Error 404: Not Found)"
       }
     },
     {
@@ -118,21 +125,22 @@
         "pct": -0.87
       },
       "market_cap": {
-        "value": 50151590000000.0,
-        "asof": "20261116",
+        "value": 63135987000000.0,
+        "asof": "2026-11-16",
         "source": "query.sse.com.cn",
         "currency": "CNY",
         "note": "สถิติทั้งตลาดเซี่ยงไฮ้"
       },
       "pe": {
-        "value": 13.4,
-        "asof": "20261116",
+        "value": 15.81,
+        "asof": "2026-11-16",
         "source": "query.sse.com.cn",
         "note": "สถิติทั้งตลาดเซี่ยงไฮ้"
       },
       "pbv": {
         "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล"
+        "todo": true,
+        "error": "แหล่งข้อมูลนี้ไม่มีค่านี้"
       }
     },
     {
@@ -147,15 +155,16 @@
       },
       "market_cap": {
         "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] URLError: <urlopen error timed out>)"
+        "todo": true,
+        "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       },
       "pe": {
         "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] URLError: <urlopen error timed out>)"
+        "error": "ค่าที่เจอ (1.0) ดูผิดปกติ จึงไม่ใช้"
       },
       "pbv": {
         "value": null,
-        "error": "ดึงข้อมูลไม่สำเร็จ / ไม่พบค่าในแหล่งข้อมูล ([0] URLError: <urlopen error timed out>)"
+        "error": "ค่าที่เจอ (186.0) ดูผิดปกติ จึงไม่ใช้"
       }
     }
   ]
