@@ -375,8 +375,17 @@ def multpl(path, label):
 def stockanalysis_mcap_sum(tag, url, min_count, note=None):
     """รวม Market Cap ของหุ้นทุกตัวในรายชื่อของ stockanalysis.com (ข้อมูลฝังอยู่ในหน้าเว็บ)"""
     text = get(url, headers={"Accept": "text/html"})
-    caps = [float(x) for x in re.findall(r"marketCap:\s*([0-9.]+(?:e\+?\d+)?)", text)]
-    save_debug(f"{tag}_sa_list", url, f"พบ {len(caps)} บริษัท รวม {sum(caps):,.0f}\n" + text[-3000:])
+    # แต่ละบริษัทอยู่ในรูป {no:1,s:"NVDA",n:"NVIDIA Corporation",...,marketCap:4.8e12,...}
+    rows = re.findall(r'\{[^{}]*?\bs:"([^"]+)"[^{}]*?\bn:"([^"]*)"[^{}]*?\bmarketCap:\s*([0-9.]+(?:e\+?\d+)?)', text)
+    if rows:
+        # หุ้นหลายคลาสของบริษัทเดียวกัน (เช่น GOOGL/GOOG) มักแสดง Market Cap ทั้งบริษัทซ้ำกัน -> นับครั้งเดียว
+        uniq = {(n, round(float(c))): float(c) for _, n, c in rows}
+        caps = list(uniq.values())
+    else:
+        caps = [float(x) for x in re.findall(r"marketCap:\s*([0-9.]+(?:e\+?\d+)?)", text)]
+    i = text.find("marketCap:")
+    save_debug(f"{tag}_sa_list", url, f"แถว {len(rows)} -> นับ {len(caps)} บริษัท รวม {sum(caps):,.0f}\n"
+               + text[max(0, i - 600):i + 600])
     if len(caps) < min_count:
         raise ValueError(f"อ่านรายชื่อได้แค่ {len(caps)} บริษัท (น้อยผิดปกติ)")
     r = {"value": sum(caps), "currency": "USD", "source": "stockanalysis.com"}
