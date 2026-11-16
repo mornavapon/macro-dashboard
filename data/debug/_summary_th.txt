@@ -1,4 +1,4 @@
-run at 2026-11-16T19:48:10.498837+07:00
+run at 2026-11-16T20:43:21.995029+07:00
 
 MPC 2026: 6 ครั้ง (bot.or.th)
 BOT xlsx: 205 มติ ล่าสุด 2026-10-28 = 1.0%
@@ -7,3 +7,5 @@ NESDC QGDP: ล่าสุด Q3/2026 QoQ 0.3% (All-Tables-QGDP-Download-Excel-
 gdp: OK
 TPSO CPI: ล่าสุด 2026-10 = 3.9%
 cpi: OK
+MOC trade: ล่าสุด 2026-09 ส่งออก 38,438.9 ล้าน USD (24.0% YoY)
+exports: OK

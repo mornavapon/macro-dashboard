@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16T19:47+07:00",
+  "updated_at": "2026-11-16T20:42+07:00",
   "gdp": {
     "rows": [
       {
@@ -36,7 +36,7 @@
     "source": "สศช. (ไฟล์ All Tables QGDP)",
     "link": "https://www.nesdc.go.th/info/economic-aspect/",
     "ok": true,
-    "fetched_at": "2026-11-16T19:47+07:00"
+    "fetched_at": "2026-11-16T20:42+07:00"
   },
   "mpc": {
     "year": 2026,
@@ -96,7 +96,7 @@
     "source": "ธนาคารแห่งประเทศไทย",
     "link": "https://www.bot.or.th/th/our-roles/monetary-policy/mpc-meeting.html",
     "ok": true,
-    "fetched_at": "2026-11-16T19:47+07:00"
+    "fetched_at": "2026-11-16T20:42+07:00"
   },
   "cpi": {
     "rows": [
@@ -141,7 +141,63 @@
     "source": "สนค. กระทรวงพาณิชย์",
     "link": "https://index.tpso.go.th/cpi",
     "ok": true,
-    "fetched_at": "2026-11-16T19:48+07:00"
+    "fetched_at": "2026-11-16T20:42+07:00"
+  },
+  "exports": {
+    "rows": [
+      {
+        "month": "2026-09",
+        "usd_mn": 38438.9,
+        "baht_mn": 1254965.3,
+        "yoy": 24.0,
+        "ytd_yoy": 19.5,
+        "balance_usd_mn": -5856.6
+      },
+      {
+        "month": "2026-08",
+        "usd_mn": 34618.7,
+        "baht_mn": 1157667.4,
+        "yoy": 24.3,
+        "ytd_yoy": 18.9,
+        "balance_usd_mn": -2482.7
+      },
+      {
+        "month": "2026-07",
+        "usd_mn": 34789.1,
+        "baht_mn": 1128983.9,
+        "yoy": 21.6,
+        "ytd_yoy": 18.2,
+        "balance_usd_mn": -3610.5
+      },
+      {
+        "month": "2026-06",
+        "usd_mn": 34655.9,
+        "baht_mn": 1121957.6,
+        "yoy": 20.8,
+        "ytd_yoy": 17.6,
+        "balance_usd_mn": -6534.7
+      },
+      {
+        "month": "2026-05",
+        "usd_mn": 34333.1,
+        "baht_mn": 1095139.1,
+        "yoy": 10.5,
+        "ytd_yoy": 16.9,
+        "balance_usd_mn": -5711.4
+      },
+      {
+        "month": "2026-04",
+        "usd_mn": 31583.0,
+        "baht_mn": 1022354.1,
+        "yoy": 23.1,
+        "ytd_yoy": 18.8,
+        "balance_usd_mn": -10021.3
+      }
+    ],
+    "source": "กระทรวงพาณิชย์ (tradereport.moc.go.th)",
+    "link": "https://tradereport.moc.go.th/th/stat/reportmonth01",
+    "ok": true,
+    "fetched_at": "2026-11-16T20:43+07:00"
   },
   "releases": {
     "mpc": {
