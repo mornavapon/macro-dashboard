@@ -251,10 +251,10 @@ def quarter_series(rows, col):
         ym = re.match(r"((?:19|20)\d\d)(?!\d)", a)  # รองรับ "2026p", "2025r" ฯลฯ
         if ym:
             year = int(ym.group(1))
-        q = b if re.fullmatch(r"Q[1-4]", b) else (a if re.fullmatch(r"Q[1-4]", a) else None)
-        if year and q and col in r:
+        qm = re.match(r"Q([1-4])", b) or re.match(r"Q([1-4])", a)  # รองรับ "Q1r" (r = ตัวเลขปรับปรุง)
+        if year and qm and col in r:
             try:
-                out[(year, int(q[1]))] = float(r[col])
+                out[(year, int(qm.group(1)))] = float(r[col])
             except ValueError:
                 pass
     return out
