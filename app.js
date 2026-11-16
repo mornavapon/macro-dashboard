@@ -260,7 +260,7 @@ function renderThGDP(sec) {
   const title = "GDP ไทย";
   const link = (sec && sec.link) || "https://www.nesdc.go.th/info/economic-aspect/";
   el.innerHTML = `<h2>${title}</h2>
-    <p><span class="todo">ยังไม่มีแหล่งข้อมูล</span> <span class="small">${esc(sec && sec.error)}</span></p>
+    <p><span class="todo">ยังไม่มีแหล่งข้อมูล</span> <span class="small">${esc(((sec && sec.error) || "").replace(/^\w+Error: /, ""))}</span></p>
     <div class="panel-foot"><a class="btn" href="${esc(link)}" target="_blank" rel="noopener">ดูข้อมูล ↗</a><span class="src">ที่มา: สศช.</span></div>`;
 }
 
