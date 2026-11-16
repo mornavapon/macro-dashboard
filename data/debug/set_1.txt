@@ -1,4 +1,0 @@
-URL: https://www.set.or.th/api/set/market/SET/info
-FETCHED: 2026-11-16T16:30:01.254149+07:00
-
-{"symbol":"SET","marketDateTime":"2026-11-16T16:29:57.080595272+07:00","transaction":659649,"gainerVolume":1384581400,"gainerAmount":156,"unchangedVolume":177497700,"unchangedAmount":111,"loserVolume":1867642000,"loserAmount":384}

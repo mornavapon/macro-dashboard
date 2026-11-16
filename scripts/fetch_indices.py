@@ -469,7 +469,7 @@ INDICES = [
                 "hscei_etf", "https://stockanalysis.com/quote/hkg/2828/",
                 {"pe": r"PE Ratio\s*" + NUM},
                 note="อ้างอิง ETF 2828", source="stockanalysis.com"),
-            todo_fields=("market_cap",),
+            todo_fields=("market_cap", "pbv"),
         ),
     },
     {
@@ -485,18 +485,12 @@ INDICES = [
     {
         "id": "vni", "name": "VN-Index", "flag": "🇻🇳", "market": "เวียดนาม",
         "level": [lambda: yahoo_level("^VNINDEX.VN"), vndirect_level],
+        # 24hmoney.vn มี P/E ของ VN-Index ในหน้าสรุป (ไม่มี P/B, Market Cap)
         "fund": lambda: first_ok(
             lambda: html_probe(
-                "vni_simplize", "https://simplize.vn/chi-so/VNINDEX",
-                {"pe": r"P/E[^0-9]{0,30}" + NUM,
-                 "pbv": r"P/B[^0-9]{0,30}" + NUM},
-                discover=r"https?://api[a-z0-9.\-]*/[A-Za-z0-9/_\-?=&.]+", decimal_comma=True),
-            lambda: html_probe(
                 "vni_24h", "https://24hmoney.vn/indices/vn-index",
-                {"pe": r"P/E[^0-9]{0,30}" + NUM,
-                 "pbv": r"P/B[^0-9]{0,30}" + NUM},
-                discover=r"https?://api[a-z0-9.\-]*/[A-Za-z0-9/_\-?=&.]+", decimal_comma=True),
-            todo_fields=("market_cap",),
+                {"pe": r"P/E\s+" + NUM}),
+            todo_fields=("market_cap", "pbv"),
         ),
     },
 ]
