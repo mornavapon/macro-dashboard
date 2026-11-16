@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-16T19:46+07:00",
+  "updated_at": "2026-11-16T19:47+07:00",
   "gdp": {
     "rows": [
       {
@@ -13,15 +13,15 @@
         "year": 2026,
         "q": 2,
         "growth": 0.0,
-        "yoy": null,
-        "size_mb": null
+        "yoy": 2.4,
+        "size_mb": 4813702.0
       },
       {
         "year": 2026,
         "q": 1,
         "growth": 0.8,
-        "yoy": null,
-        "size_mb": null
+        "yoy": 3.1,
+        "size_mb": 4940680.0
       },
       {
         "year": 2025,
@@ -36,7 +36,7 @@
     "source": "สศช. (ไฟล์ All Tables QGDP)",
     "link": "https://www.nesdc.go.th/info/economic-aspect/",
     "ok": true,
-    "fetched_at": "2026-11-16T19:46+07:00"
+    "fetched_at": "2026-11-16T19:47+07:00"
   },
   "mpc": {
     "year": 2026,
@@ -96,7 +96,7 @@
     "source": "ธนาคารแห่งประเทศไทย",
     "link": "https://www.bot.or.th/th/our-roles/monetary-policy/mpc-meeting.html",
     "ok": true,
-    "fetched_at": "2026-11-16T19:46+07:00"
+    "fetched_at": "2026-11-16T19:47+07:00"
   },
   "cpi": {
     "rows": [
@@ -141,7 +141,7 @@
     "source": "สนค. กระทรวงพาณิชย์",
     "link": "https://index.tpso.go.th/cpi",
     "ok": true,
-    "fetched_at": "2026-11-16T19:46+07:00"
+    "fetched_at": "2026-11-16T19:48+07:00"
   },
   "releases": {
     "mpc": {
