@@ -331,6 +331,25 @@ function renderThCPI(sec) {
     sec);
 }
 
+function renderThExport(sec) {
+  const el = document.getElementById("th-export");
+  const title = "การส่งออกไทย";
+  if (!sec || !sec.rows) { el.innerHTML = failHTML(title, sec); return; }
+  const rows = sec.rows.map((r, i) => `
+    <tr class="${i === 0 ? "latest" : ""}">
+      <td>${esc(thaiMonth(r.month))}${i === 0 ? ' <span class="badge">ล่าสุด</span>' : ""}</td>
+      <td class="num">${fmt(r.usd_mn, 0)}</td>
+      <td class="num ${r.yoy > 0 ? "up" : r.yoy < 0 ? "down" : ""}">${r.yoy == null ? "–" : (r.yoy > 0 ? "+" : "") + pct1(r.yoy)}</td>
+      <td class="num">${fmt(r.baht_mn / 1000, 1)}</td>
+    </tr>`).join("");
+  const r0 = sec.rows[0];
+  const ytd = r0 && r0.ytd_yoy != null ? ` · สะสมตั้งแต่ต้นปีถึง ${esc(thaiMonth(r0.month))}: <b>${r0.ytd_yoy > 0 ? "+" : ""}${pct1(r0.ytd_yoy)}</b>` : "";
+  el.innerHTML = sectionShell(title,
+    `มูลค่าส่งออกรายเดือน · YoY คิดจากดอลลาร์ (แบบที่กระทรวงพาณิชย์แถลง)${ytd}`,
+    `<table class="idx-table"><thead><tr><th>เดือน</th><th class="num">ล้าน USD</th><th class="num">YoY</th><th class="num">พันล้านบาท</th></tr></thead><tbody>${rows}</tbody></table>`,
+    sec);
+}
+
 async function loadTH() {
   const upd = document.getElementById("th-updated");
   try {
@@ -338,7 +357,7 @@ async function loadTH() {
     if (!r.ok) throw new Error("HTTP " + r.status);
     const d = await r.json();
     upd.textContent = "อัปเดตล่าสุด: " + thaiDateTime(d.updated_at) + " (เวลาไทย)";
-    for (const [fn, sec] of [[renderThGDP, d.gdp], [renderThMPC, d.mpc], [renderThCPI, d.cpi]]) {
+    for (const [fn, sec] of [[renderThGDP, d.gdp], [renderThMPC, d.mpc], [renderThCPI, d.cpi], [renderThExport, d.exports]]) {
       try { fn(sec); } catch (e) { console.error(e); }
     }
   } catch (e) {

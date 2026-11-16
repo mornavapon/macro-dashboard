@@ -31,6 +31,8 @@ TOPICS = {
     # เงินเฟ้อไทยไม่มีปฏิทินประกาศล่วงหน้าที่ดึงได้ -> แจ้ง "วันที่ตัวเลขออก" แทน (ดู th_cpi_new)
     "th_gdp": {"file": "th.json", "release": None, "data": "gdp", "tag": "thailand",
                "link": "https://www.nesdc.go.th/info/economic-aspect/"},
+    "th_export": {"file": "th.json", "release": None, "data": "exports", "tag": "thailand",
+                  "link": "https://tradereport.moc.go.th/th/stat/reportmonth01"},
     "th_cpi": {"file": "th.json", "release": None, "data": "cpi", "tag": "thailand",
                "link": "https://index.tpso.go.th/cpi"},
 }
@@ -114,6 +116,39 @@ def th_gdp_new(cfg, test):
     send(title, msg, cfg["link"], ["chart_with_upwards_trend", cfg["tag"]])
 
 
+STATE = os.path.join(ROOT, "data", "alert_state.json")
+
+
+def th_export_new(cfg, test):
+    """ส่งออกไทย: แจ้งเมื่อกระทรวงพาณิชย์มีข้อมูลเดือนใหม่ (จำเดือนที่แจ้งไปแล้วใน data/alert_state.json)"""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import fetch_th  # noqa: E402
+    y, m = fetch_th.trade_latest_month()
+    key = f"{y}-{m:02d}"
+    try:
+        with open(STATE, encoding="utf-8") as f:
+            state = json.load(f)
+    except Exception:  # noqa: BLE001
+        state = {}
+    if not test and state.get("th_export") == key:
+        print(f"th_export: ยังไม่มีเดือนใหม่ (ล่าสุด {key})")
+        return
+    cur, prev = fetch_th.trade_month_total(y, m), fetch_th.trade_month_total(y - 1, m)
+    yoy = (cur["value_usd_export"] / prev["value_usd_export"] - 1) * 100
+    ytd = (cur["acc_value_usd_export"] / prev["acc_value_usd_export"] - 1) * 100
+    mon = f"{TH_MON[m]} {y + 543}"
+    msg = (f"มูลค่าส่งออก {mon}: {cur['value_usd_export'] / 1e6:,.1f} ล้านดอลลาร์\n"
+           f"เทียบปีก่อน: {yoy:+.1f}% (YoY)\n"
+           f"สะสมตั้งแต่ต้นปี: {ytd:+.1f}%\n"
+           f"ดุลการค้า: {cur['value_usd_balance'] / 1e6:+,.1f} ล้านดอลลาร์")
+    title = ("[ทดสอบ] " if test else "") + f"ส่งออกไทย {mon} ออกแล้ว"
+    send(title, msg, cfg["link"], ["ship", cfg["tag"]])
+    if not test:
+        state["th_export"] = key
+        with open(STATE, "w", encoding="utf-8") as f:
+            json.dump(state, f, ensure_ascii=False, indent=2)
+
+
 def main():
     key = sys.argv[1]
     test = "--test" in sys.argv
@@ -123,6 +158,9 @@ def main():
         return
     if key == "th_gdp":
         th_gdp_new(cfg, test)
+        return
+    if key == "th_export":
+        th_export_new(cfg, test)
         return
     with open(os.path.join(ROOT, "data", cfg["file"]), encoding="utf-8") as f:
         data = json.load(f)

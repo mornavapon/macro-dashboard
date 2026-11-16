@@ -8,6 +8,7 @@
 - ตารางประชุม กนง.     : bot.or.th หน้า "การประชุม กนง." (สำรองด้วยรายการวันที่ในไฟล์นี้)
 - ดอกเบี้ยนโยบาย/มติ     : ไฟล์ Excel ตารางมติ กนง. ของ ธปท. (ลิงก์อยู่ในหน้า "อัตราดอกเบี้ยนโยบาย")
 - เงินเฟ้อทั่วไป (CPI)  : index.tpso.go.th (สนค. กระทรวงพาณิชย์)
+- การส่งออก           : Open Data API ของ tradereport.moc.go.th (กระทรวงพาณิชย์)
 - GDP ไทย              : ไฟล์ Excel 'All Tables QGDP' ของ สศช. (หาผ่าน WordPress API ของเว็บ สศช.)
 """
 import datetime
@@ -292,6 +293,58 @@ def build_gdp():
             "link": "https://www.nesdc.go.th/info/economic-aspect/"}
 
 
+# ---------------------------------------------------------------- การส่งออก
+# ระบบสถิติการค้าของกระทรวงพาณิชย์ (tradereport.moc.go.th) มี Open Data API ให้ใช้ฟรี
+TRADE = "https://tradereport.moc.go.th"
+
+
+def trade_latest_month():
+    """เดือนล่าสุดที่มีข้อมูล (หน้ารายงานฝังค่า latestmonth/latestyear ไว้)"""
+    t = get(TRADE + "/th/stat/reportmonth01", headers={"Accept": "text/html"})
+    m = re.search(r'latestmonth="(\d+)"\s+latestyear="(\d+)"', t) or \
+        re.search(r'latestyear="(\d+)"\s+latestmonth="(\d+)"', t)
+    if not m:
+        raise ValueError("หาเดือนล่าสุดของสถิติการค้าไม่เจอ")
+    a, b = int(m.group(1)), int(m.group(2))
+    return (b, a) if a <= 12 else (a, b)  # คืน (ปี ค.ศ., เดือน)
+
+
+def trade_month_total(year, month):
+    rows = json.loads(get(f"{TRADE}/api/summarycountries?year={year}&month={month}&limit=0",
+                          headers={"Accept": "application/json", "X-Requested-With": "XMLHttpRequest"}))
+    if not rows:
+        return None
+    tot = {k: sum(float(r.get(k) or 0) for r in rows) for k in
+           ("value_usd_export", "value_baht_export", "acc_value_usd_export",
+            "value_usd_import", "value_usd_balance")}
+    return tot
+
+
+def build_exports():
+    y, m = trade_latest_month()
+    rows = []
+    for _ in range(6):
+        cur = trade_month_total(y, m)
+        prev = trade_month_total(y - 1, m)
+        if cur:
+            yoy = (cur["value_usd_export"] / prev["value_usd_export"] - 1) * 100 if prev else None
+            ytd = (cur["acc_value_usd_export"] / prev["acc_value_usd_export"] - 1) * 100 if prev else None
+            rows.append({"month": f"{y}-{m:02d}",
+                         "usd_mn": round(cur["value_usd_export"] / 1e6, 1),
+                         "baht_mn": round(cur["value_baht_export"] / 1e6, 1),
+                         "yoy": round(yoy, 1) if yoy is not None else None,
+                         "ytd_yoy": round(ytd, 1) if ytd is not None else None,
+                         "balance_usd_mn": round(cur["value_usd_balance"] / 1e6, 1)})
+        m -= 1
+        if m == 0:
+            y, m = y - 1, 12
+    if not rows:
+        raise ValueError("API สถิติการค้าไม่คืนข้อมูล")
+    LOG.append(f"MOC trade: ล่าสุด {rows[0]['month']} ส่งออก {rows[0]['usd_mn']:,} ล้าน USD ({rows[0]['yoy']}% YoY)")
+    return {"rows": rows, "source": "กระทรวงพาณิชย์ (tradereport.moc.go.th)",
+            "link": TRADE + "/th/stat/reportmonth01"}
+
+
 # ---------------------------------------------------------------- runner
 def run_section(name, fn, old):
     try:
@@ -333,6 +386,7 @@ def main():
         "gdp": run_section("gdp", build_gdp, old.get("gdp")),
         "mpc": mpc,
         "cpi": run_section("cpi", build_cpi, old.get("cpi")),
+        "exports": run_section("exports", build_exports, old.get("exports")),
         "releases": build_releases(mpc),
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)

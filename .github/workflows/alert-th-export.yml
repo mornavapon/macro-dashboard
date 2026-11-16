@@ -1,0 +1,41 @@
+name: แจ้งเตือน ส่งออกไทย (วันที่ตัวเลขออก)
+
+# กระทรวงพาณิชย์ไม่มีปฏิทินประกาศล่วงหน้าที่ดึงได้ จึงแจ้งเมื่อข้อมูลเดือนใหม่ขึ้นระบบ (แจ้งเดือนละครั้ง)
+# ปิดแจ้งเตือนอันนี้: แท็บ Actions > คลิกชื่อ workflow นี้ > ปุ่ม ... มุมขวา > Disable workflow
+on:
+  schedule:
+    - cron: "13 6,13 * * *"   # ทุกวัน 13:13 และ 20:13 น. เวลาไทย
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "ส่งข้อความทดสอบทันที"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commit
+  cancel-in-progress: false
+
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: ส่งแจ้งเตือน
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC_MACRO }}
+        run: python3 scripts/send_alert.py th_export ${{ inputs.test && '--test' || '' }}
+      - name: จำเดือนที่แจ้งไปแล้ว
+        run: |
+          git config user.name "macro-bot"
+          git config user.email "macro-bot@users.noreply.github.com"
+          git add data/alert_state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "alert state: th_export"
+            git pull --rebase
+            git push
+          fi
