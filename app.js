@@ -167,7 +167,13 @@ function failHTML(title, sec) {
   return `<h2>${title}</h2><p><span class="fail">ดึงข้อมูลไม่สำเร็จ</span> <span class="small">${esc(sec && sec.error)}</span></p>`;
 }
 
-function renderGDP(sec) {
+function nextRelHTML(rel) {
+  if (!rel || !rel.items || !rel.items.length) return "";
+  const r = rel.items[0];
+  return `<p class="next-rel">📅 ประกาศครั้งถัดไป: <b>${esc(thaiDate(r.thai_date))} เวลา ${esc(r.thai_time)} น.</b> (ไทย) · ${esc(r.title)}</p>`;
+}
+
+function renderGDP(sec, rel) {
   const el = document.getElementById("us-gdp");
   const title = "GDP สหรัฐฯ";
   if (!sec || !sec.rows) { el.innerHTML = failHTML(title, sec); return; }
@@ -179,7 +185,7 @@ function renderGDP(sec) {
     </tr>`).join("");
   el.innerHTML = sectionShell(title,
     "GDP Growth = Real GDP % QoQ (ปรับเป็นอัตรารายปี) · ขนาด GDP = มูลค่า ณ ราคาปัจจุบัน (ปรับเป็นรายปี) · T = ล้านล้านดอลลาร์",
-    `<table class="idx-table"><thead><tr><th>ไตรมาส</th><th class="num">GDP Growth (QoQ)</th><th class="num">ขนาด GDP</th></tr></thead><tbody>${rows}</tbody></table>`,
+    nextRelHTML(rel) + `<table class="idx-table"><thead><tr><th>ไตรมาส</th><th class="num">GDP Growth (QoQ)</th><th class="num">ขนาด GDP</th></tr></thead><tbody>${rows}</tbody></table>`,
     sec);
 }
 
@@ -213,7 +219,7 @@ function renderFed(sec) {
     sec);
 }
 
-function renderCPI(sec) {
+function renderCPI(sec, rel) {
   const el = document.getElementById("us-cpi");
   const title = "เงินเฟ้อ CPI สหรัฐฯ (YoY)";
   if (!sec || !sec.rows) { el.innerHTML = failHTML(title, sec); return; }
@@ -225,7 +231,7 @@ function renderCPI(sec) {
   const notes = sec.rows.filter((r) => r.yoy == null && r.note)
     .map((r) => `<p class="small">* ${esc(thaiMonth(r.month))}: ${esc(r.note)} – ดูตัวเลขที่ทางการประกาศได้จากปุ่ม "ดูข้อมูล"</p>`).join("");
   el.innerHTML = sectionShell(title, "Headline CPI เทียบเดือนเดียวกันปีก่อน (ประกาศทุกเดือน)",
-    `<table class="idx-table"><thead><tr><th>เดือน</th><th class="num">CPI YoY</th></tr></thead><tbody>${rows}</tbody></table>${notes}`,
+    nextRelHTML(rel) + `<table class="idx-table"><thead><tr><th>เดือน</th><th class="num">CPI YoY</th></tr></thead><tbody>${rows}</tbody></table>${notes}`,
     sec);
 }
 
@@ -237,8 +243,9 @@ async function loadUS() {
     const d = await r.json();
     upd.textContent = "อัปเดตล่าสุด: " + thaiDateTime(d.updated_at) + " (เวลาไทย)";
     // แต่ละกล่องแยกกัน กล่องไหนพังไม่กระทบกล่องอื่น
-    for (const [fn, sec] of [[renderGDP, d.gdp], [renderFed, d.fed], [renderCPI, d.cpi]]) {
-      try { fn(sec); } catch (e) { console.error(e); }
+    const rel = d.releases || {};
+    for (const [fn, sec, r] of [[renderGDP, d.gdp, rel.gdp], [renderFed, d.fed], [renderCPI, d.cpi, rel.cpi]]) {
+      try { fn(sec, r); } catch (e) { console.error(e); }
     }
   } catch (e) {
     upd.innerHTML = `<span class="fail">ดึงข้อมูลไม่สำเร็จ</span> โหลดไฟล์ข้อมูลอเมริกาไม่ได้ (${esc(e.message)})`;

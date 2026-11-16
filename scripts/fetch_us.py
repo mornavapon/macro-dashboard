@@ -231,6 +231,85 @@ def build_fed():
             "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"}
 
 
+# ---------------------------------------------------------------- ตารางวันประกาศ (ใช้ทำแจ้งเตือน)
+BROWSER = {"User-Agent": UA, "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
+           "Accept-Language": "en-US,en;q=0.9"}
+
+# CPI: เว็บ BLS บล็อกบอท (403) จึงใส่ตารางทางการไว้ในโปรแกรม
+# ที่มา: https://www.bls.gov/schedule/news_release/cpi.htm (เวลา 08:30 ตามเวลานิวยอร์ก)
+# ** ต้องเติมตารางปี 2028 เมื่อ BLS ประกาศ (ประมาณกลางปี 2027) **
+CPI_SCHEDULE = [
+    ("2026-10", "2026-11-10"), ("2026-11", "2026-12-10"), ("2026-12", "2027-01-13"),
+    ("2027-01", "2027-02-11"), ("2027-02", "2027-03-10"), ("2027-03", "2027-04-13"),
+    ("2027-04", "2027-05-12"), ("2027-05", "2027-06-10"), ("2027-06", "2027-07-14"),
+    ("2027-07", "2027-08-11"), ("2027-08", "2027-09-14"), ("2027-09", "2027-10-14"),
+    ("2027-10", "2027-11-10"), ("2027-11", "2027-12-10"),
+]
+
+GDP_KIND = {"Advance": "ประมาณการครั้งแรก", "Second": "ประมาณการครั้งที่ 2",
+            "Third": "ประมาณการครั้งที่ 3"}
+
+
+def release_item(day, hh, mm, title, ref):
+    et = datetime.datetime(day.year, day.month, day.day, hh, mm, tzinfo=NY)
+    th = et.astimezone(BKK)
+    return {"et": et.isoformat(), "thai": th.isoformat(timespec="minutes"),
+            "thai_date": th.date().isoformat(), "thai_time": th.strftime("%H:%M"),
+            "title": title, "ref": ref}
+
+
+def gdp_releases():
+    url = "https://www.bea.gov/news/schedule"
+    text = strip_tags(get(url, headers=BROWSER))
+    save_debug("bea_schedule", url, text)
+    names = "|".join(MONTHS)
+    pat = (rf"\b({names}) (\d{{1,2}}) (\d{{1,2}}):(\d{{2}}) ([AP]M) N\s?ews (.*?)"
+           rf"(?= (?:{names}) \d{{1,2}} \d{{1,2}}:\d{{2}} [AP]M N\s?ews|$)")
+    today = now_bkk().date()
+    out = []
+    for mon, d, hh, mm, ap, title in re.findall(pat, text):
+        title = title.strip()[:160]
+        if not title.startswith("GDP ("):
+            continue  # ข้าม GDP by County / by State ฯลฯ
+        day = datetime.date(today.year, MONTHS[mon], int(d))
+        if day < today - datetime.timedelta(days=60):
+            day = datetime.date(today.year + 1, MONTHS[mon], int(d))
+        h = int(hh) % 12 + (12 if ap == "PM" else 0)
+        kind = re.search(r"\((Advance|Second|Third) Estimate\)", title)
+        q = re.search(r"(\d)(?:st|nd|rd|th) Quarter(?: and Year)? (\d{4})", title)
+        ref = f"Q{q.group(1)} {q.group(2)}" if q else ""
+        th_title = " ".join(x for x in ["GDP สหรัฐฯ", ref,
+                                         f"({GDP_KIND[kind.group(1)]})" if kind else ""] if x)
+        out.append(release_item(day, h, int(mm), th_title, ref))
+    if not out:
+        raise ValueError("ไม่พบกำหนดการประกาศ GDP ในหน้า BEA")
+    out.sort(key=lambda r: r["et"])
+    LOG.append(f"BEA GDP releases: {[r['thai_date'] for r in out]}")
+    return out
+
+
+def cpi_releases():
+    out = []
+    for ref, day in CPI_SCHEDULE:
+        d = datetime.date.fromisoformat(day)
+        y, m = ref.split("-")
+        out.append(release_item(d, 8, 30, f"CPI สหรัฐฯ เดือน {calendar.month_abbr[int(m)]} {y}", ref))
+    return out
+
+
+def build_releases():
+    today = now_bkk().date().isoformat()
+    res = {}
+    for key, fn in (("gdp", gdp_releases), ("cpi", cpi_releases)):
+        try:
+            items = [r for r in fn() if r["thai_date"] >= today]
+            res[key] = {"ok": True, "items": items[:6]}
+        except Exception as e:  # noqa: BLE001
+            LOG.append(f"releases.{key}: FAIL {err_text(e)}")
+            res[key] = {"ok": False, "error": err_text(e), "items": []}
+    return res
+
+
 # ---------------------------------------------------------------- runner
 def run_section(name, fn, old):
     try:
@@ -262,7 +341,15 @@ def main():
         "gdp": run_section("gdp", build_gdp, old.get("gdp")),
         "fed": run_section("fed", build_fed, old.get("fed")),
         "cpi": run_section("cpi", build_cpi, old.get("cpi")),
+        "releases": build_releases(),
     }
+    # ถ้าดึงตารางวันประกาศไม่ได้ ใช้ของเดิมไปก่อน (แจ้งเตือนจะได้ไม่หาย)
+    for k, v in out["releases"].items():
+        old_v = (old.get("releases") or {}).get(k)
+        if not v["ok"] and old_v and old_v.get("items"):
+            today = now_bkk().date().isoformat()
+            v["items"] = [r for r in old_v["items"] if r["thai_date"] >= today]
+            v["stale"] = True
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
