@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-17T15:26+07:00",
+  "updated_at": "2026-11-18T04:18+07:00",
   "gdp": {
     "rows": [
       {
@@ -30,7 +30,7 @@
     "source": "BEA ผ่าน FRED",
     "link": "https://www.investing.com/economic-calendar/gdp-375",
     "ok": true,
-    "fetched_at": "2026-11-17T15:26+07:00"
+    "fetched_at": "2026-11-18T04:18+07:00"
   },
   "fed": {
     "year": 2026,
@@ -175,11 +175,11 @@
       3.75,
       4.0
     ],
-    "rate_asof": "2026-11-16",
+    "rate_asof": "2026-11-17",
     "source": "Federal Reserve ผ่าน FRED",
     "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
     "ok": true,
-    "fetched_at": "2026-11-17T15:26+07:00"
+    "fetched_at": "2026-11-18T04:18+07:00"
   },
   "cpi": {
     "rows": [
@@ -212,7 +212,7 @@
     "source": "BLS ผ่าน FRED",
     "link": "https://th.investing.com/economic-calendar/cpi-733",
     "ok": true,
-    "fetched_at": "2026-11-17T15:26+07:00"
+    "fetched_at": "2026-11-18T04:18+07:00"
   },
   "releases": {
     "gdp": {
