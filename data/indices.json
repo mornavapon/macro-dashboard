@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-17T14:52+07:00",
+  "updated_at": "2026-11-18T01:33+07:00",
   "indices": [
     {
       "id": "spx",
@@ -7,14 +7,14 @@
       "flag": "🇺🇸",
       "market": "สหรัฐฯ",
       "level": {
-        "value": 7416.59,
-        "asof": "2026-11-16",
+        "value": 7348.72,
+        "asof": "2026-11-17",
         "source": "Yahoo Finance (^GSPC)",
-        "change": -145.08,
-        "pct": -1.92
+        "change": -67.87,
+        "pct": -0.92
       },
       "market_cap": {
-        "value": 71217089418030.0,
+        "value": 71217073977356.0,
         "currency": "USD",
         "source": "stockanalysis.com",
         "note": "ผลรวม Market Cap ของ 503 บริษัทใน S&P 500"
@@ -36,14 +36,14 @@
       "flag": "🇺🇸",
       "market": "สหรัฐฯ",
       "level": {
-        "value": 24509.76,
-        "asof": "2026-11-16",
+        "value": 24313.46,
+        "asof": "2026-11-17",
         "source": "Yahoo Finance (^IXIC)",
-        "change": -626.51,
-        "pct": -2.49
+        "change": -196.3,
+        "pct": -0.8
       },
       "market_cap": {
-        "value": 48394649279738.0,
+        "value": 48070632171916.0,
         "currency": "USD",
         "source": "stockanalysis.com",
         "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)"
@@ -66,24 +66,24 @@
       "flag": "🇹🇭",
       "market": "ไทย",
       "level": {
-        "value": 1473.45,
+        "value": 1474.68,
         "asof": "2026-11-17",
         "source": "Yahoo Finance (^SET.BK)"
       },
       "market_cap": {
-        "value": 18920745190000.0,
-        "asof": "16 Nov 2026",
+        "value": 18606386400000.0,
+        "asof": "17 Nov 2026",
         "source": "www.set.or.th",
         "currency": "THB"
       },
       "pe": {
-        "value": 14.04,
-        "asof": "16 Nov 2026",
+        "value": 13.72,
+        "asof": "17 Nov 2026",
         "source": "www.set.or.th"
       },
       "pbv": {
-        "value": 1.37,
-        "asof": "16 Nov 2026",
+        "value": 1.35,
+        "asof": "17 Nov 2026",
         "source": "www.set.or.th"
       }
     },
@@ -93,11 +93,11 @@
       "flag": "🇭🇰",
       "market": "ฮ่องกง",
       "level": {
-        "value": 7918.7,
+        "value": 7904.37,
         "asof": "2026-11-17",
         "source": "Yahoo Finance (^HSCE)",
-        "change": -62.84,
-        "pct": -0.79
+        "change": -77.17,
+        "pct": -0.97
       },
       "market_cap": {
         "value": 20757115000000.0,
@@ -131,15 +131,15 @@
         "pct": -0.5
       },
       "market_cap": {
-        "value": 63135987000000.0,
-        "asof": "2026-11-16",
+        "value": 62765081999999.99,
+        "asof": "2026-11-17",
         "source": "query.sse.com.cn",
         "currency": "CNY",
         "note": "สถิติทั้งตลาดเซี่ยงไฮ้"
       },
       "pe": {
-        "value": 15.81,
-        "asof": "2026-11-16",
+        "value": 15.74,
+        "asof": "2026-11-17",
         "source": "query.sse.com.cn",
         "note": "สถิติทั้งตลาดเซี่ยงไฮ้"
       },
@@ -155,7 +155,7 @@
       "flag": "🇻🇳",
       "market": "เวียดนาม",
       "level": {
-        "value": 1719.27,
+        "value": 1726.72,
         "asof": "2026-11-17",
         "source": "Yahoo Finance (^VNINDEX.VN)"
       },
