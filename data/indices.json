@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-17T04:59+07:00",
+  "updated_at": "2026-11-17T14:52+07:00",
   "indices": [
     {
       "id": "spx",
@@ -14,7 +14,7 @@
         "pct": -1.92
       },
       "market_cap": {
-        "value": 71252566991445.0,
+        "value": 71217089418030.0,
         "currency": "USD",
         "source": "stockanalysis.com",
         "note": "ผลรวม Market Cap ของ 503 บริษัทใน S&P 500"
@@ -43,16 +43,13 @@
         "pct": -2.49
       },
       "market_cap": {
-        "value": 49750950792167.0,
+        "value": 48394649279738.0,
         "currency": "USD",
         "source": "stockanalysis.com",
-        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)",
-        "stale": true,
-        "error": "ดึงข้อมูลไม่สำเร็จ (ValueError: อ่านรายชื่อได้แค่ 100 บริษัท (น้อยผิดปกติ))",
-        "checked_at": "2026-11-17T04:59+07:00"
+        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)"
       },
       "pe": {
-        "value": 25.23,
+        "value": 24.53,
         "asof": null,
         "source": "stockanalysis.com",
         "note": "อ้างอิง ETF ONEQ"
@@ -69,8 +66,8 @@
       "flag": "🇹🇭",
       "market": "ไทย",
       "level": {
-        "value": 1499.53,
-        "asof": "2026-11-16",
+        "value": 1473.45,
+        "asof": "2026-11-17",
         "source": "Yahoo Finance (^SET.BK)"
       },
       "market_cap": {
@@ -96,11 +93,11 @@
       "flag": "🇭🇰",
       "market": "ฮ่องกง",
       "level": {
-        "value": 7981.54,
-        "asof": "2026-11-16",
+        "value": 7918.7,
+        "asof": "2026-11-17",
         "source": "Yahoo Finance (^HSCE)",
-        "change": 44.01,
-        "pct": 0.55
+        "change": -62.84,
+        "pct": -0.79
       },
       "market_cap": {
         "value": 20757115000000.0,
@@ -127,11 +124,11 @@
       "flag": "🇨🇳",
       "market": "จีน",
       "level": {
-        "value": 3602.57,
-        "asof": "2026-11-16",
+        "value": 3584.58,
+        "asof": "2026-11-17",
         "source": "Yahoo Finance (000001.SS)",
-        "change": -31.78,
-        "pct": -0.87
+        "change": -17.99,
+        "pct": -0.5
       },
       "market_cap": {
         "value": 63135987000000.0,
@@ -158,8 +155,8 @@
       "flag": "🇻🇳",
       "market": "เวียดนาม",
       "level": {
-        "value": 1736.89,
-        "asof": "2026-11-16",
+        "value": 1719.27,
+        "asof": "2026-11-17",
         "source": "Yahoo Finance (^VNINDEX.VN)"
       },
       "market_cap": {
@@ -168,7 +165,7 @@
         "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       },
       "pe": {
-        "value": 10.8,
+        "value": 10.81,
         "asof": null,
         "source": "24hmoney.vn"
       },
