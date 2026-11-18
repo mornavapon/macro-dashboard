@@ -70,15 +70,20 @@ def split_by_exchange(members, exch_of):
 
 def main():
     log = []
-    nasdaq_rows, nasdaq_total, nasdaq_n = parse_list(get(SA + "nasdaq-stocks/"))
+    global NASDAQ_HTML
+    NASDAQ_HTML = get(SA + "nasdaq-stocks/")
+    nasdaq_rows, nasdaq_total, nasdaq_n = parse_list(NASDAQ_HTML)
     nyse_rows, nyse_total, nyse_n = parse_list(get(SA + "nyse-stocks/"))
     sp_rows, sp_total, sp_n = parse_list(get(SA + "sp-500-stocks/"))
     dow_rows, dow_total, dow_n = parse_list(get(SA + "dow-jones-stocks/"))
     check = {"nasdaq_total": nasdaq_total, "nyse_total": nyse_total,
              "sp_rows": len(sp_rows), "dow_rows": len(dow_rows), "nasdaq_rows": len(nasdaq_rows)}
     print("check:", check)
+    os.makedirs(os.path.join(ROOT, "data", "debug"), exist_ok=True)
+    with open(os.path.join(ROOT, "data", "debug", "universe_debug.txt"), "w", encoding="utf-8") as f:
+        f.write(json.dumps(check) + "\n\n" + "\n".join(m.group(0) for m in re.finditer(r".{0,200}Total.{0,200}", NASDAQ_HTML))[:20000])
     if not all(check.values()):
-        raise SystemExit("อ่านข้อมูลไม่ครบ (หน้าเว็บอาจเปลี่ยนรูปแบบ)")
+        raise SystemExit("อ่านข้อมูลไม่ครบ (หน้าเว็บอาจเปลี่ยนรูปแบบ)")  # ดู data/debug/universe_debug.txt
 
     exch_of = {r["s"]: r["ex"] for r in nasdaq_rows + nyse_rows if r["ex"]}
     sp_split, sp_unknown = split_by_exchange(sp_rows, exch_of)
