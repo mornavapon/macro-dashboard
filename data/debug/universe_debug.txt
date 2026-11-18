@@ -1,0 +1,4 @@
+{"nasdaq_total": null, "nyse_total": null, "sp_rows": 503, "dow_rows": 30, "nasdaq_rows": 100}
+
+e",name:"Revenue",format:"abbreviate",classes:"tr"},netIncome:{id:"netIncome",name:"Net Income",format:"abbreviate"},employees:{id:"employees",name:"Employees",format:"integer"},tr1m:{id:"tr1m",name:"Total Return 1M",colName:"Return 1M",format:"colorPercentage"},tr6m:{id:"tr6m",name:"Total Return 6M",colName:"Return 6M",format:"colorPercentage"},trYTD:{id:"trYTD",name:"Total Return YTD",colName:"Return
+ YTD",format:"colorPercentage"},tr1y:{id:"tr1y",name:"Total Return 1Y",colName:"Return 1Y",format:"colorPercentage"},tr5y:{id:"tr5y",name:"Total Return 5Y",colName:"Return 5Y",format:"colorPercentage"},tr10y:{id:"tr10y",name:"Total Return 10Y",colName:"Return 10Y",format:"colorPercentage"},dps:{id:"dps",name:"Dividend Per Share",colName:"Divi
