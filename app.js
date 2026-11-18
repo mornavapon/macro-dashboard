@@ -892,6 +892,73 @@ function renderSoxx(v) {
   });
 }
 
+// ---- Market Breadth (ไฟล์แยก data/breadth.json) ----
+function breadthVerdict(L) {
+  const p = L.pct200, d3 = L.pct200_3m_ago == null ? null : p - L.pct200_3m_ago;
+  if (p < 20) return ["out", "อ่อนแอมาก (ขายทิ้งทั้งกระดาน)", "หุ้นเกือบทุกตัวอยู่ขาลง · ในอดีตระดับนี้มักใกล้จุดต่ำ แต่ยังไม่ใช่สัญญาณซื้อทันที"];
+  if (p < 50 && L.spx_above_ma200) return ["out", "ขึ้นแบบกระจุก (เสี่ยง)", "ดัชนียังอยู่ขาขึ้น แต่หุ้นส่วนใหญ่ไม่ได้ขึ้นตาม · ตลาดพึ่งหุ้นใหญ่ไม่กี่ตัว ถ้ากลุ่มนั้นสะดุด ดัชนีร่วงแรงได้"];
+  if (p < 50) return ["mid", "ตลาดอ่อนแอเป็นวงกว้าง", "ทั้งดัชนีและหุ้นส่วนใหญ่อยู่ขาลง · ควรระวังตัว"];
+  if (p < 70) {
+    if (L.spx_3m > 0 && d3 != null && d3 <= -10)
+      return ["mid", "เริ่มกระจุกตัว (จับตา)", `หุ้นเกินครึ่งยังขาขึ้น แต่ลดลง ${fmt(-d3, 0)} จุดจาก 3 เดือนก่อน ขณะที่ดัชนียังขึ้น → หุ้นที่พาตลาดขึ้นเริ่มน้อยลง`];
+    if (d3 != null && d3 <= -10)
+      return ["mid", "ค่อนข้างกระจาย แต่กำลังอ่อนตัว", `หุ้นเกินครึ่งยังขาขึ้น แต่ลดลง ${fmt(-d3, 0)} จุดจาก 3 เดือนก่อน (${fmt(L.pct200_3m_ago, 0)}%) · หุ้นหลุดขาขึ้นมากขึ้นเรื่อยๆ จับตาว่าจะต่ำกว่า 50% ไหม`];
+    return ["in", "ค่อนข้างกระจาย (ปกติ)", "หุ้นเกินครึ่งอยู่ขาขึ้น ตลาดโดยรวมยังแข็งแรงพอใช้"];
+  }
+  return ["in", "ขึ้นแบบกระจาย (breadth กว้าง)", "หุ้นส่วนใหญ่ขึ้นพร้อมกัน ตลาดแข็งแรง ความเสี่ยงต่ำกว่า" + (p >= 85 ? " · แต่สูงมาก ระยะสั้นอาจร้อนแรงเกินไป" : "")];
+}
+
+function renderBreadth(v) {
+  const el = document.getElementById("w-breadth");
+  const title = "Market Breadth: S&amp;P 500";
+  if (!v || !v.ok) { el.innerHTML = failHTML(title, v); return; }
+  const L = v.latest, [cls, head, desc] = breadthVerdict(L);
+  el.innerHTML = sectionShell(title, "% หุ้นใน S&amp;P 500 ที่ราคายืนเหนือเส้นค่าเฉลี่ย 200 วัน (= อยู่ขาขึ้นระยะยาว)", `
+    <div class="flow-verdict ${cls}">
+      <p class="fv-head">ตอนนี้ <b class="${cls === "in" ? "up" : cls === "out" ? "down" : "warn"}">${fmt(L.pct200, 0)}% · ${head}</b></p>
+      <p>${desc}</p>
+    </div>
+    <p class="panel-sub">${L.up} จาก ${L.total} ตัว อยู่เหนือเส้น 200 วัน · เหนือเส้น 50 วัน ${L.pct50 == null ? "–" : fmt(L.pct50, 0) + "%"}<br>
+      S&amp;P 500 ${L.spx_above_ma200 ? "อยู่เหนือ" : "อยู่ใต้"}เส้น 200 วันของตัวเอง ${sgn(L.spx_vs_ma200, 1)}% · ห่างจุดสูงสุด 52 สัปดาห์ ${fmt(L.spx_from_high, 1)}%</p>
+    ${legendHTML([["#e6edf3", "% หุ้นเหนือเส้น 200 วัน"]])}
+    <div id="ch-breadth"></div>
+    ${legendHTML([[C.blue, "ดัชนี S&P 500 (ไว้เทียบ)"]])}
+    <div id="ch-breadth-spx"></div>
+    <ul class="soxx-guide">
+      <li><b class="up">เกิน 70%</b> = ขึ้นแบบกระจาย หุ้นส่วนใหญ่แข็งแรง · 50–70% = ปกติ</li>
+      <li><b class="down">ต่ำกว่า 50% แต่ดัชนียังขึ้น</b> = ขึ้นแบบกระจุก หุ้นใหญ่ไม่กี่ตัวพยุงดัชนี → เสี่ยง</li>
+      <li>ต่ำกว่า 20% = ขายทิ้งทั้งกระดาน มักใกล้จุดต่ำ</li>
+      <li>ดัชนีทำจุดสูงใหม่ แต่เส้นบนไม่ขึ้นตาม = สัญญาณเตือน</li>
+    </ul>
+    <p class="update-info">📅 ข้อมูล ณ <b>${esc(thaiDate(L.date))}</b> (เวลาสหรัฐฯ) · ปรับปรุง: ${esc(v.freq)}<br>
+      คำนวณจากรายชื่อหุ้นปัจจุบันย้อนหลัง ค่าในอดีตจึงเป็นค่าประมาณ</p>`, v);
+  chartBox("ch-breadth", {
+    height: 200, yInclude: [0, 100],
+    series: [{ data: v.series, color: "#e6edf3", label: "เหนือเส้น 200 วัน", width: 1.6 }],
+    bands: [
+      { from: -10, to: 30, color: "#f0566a", label: "อ่อนแอ" },
+      { from: 30, to: 50, color: "#f2b33d", label: "แคบ" },
+      { from: 50, to: 110, color: "#2fbf71", label: "กว้าง" },
+    ],
+    hlines: [{ y: 70, color: "#2fbf71", label: "70" }, { y: 50, color: "#f2b33d", label: "50" }],
+    yFmt: (x) => fmt(x, 0) + "%", tipFmt: (x) => fmt(x, 1) + "%",
+  });
+  chartBox("ch-breadth-spx", { height: 120, series: [{ data: v.spx, color: C.blue, label: "S&P 500", width: 1.4 }],
+    yFmt: (x) => fmt(x, 0), tipFmt: (x) => fmt(x, 0) });
+}
+
+async function loadBreadth() {
+  try {
+    const r = await fetch("data/breadth.json?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error("โหลดไฟล์ข้อมูลไม่ได้ (HTTP " + r.status + ")");
+    renderBreadth(await r.json());
+  } catch (e) {
+    console.error(e);
+    try { renderBreadth({ ok: false, error: e.message }); } catch (_) {}
+  }
+}
+loadBreadth();
+
 async function loadUniverse() {
   try {
     const r = await fetch("data/universe.json?t=" + Date.now(), { cache: "no-store" });

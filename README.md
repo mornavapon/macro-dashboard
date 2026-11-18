@@ -17,6 +17,7 @@ https://mornavapon.github.io/macro-dashboard/
 | ภาพวงกลมตลาดหุ้นสหรัฐฯ | วงใหญ่ = ตลาดหุ้นสหรัฐฯ แบ่งฝั่ง NYSE / Nasdaq, ซ้อนด้วย S&P 500 และ Dow (พื้นที่ ≈ Market Cap) | วันที่ 1 และ 15 ของเดือน |
 | กราฟ VIX 2 ปี | เส้นคงที่ที่ 18 และ 30 พร้อมระบายสีพื้นหลัง 3 โซน | ทุก 3 ชม. |
 | กราฟ SOXX / S&P 500 | หุ้นชิปนำตลาดไหม (เริ่ม = 100) + เส้นเฉลี่ย 200 วัน + สรุปว่าเอนไป Risk-on หรือ Risk-off | ทุก 3 ชม. |
+| Market Breadth S&P 500 | % หุ้นใน S&P 500 ที่อยู่เหนือเส้นค่าเฉลี่ย 200 วัน (คำนวณเองจากหุ้นทุกตัว) + สรุปว่าขึ้นแบบกระจาย/กระจุก + กราฟเทียบดัชนี | วันละครั้ง 06:37 น. (อ.–ส.) |
 
 ### หน้า 2 · อเมริกา
 | หัวข้อ | รายละเอียด |
@@ -79,6 +80,7 @@ scripts/fetch_universe.py         ดึงข้อมูลภาพวงก�
 scripts/fetch_us.py               ดึงข้อมูลหน้า 2
 scripts/fetch_th.py               ดึงข้อมูลหน้า 3 (ยกเว้น MSCI)
 scripts/fetch_msci.py             ดึงข้อมูล MSCI
+scripts/fetch_breadth.py          คำนวณ Market Breadth S&P 500 (แยกส่วน)
 scripts/fetch_bondflow.py         ดึงเงินต่างชาติในตราสารหนี้ไทย (ThaiBMA)
 scripts/fetch_settfex.py          ดึงข้อมูลเสริมผ่าน settfex (yield พันธบัตรไทย)
 scripts/send_alert.py             ส่งแจ้งเตือน ntfy
