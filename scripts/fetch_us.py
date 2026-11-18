@@ -310,6 +310,162 @@ def build_releases():
     return res
 
 
+# ---------------------------------------------------------------- ตัวเลขเพิ่มเติม (กราฟ)
+# NFP / DXY / Bond Yield / Fed Balance Sheet / หนี้รัฐบาลกลาง + เพดานหนี้
+def two_years_ago():
+    return (now_bkk().date() - datetime.timedelta(days=730)).isoformat()
+
+
+def pts(series, ndigits=3):
+    return [[d.isoformat(), round(v, ndigits)] for d, v in series]
+
+
+def next_business_day(d):
+    d += datetime.timedelta(days=1)
+    while d.weekday() >= 5:
+        d += datetime.timedelta(days=1)
+    return d
+
+
+def next_weekday(d, weekday):
+    d += datetime.timedelta(days=1)
+    while d.weekday() != weekday:
+        d += datetime.timedelta(days=1)
+    return d
+
+
+def first_friday(y, m):
+    d = datetime.date(y, m, 1)
+    while d.weekday() != 4:
+        d += datetime.timedelta(days=1)
+    return d
+
+
+def build_nfp():
+    pay = fred("PAYEMS", (now_bkk().date() - datetime.timedelta(days=800)).isoformat())
+    chg = [(pay[i][0], pay[i][1] - pay[i - 1][1]) for i in range(1, len(pay))]  # พันตำแหน่ง
+    unrate = fred("UNRATE", two_years_ago())
+    today = now_bkk().date()
+    nxt = first_friday(today.year, today.month)
+    if nxt <= today:
+        y, m = (today.year + (today.month == 12), today.month % 12 + 1)
+        nxt = first_friday(y, m)
+    last = chg[-1]
+    return {"nfp": pts(chg[-24:], 0), "unrate": pts(unrate, 1),
+            "latest": {"month": last[0].strftime("%Y-%m"), "nfp": round(last[1]), "unrate": unrate[-1][1]},
+            "freq": "ทุกเดือน (ปกติศุกร์แรกของเดือน 19:30/20:30 น. เวลาไทย)",
+            "next": nxt.isoformat(), "source": "BLS ผ่าน FRED (PAYEMS, UNRATE)",
+            "link": "https://www.investing.com/economic-calendar/nonfarm-payrolls-227"}
+
+
+def build_dxy():
+    url = "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?range=2y&interval=1d"
+    res = json.loads(get(url, headers={"User-Agent": UA}))["chart"]["result"][0]
+    tz = ZoneInfo(res["meta"].get("exchangeTimezoneName") or "America/New_York")
+    closes = res["indicators"]["quote"][0]["close"]
+    series = [(datetime.datetime.fromtimestamp(t, tz).date(), c)
+              for t, c in zip(res["timestamp"], closes) if c is not None]
+    if not series:
+        raise ValueError("Yahoo ไม่มีข้อมูล DXY")
+    LOG.append(f"Yahoo DXY OK ({len(series)} วัน ล่าสุด {series[-1][0]})")
+    return {"dxy": pts(series, 2), "latest": {"date": series[-1][0].isoformat(), "value": round(series[-1][1], 2)},
+            "freq": "ทุกวันทำการ", "next": next_business_day(now_bkk().date()).isoformat(),
+            "source": "ICE ผ่าน Yahoo Finance (DX-Y.NYB)",
+            "link": "https://th.tradingview.com/symbols/TVC-DXY/"}
+
+
+def build_yields():
+    start = two_years_ago()
+    y2, y10, spread = fred("DGS2", start), fred("DGS10", start), fred("T10Y2Y", start)
+    return {"y2": pts(y2, 2), "y10": pts(y10, 2), "spread": pts(spread, 2),
+            "latest": {"date": y10[-1][0].isoformat(), "y2": y2[-1][1], "y10": y10[-1][1], "spread": spread[-1][1]},
+            "freq": "ทุกวันทำการ", "next": next_business_day(now_bkk().date()).isoformat(),
+            "source": "US Treasury ผ่าน FRED (DGS2, DGS10, T10Y2Y)",
+            "link": "https://th.tradingview.com/symbols/TVC-US10Y/"}
+
+
+def build_fedbs():
+    s = fred("WALCL", two_years_ago())  # ล้านดอลลาร์ ข้อมูล ณ วันพุธ ประกาศวันพฤหัสฯ
+    s = [(d, v / 1e6) for d, v in s]    # -> ล้านล้านดอลลาร์
+    return {"walcl": pts(s, 3), "latest": {"date": s[-1][0].isoformat(), "value": round(s[-1][1], 3)},
+            "freq": "ทุกสัปดาห์ (ประกาศคืนวันพฤหัสฯ ตามเวลาสหรัฐฯ)",
+            "next": (next_weekday(now_bkk().date(), 4)).isoformat(),
+            "source": "Federal Reserve H.4.1 ผ่าน FRED (WALCL)",
+            "link": "https://www.federalreserve.gov/releases/h41/"}
+
+
+# เพดานหนี้ตามกฎหมาย (ล้านล้านดอลลาร์) ช่วงที่ "ระงับเพดาน" ใส่ None
+# ที่มา: กฎหมาย P.L. 117-73 (ธ.ค. 2021), Fiscal Responsibility Act (มิ.ย. 2023 ระงับถึง 1 ม.ค. 2025),
+#        One Big Beautiful Bill Act (4 ก.ค. 2025: +5 ล้านล้าน)
+# ** ถ้าสภาฯ ขึ้น/ระงับเพดานใหม่ ให้เพิ่มบรรทัดที่นี่ (ตัวดึงข้อมูลจะลองอ่านค่าล่าสุดจากกระทรวงการคลังด้วย) **
+DEBT_LIMIT_HISTORY = [
+    ("2021-12-16", 31.381),
+    ("2023-06-03", None),
+    ("2025-01-02", 36.104),
+    ("2025-07-04", 41.104),
+]
+FISCAL = "https://api.fiscaldata.treasury.gov/services/api/fiscal_service"
+
+
+def limit_on(day):
+    val = None
+    for d, v in DEBT_LIMIT_HISTORY:
+        if day >= datetime.date.fromisoformat(d):
+            val = v
+    return val
+
+
+def build_debt():
+    start = (now_bkk().date() - datetime.timedelta(days=5 * 365 + 10)).isoformat()
+    url = (f"{FISCAL}/v2/accounting/od/debt_to_penny?fields=record_date,tot_pub_debt_out_amt"
+           f"&filter=record_date:gte:{start}&sort=record_date&page[size]=10000")
+    rows = json.loads(get(url, headers={"Accept": "application/json"}))["data"]
+    daily = [(datetime.date.fromisoformat(r["record_date"]), float(r["tot_pub_debt_out_amt"]) / 1e12) for r in rows]
+    if not daily:
+        raise ValueError("ไม่มีข้อมูลหนี้จากกระทรวงการคลัง")
+    # ย่อเป็นรายสัปดาห์ (จุดสุดท้ายของแต่ละสัปดาห์) ให้กราฟเบาลง
+    weekly = {}
+    for d, v in daily:
+        weekly[d.isocalendar()[:2]] = (d, v)
+    debt = sorted(weekly.values())
+    limit = [[d.isoformat(), limit_on(d)] for d, _ in debt]
+
+    # ค่าล่าสุดของ "หนี้ที่นับรวมเพดาน" และ "เพดานหนี้" จากรายงานรายวันของกระทรวงการคลัง (ถ้าอ่านได้)
+    subject, statutory = None, None
+    try:
+        u = f"{FISCAL}/v1/accounting/dts/debt_subject_to_limit?sort=-record_date&page[size]=20"
+        dts = json.loads(get(u, headers={"Accept": "application/json"}))["data"]
+        save_debug("dts_debt_limit", u, json.dumps(dts[:12], ensure_ascii=False, indent=1))
+        latest_date = dts[0]["record_date"]
+        for r in dts:
+            if r["record_date"] != latest_date:
+                continue
+            cat = (r.get("debt_catg") or "").lower()
+            val = r.get("close_today_bal")
+            if val in (None, "", "null"):
+                continue
+            val = float(val) / (1e6 if float(val) > 1e9 else 1)  # หน่วยในตารางเป็นล้านดอลลาร์
+            if "statutory" in cat and "limit" in cat:
+                statutory = val / 1e6  # ล้านล้าน
+            elif "subject to limit" in cat and "total" in cat:
+                subject = val / 1e6
+        LOG.append(f"DTS debt limit: subject={subject} statutory={statutory} ({latest_date})")
+    except Exception as e:  # noqa: BLE001
+        LOG.append(f"DTS debt limit FAIL {err_text(e)} -> ใช้เพดานจากรายการในโปรแกรม")
+    cur_limit = limit_on(debt[-1][0])
+    if statutory and (cur_limit is None or abs(statutory - cur_limit) > 0.01):
+        LOG.append(f"⚠ เพดานจากกระทรวงการคลัง ({statutory}) ไม่ตรงกับรายการในโปรแกรม ({cur_limit}) -> ใช้ค่าทางการ")
+        cur_limit = statutory
+        limit[-1][1] = statutory
+    return {"debt": pts(debt, 3), "limit": limit,
+            "latest": {"date": debt[-1][0].isoformat(), "debt": round(debt[-1][1], 3),
+                       "limit": cur_limit, "subject": round(subject, 3) if subject else None},
+            "freq": "หนี้: ทุกวันทำการ · เพดานหนี้: เปลี่ยนเมื่อสภาคองเกรสลงมติเท่านั้น",
+            "next": next_business_day(now_bkk().date()).isoformat(),
+            "source": "US Treasury (Debt to the Penny, Daily Treasury Statement)",
+            "link": "https://fiscaldata.treasury.gov/americas-finance-guide/national-debt/"}
+
+
 # ---------------------------------------------------------------- runner
 def run_section(name, fn, old):
     try:
@@ -342,6 +498,13 @@ def main():
         "fed": run_section("fed", build_fed, old.get("fed")),
         "cpi": run_section("cpi", build_cpi, old.get("cpi")),
         "releases": build_releases(),
+        "extra": {
+            "nfp": run_section("nfp", build_nfp, (old.get("extra") or {}).get("nfp")),
+            "dxy": run_section("dxy", build_dxy, (old.get("extra") or {}).get("dxy")),
+            "yields": run_section("yields", build_yields, (old.get("extra") or {}).get("yields")),
+            "fedbs": run_section("fedbs", build_fedbs, (old.get("extra") or {}).get("fedbs")),
+            "debt": run_section("debt", build_debt, (old.get("extra") or {}).get("debt")),
+        },
     }
     # ถ้าดึงตารางวันประกาศไม่ได้ ใช้ของเดิมไปก่อน (แจ้งเตือนจะได้ไม่หาย)
     for k, v in out["releases"].items():
