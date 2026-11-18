@@ -1,9 +1,14 @@
 name: ทดสอบแหล่ง FDI/BOI (ชั่วคราว)
 on: workflow_dispatch
+permissions:
+  contents: write
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - run: python3 scripts/probe_fdi.py
+      - run: pip install -q pypdf && python3 scripts/probe_fdi.py
+      - run: |
+          git config user.name "macro-bot"; git config user.email "macro-bot@users.noreply.github.com"
+          git add data/debug/boi_fdi_q3_2026.txt data/debug/bot_fdi_probe.txt && git commit -m "probe output" && git pull --rebase && git push
