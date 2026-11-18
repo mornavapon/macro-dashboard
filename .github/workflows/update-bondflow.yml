@@ -1,0 +1,36 @@
+name: อัปเดตเงินต่างชาติในตราสารหนี้ไทย (หน้า 3)
+
+# แยกจาก workflow อื่นทั้งหมด: ถ้าพัง จะกระทบเฉพาะ data/bondflow.json
+# ThaiBMA ประกาศวันละ 3 รอบ: 08:30 / 12:00 / 16:30 น. -> ดึงหลังแต่ละรอบ
+on:
+  schedule:
+    - cron: "41 1 * * 1-5"    # จ.–ศ. 08:41 น. เวลาไทย
+    - cron: "21 5 * * 1-5"    # จ.–ศ. 12:21 น.
+    - cron: "51 9 * * 1-5"    # จ.–ศ. 16:51 น.
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commit
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: ดึงข้อมูลเงินต่างชาติในตราสารหนี้ไทย (ThaiBMA)
+        run: python3 scripts/fetch_bondflow.py
+      - name: บันทึกข้อมูลกลับเข้า repo
+        run: |
+          git config user.name "macro-bot"
+          git config user.email "macro-bot@users.noreply.github.com"
+          git add data/bondflow.json data/debug/bondflow_raw.json
+          if ! git diff --cached --quiet; then
+            git commit -m "update bond flow data"
+            git pull --rebase
+            git push
+          fi
