@@ -3,7 +3,8 @@ on: workflow_dispatch
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - run: pip install -q pypdf && python3 scripts/probe_fdi.py
+      - run: pip install -q playwright && python -m playwright install --with-deps chromium >/dev/null
+      - run: python3 scripts/probe_fdi.py
