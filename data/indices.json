@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T18:37+07:00",
+  "updated_at": "2026-11-19T03:28+07:00",
   "indices": [
     {
       "id": "spx",
@@ -7,14 +7,14 @@
       "flag": "🇺🇸",
       "market": "สหรัฐฯ",
       "level": {
-        "value": 7340.53,
-        "asof": "2026-11-17",
+        "value": 7321.75,
+        "asof": "2026-11-18",
         "source": "Yahoo Finance (^GSPC)",
-        "change": -76.06,
-        "pct": -1.03
+        "change": -18.78,
+        "pct": -0.26
       },
       "market_cap": {
-        "value": 70478518677823.0,
+        "value": 70443331671652.0,
         "currency": "USD",
         "source": "stockanalysis.com",
         "note": "ผลรวม Market Cap ของ 503 บริษัทใน S&P 500"
@@ -36,20 +36,20 @@
       "flag": "🇺🇸",
       "market": "สหรัฐฯ",
       "level": {
-        "value": 24328.38,
-        "asof": "2026-11-17",
+        "value": 24399.45,
+        "asof": "2026-11-18",
         "source": "Yahoo Finance (^IXIC)",
-        "change": -181.38,
-        "pct": -0.74
+        "change": 71.07,
+        "pct": 0.29
       },
       "market_cap": {
-        "value": 48144997298293.0,
+        "value": 48188428088109.0,
         "currency": "USD",
         "source": "stockanalysis.com",
         "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)"
       },
       "pe": {
-        "value": 24.28,
+        "value": 23.78,
         "asof": null,
         "source": "stockanalysis.com",
         "note": "อ้างอิง ETF ONEQ"
@@ -2193,12 +2193,12 @@
       ],
       [
         "2026-11-18",
-        23.96
+        24.55
       ]
     ],
     "latest": {
       "date": "2026-11-18",
-      "value": 23.96
+      "value": 24.55
     },
     "source": "Cboe ผ่าน Yahoo Finance (^VIX)",
     "link": "https://th.tradingview.com/symbols/TVC-VIX/"
@@ -4209,6 +4209,10 @@
       [
         "2026-11-17",
         159.26
+      ],
+      [
+        "2026-11-18",
+        158.94
       ]
     ],
     "ma200": [
@@ -6215,15 +6219,19 @@
       [
         "2026-11-17",
         179.69
+      ],
+      [
+        "2026-11-18",
+        179.8
       ]
     ],
     "latest": {
-      "date": "2026-11-17",
-      "value": 159.26,
-      "vs_ma200": -11.4,
-      "chg_3m": -14.2,
-      "soxx": 141.46,
-      "spx": 7340.53
+      "date": "2026-11-18",
+      "value": 158.94,
+      "vs_ma200": -11.6,
+      "chg_3m": -15.6,
+      "soxx": 140.8,
+      "spx": 7321.13
     },
     "source": "Yahoo Finance (SOXX, ^GSPC)",
     "link": "https://th.tradingview.com/symbols/NASDAQ-SOXX/"
