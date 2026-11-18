@@ -47,9 +47,18 @@ def parse_list(html):
     tot = re.search(r"Total Market Cap\D{0,40}?([\d.]+)\s*([TB])", text)
     cnt = re.search(r"Total Stocks\D{0,40}?([\d,]+)", text)
     total = None
+    stats = re.search(r'getListStats:\{total:(\d+),marketCap:"?([0-9.e+]+)"?', html)
+    if stats:  # ยอดรวมทั้งตลาดที่ฝังอยู่ในหน้าเว็บ
+        return rows, float(stats.group(2)), int(stats.group(1))
     if tot:
         total = float(tot.group(1)) * (1e12 if tot.group(2) == "T" else 1e9)
     return rows, total, int(cnt.group(1).replace(",", "")) if cnt else len(rows)
+
+
+def nasdaq_symbols():
+    """รายชื่อหุ้นทุกตัวที่จดทะเบียนใน Nasdaq (ไฟล์ทางการของ Nasdaq Trader)"""
+    t = get("https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt")
+    return {line.split("|")[0] for line in t.splitlines()[1:] if "|" in line}
 
 
 def split_by_exchange(members, exch_of):
@@ -87,6 +96,16 @@ def main():
         raise SystemExit("อ่านข้อมูลไม่ครบ (หน้าเว็บอาจเปลี่ยนรูปแบบ)")  # ดู data/debug/universe_debug.txt
 
     exch_of = {r["s"]: r["ex"] for r in nasdaq_rows + nyse_rows if r["ex"]}
+    try:
+        nq = nasdaq_symbols()
+        log.append(f"Nasdaq symbol directory: {len(nq)} ตัว")
+        for r in sp_rows + dow_rows:
+            if r["s"] in nq:
+                exch_of[r["s"]] = "NASDAQ"
+            elif r["s"] not in exch_of:
+                exch_of[r["s"]] = "NYSE"  # ไม่อยู่ใน Nasdaq = NYSE (หรือตลาดอื่นที่เล็กมาก)
+    except Exception as e:  # noqa: BLE001
+        log.append(f"Nasdaq symbol directory FAIL {e} -> ใช้เฉพาะรายชื่อหุ้นใหญ่")
     sp_split, sp_unknown = split_by_exchange(sp_rows, exch_of)
     dow_split, dow_unknown = split_by_exchange(dow_rows, exch_of)
     # ใช้ยอดรวมทางการของหน้าเว็บ แล้วแบ่งสัดส่วนตามผลรวมรายตัว
