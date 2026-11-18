@@ -142,6 +142,7 @@ async function loadIndices() {
     const data = await r.json();
     upd.textContent = "อัปเดตล่าสุด: " + thaiDateTime(data.updated_at) + " (เวลาไทย)";
     try { renderVIX(data.vix); } catch (e) { console.error(e); }
+    try { renderSoxx(data.soxx_spx); } catch (e) { console.error(e); }
     grid.innerHTML = `
       <table class="idx-table">
         <thead><tr>
@@ -858,6 +859,36 @@ function renderVIX(v) {
     ],
     hlines: [{ y: 30, color: "#f0566a", label: "30" }, { y: 18, color: "#2fbf71", label: "18" }],
     yFmt: (x) => fmt(x, 0), tipFmt: (x) => fmt(x, 2),
+  });
+}
+
+function renderSoxx(v) {
+  const el = document.getElementById("w-soxx");
+  const title = "SOXX / S&amp;P 500 (หุ้นชิปนำตลาดไหม)";
+  if (!v || !v.ok) { el.innerHTML = failHTML(title, v); return; }
+  const L = v.latest, up = L.vs_ma200 > 0, rising = L.chg_3m > 0;
+  const st = up && rising ? ["up", "หุ้นชิปนำตลาด → เอนไปทาง Risk-on (กล้าเสี่ยง)"]
+    : !up && !rising ? ["out", "หุ้นชิปแพ้ตลาด → เอนไปทาง Risk-off (ระวังตัว)"]
+    : ["mid", "ยังไม่ชัด / กำลังเปลี่ยนทิศ"];
+  el.innerHTML = sectionShell(title, "", `
+    <div class="flow-verdict ${st[0] === "up" ? "in" : st[0] === "out" ? "out" : "mid"}">
+      <p class="fv-head">ตอนนี้: <b class="${st[0] === "up" ? "up" : st[0] === "out" ? "down" : "warn"}">${st[1]}</b></p>
+      <p>${up ? "อยู่เหนือ" : "อยู่ใต้"}เส้นเฉลี่ย 200 วัน ${sgn(L.vs_ma200, 1)}% · 3 เดือนล่าสุด ${sgn(L.chg_3m, 1)}%</p>
+    </div>
+    ${legendHTML([["#e6edf3", "SOXX ÷ S&P 500 (เริ่ม = 100)"], ["#ffd479", "เฉลี่ย 200 วัน", true]])}
+    <div id="ch-soxx"></div>
+    <ul class="soxx-guide">
+      <li><b class="up">เส้นขึ้น</b> = หุ้นชิปชนะตลาด เงินไหลเข้าหุ้นเติบโต มักเกิดตอนเศรษฐกิจดี/ดอกเบี้ยขาลง → <b>Risk-on</b></li>
+      <li><b class="down">เส้นลง</b> = หุ้นชิปแพ้ตลาด เงินย้ายไปหุ้นปลอดภัย มักเกิดตอนเงินเฟ้อ/ดอกเบี้ยขึ้น/กลัวถดถอย → <b>Risk-off</b></li>
+      <li>ดูคู่กับ VIX ด้านบน: เส้นนี้ขึ้น + VIX ต่ำ = Risk-on ชัดเจน</li>
+    </ul>
+    <p class="update-info">📅 ข้อมูล ณ <b>${esc(thaiDate(L.date))}</b> · ปรับปรุงทุก 3 ชั่วโมง (พร้อมดัชนีด้านบน)</p>`, v);
+  chartBox("ch-soxx", {
+    height: 210,
+    series: [{ data: v.data, color: "#e6edf3", label: "SOXX/S&P", width: 1.6 },
+             { data: v.ma200, color: "#ffd479", label: "เฉลี่ย 200 วัน", width: 1.4, dash: true, noDot: true }],
+    hlines: [{ y: 100, color: "#8b98a8", label: "100" }],
+    yFmt: (x) => fmt(x, 0), tipFmt: (x) => fmt(x, 1),
   });
 }
 

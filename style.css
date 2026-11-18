@@ -202,3 +202,8 @@ b.neg { color: var(--down); }
 .flow-table th, .flow-table td { padding-left: 4px; padding-right: 4px; }
 .flow-table td:nth-child(3), .flow-table td:nth-child(4) { font-size: 14px; }
 .flow-table td:first-child { white-space: nowrap; }
+
+.flow-verdict.mid { border-left-color: var(--warn); }
+.flow-verdict b.warn { color: var(--warn); }
+.soxx-guide { padding-left: 18px; margin: 8px 0; font-size: 15.5px; line-height: 1.6; }
+.soxx-guide li { margin-bottom: 4px; } .soxx-guide b.up { color: var(--up); } .soxx-guide b.down { color: var(--down); }

@@ -625,6 +625,46 @@ def build_vix():
             "link": "https://th.tradingview.com/symbols/TVC-VIX/"}
 
 
+def yahoo_daily(symbol, rng="3y"):
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{urllib.parse.quote(symbol)}?range={rng}&interval=1d"
+    res = json.loads(get(url))["chart"]["result"][0]
+    tz = ZoneInfo(res["meta"].get("exchangeTimezoneName") or "America/New_York")
+    closes = res["indicators"]["quote"][0]["close"]
+    out = {datetime.datetime.fromtimestamp(t, tz).date().isoformat(): c
+           for t, c in zip(res["timestamp"], closes) if c is not None}
+    price, ptime = res["meta"].get("regularMarketPrice"), res["meta"].get("regularMarketTime")
+    if price is not None and ptime:
+        out[datetime.datetime.fromtimestamp(ptime, tz).date().isoformat()] = price
+    return out
+
+
+def build_soxx():
+    """เส้นเทียบ SOXX / S&P 500: หุ้นชิปนำตลาดหรือไม่ (ย้อนหลัง 2 ปี + เส้นเฉลี่ย 200 วัน)"""
+    soxx, spx = yahoo_daily("SOXX"), yahoo_daily("^GSPC")
+    days = sorted(set(soxx) & set(spx))
+    if len(days) < 400:
+        raise ValueError(f"ข้อมูลไม่พอ ({len(days)} วัน)")
+    ratio = [(d, soxx[d] / spx[d]) for d in days]
+    ma = []
+    for i in range(len(ratio)):
+        w = ratio[max(0, i - 199):i + 1]
+        ma.append(sum(v for _, v in w) / len(w) if len(w) == 200 else None)
+    start = (datetime.date.fromisoformat(days[-1]) - datetime.timedelta(days=730)).isoformat()
+    i0 = next(i for i, (d, _) in enumerate(ratio) if d >= start)
+    base = ratio[i0][1]
+    data = [[d, round(v / base * 100, 2)] for d, v in ratio[i0:]]
+    ma_data = [[ratio[i][0], round(ma[i] / base * 100, 2)] for i in range(i0, len(ratio)) if ma[i] is not None]
+    last, last_ma = ratio[-1][1], ma[-1]
+    j = max(0, len(ratio) - 1 - 63)   # ~3 เดือนทำการ
+    chg3m = (last / ratio[j][1] - 1) * 100
+    PROBE_LOG.append(f"soxx OK ({len(data)} วัน ล่าสุด {data[-1]})")
+    return {"ok": True, "data": data, "ma200": ma_data,
+            "latest": {"date": days[-1], "value": data[-1][1], "vs_ma200": round((last / last_ma - 1) * 100, 1),
+                       "chg_3m": round(chg3m, 1), "soxx": round(soxx[days[-1]], 2), "spx": round(spx[days[-1]], 2)},
+            "source": "Yahoo Finance (SOXX, ^GSPC)",
+            "link": "https://th.tradingview.com/symbols/NASDAQ-SOXX/"}
+
+
 def main():
     try:
         with open(OUT, encoding="utf-8") as f:
@@ -656,10 +696,17 @@ def main():
         old_vix = prev_all.get("vix") or {}
         vix = dict(old_vix, stale=True, error=err_text(e)) if old_vix.get("ok") else {"ok": False, "error": err_text(e)}
 
+    try:
+        soxx = build_soxx()
+    except Exception as e:  # noqa: BLE001
+        PROBE_LOG.append(f"soxx FAIL {err_text(e)}")
+        old_s = prev_all.get("soxx_spx") or {}
+        soxx = dict(old_s, stale=True, error=err_text(e)) if old_s.get("ok") else {"ok": False, "error": err_text(e)}
+
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump({"updated_at": now_bkk().isoformat(timespec="minutes"),
-                   "indices": result, "vix": vix}, f, ensure_ascii=False, indent=2)
+                   "indices": result, "vix": vix, "soxx_spx": soxx}, f, ensure_ascii=False, indent=2)
 
     os.makedirs(DEBUG_DIR, exist_ok=True)
     with open(os.path.join(DEBUG_DIR, "_summary.txt"), "w", encoding="utf-8") as f:
