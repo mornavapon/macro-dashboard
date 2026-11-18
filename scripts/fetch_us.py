@@ -437,18 +437,25 @@ def build_debt():
         dts = json.loads(get(u, headers={"Accept": "application/json"}))["data"]
         save_debug("dts_debt_limit", u, json.dumps(dts[:12], ensure_ascii=False, indent=1))
         latest_date = dts[0]["record_date"]
+        # หนี้ที่นับรวมเพดาน = หนี้ที่ประชาชนถือ + หนี้ระหว่างหน่วยงานรัฐ - หนี้ที่ไม่นับรวมเพดาน + หนี้อื่นที่นับรวม
+        total, sign = 0.0, {"debt held by the public": 1, "intragovernmental holdings": 1,
+                            "debt not subject to limit": -1, "other debt subject to limit": 1}
+        found = 0
         for r in dts:
             if r["record_date"] != latest_date:
                 continue
-            cat = (r.get("debt_catg") or "").lower()
-            val = r.get("close_today_bal")
-            if val in (None, "", "null"):
+            cat = (r.get("debt_catg") or "").strip().lower()
+            try:
+                val = float(r.get("close_today_bal"))  # หน่วย: ล้านดอลลาร์
+            except (TypeError, ValueError):
                 continue
-            val = float(val) / (1e6 if float(val) > 1e9 else 1)  # หน่วยในตารางเป็นล้านดอลลาร์
-            if "statutory" in cat and "limit" in cat:
-                statutory = val / 1e6  # ล้านล้าน
-            elif "subject to limit" in cat and "total" in cat:
-                subject = val / 1e6
+            if cat == "statutory debt limit":
+                statutory = val / 1e6
+            elif cat in sign:
+                total += sign[cat] * val
+                found += 1
+        if found >= 3:
+            subject = total / 1e6
         LOG.append(f"DTS debt limit: subject={subject} statutory={statutory} ({latest_date})")
     except Exception as e:  # noqa: BLE001
         LOG.append(f"DTS debt limit FAIL {err_text(e)} -> ใช้เพดานจากรายการในโปรแกรม")
