@@ -1,1 +1,8 @@
-{"th_export": "2026-09"}
+{
+  "th_export": "2026-09",
+  "bondflow": {
+    "alerted": true,
+    "date": "2026-11-18",
+    "out": 35027
+  }
+}
