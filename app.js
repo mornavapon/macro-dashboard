@@ -261,9 +261,198 @@ async function loadUS() {
     for (const [fn, sec, r] of [[renderGDP, d.gdp, rel.gdp], [renderFed, d.fed], [renderCPI, d.cpi, rel.cpi]]) {
       try { fn(sec, r); } catch (e) { console.error(e); }
     }
+    try { renderExtra(d.extra); } catch (e) { console.error(e); }
   } catch (e) {
     upd.innerHTML = `<span class="fail">ดึงข้อมูลไม่สำเร็จ</span> โหลดไฟล์ข้อมูลอเมริกาไม่ได้ (${esc(e.message)})`;
   }
+}
+
+
+// ============================================================
+// กราฟ (SVG ทำเอง ไม่ต้องโหลดไลบรารีเพิ่ม) - แกนนอน = เวลา, แกนตั้ง = ค่า
+// ============================================================
+const CHARTS = []; // เก็บไว้วาดใหม่ตอนหมุนจอ/ปรับขนาดหน้าต่าง
+
+function niceTicks(min, max, count) {
+  const span = max - min || 1;
+  const raw = span / count;
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => span / s <= count) || 10 * mag;
+  const out = [];
+  for (let v = Math.ceil(min / step) * step; v <= max + 1e-9; v += step) out.push(+v.toFixed(10));
+  return out;
+}
+
+function drawChart(box, opt) {
+  const W = Math.max(280, box.clientWidth || 320);
+  const H = opt.height || 200;
+  const M = { l: opt.left || 48, r: 12, t: 10, b: 26 };
+  const pw = W - M.l - M.r, ph = H - M.t - M.b;
+  const all = opt.series.flatMap((s) => s.data.filter((p) => p[1] != null));
+  if (!all.length) { box.innerHTML = '<p class="small">ไม่มีข้อมูล</p>'; return; }
+  const tx = (d) => new Date(d + "T00:00:00").getTime();
+  let x0 = Math.min(...all.map((p) => tx(p[0]))), x1 = Math.max(...all.map((p) => tx(p[0])));
+  if (x0 === x1) x1 = x0 + 864e5;
+  let y0 = Math.min(...all.map((p) => p[1])), y1 = Math.max(...all.map((p) => p[1]));
+  if (opt.zero || opt.series.some((s) => s.type === "bar")) { y0 = Math.min(0, y0); y1 = Math.max(0, y1); }
+  const pad = (y1 - y0) * 0.08 || Math.abs(y1) * 0.05 || 1;
+  y0 -= opt.zero && y0 === 0 ? 0 : pad; y1 += pad;
+  const X = (t) => M.l + ((t - x0) / (x1 - x0)) * pw;
+  const Y = (v) => M.t + (1 - (v - y0) / (y1 - y0)) * ph;
+  const fmtY = opt.yFmt || ((v) => fmt(v, 1));
+
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" class="chart-svg">`;
+  for (const v of niceTicks(y0, y1, 4)) {
+    svg += `<line x1="${M.l}" x2="${W - M.r}" y1="${Y(v)}" y2="${Y(v)}" class="grid"/>`;
+    svg += `<text x="${M.l - 6}" y="${Y(v) + 4}" class="ytick">${fmtY(v)}</text>`;
+  }
+  if (y0 < 0 && y1 > 0) svg += `<line x1="${M.l}" x2="${W - M.r}" y1="${Y(0)}" y2="${Y(0)}" class="zero"/>`;
+  // แกนเวลา: ป้ายเดือน/ปี ประมาณ 4-6 จุด
+  const months = Math.max(1, Math.round((x1 - x0) / (30.4 * 864e5)));
+  const every = [1, 2, 3, 4, 6, 12, 24].find((e) => months / e <= (W < 420 ? 4 : 6)) || 24;
+  const d = new Date(x0); d.setDate(1); d.setMonth(d.getMonth() + 1);
+  while (d.getTime() <= x1) {
+    if (d.getMonth() % every === 0 || every === 1) {
+      const lbl = d.toLocaleDateString("th-TH", { month: "short", year: "2-digit" });
+      svg += `<text x="${X(d.getTime())}" y="${H - 6}" class="xtick">${lbl}</text>`;
+      svg += `<line x1="${X(d.getTime())}" x2="${X(d.getTime())}" y1="${M.t}" y2="${M.t + ph}" class="grid vgrid"/>`;
+    }
+    d.setMonth(d.getMonth() + 1);
+  }
+  for (const s of opt.series) {
+    const pts = s.data.filter((p) => p[1] != null);
+    if (s.type === "bar") {
+      const bw = Math.max(2, (pw / s.data.length) * 0.65);
+      for (const p of pts) {
+        const x = X(tx(p[0])), y = Y(p[1]);
+        svg += `<rect x="${x - bw / 2}" y="${Math.min(y, Y(0))}" width="${bw}" height="${Math.abs(Y(0) - y)}" fill="${p[1] >= 0 ? (s.color || "var(--up)") : "var(--down)"}" rx="1"/>`;
+      }
+      continue;
+    }
+    // เส้น (step = เส้นแบบขั้นบันได ใช้กับเพดานหนี้) / ช่วงที่ไม่มีค่า (null) จะเว้นว่าง
+    let path = "", prev = null;
+    for (const p of s.data) {
+      if (p[1] == null) { prev = null; continue; }
+      const x = X(tx(p[0])), y = Y(p[1]);
+      if (!prev) path += `M${x},${y}`;
+      else path += s.type === "step" ? `H${x}V${y}` : `L${x},${y}`;
+      prev = p;
+    }
+    svg += `<path d="${path}" fill="none" stroke="${s.color}" stroke-width="${s.width || 2}" ${s.dash ? 'stroke-dasharray="6 4"' : ""} stroke-linejoin="round"/>`;
+    const last = pts[pts.length - 1];
+    if (last && !s.noDot) svg += `<circle cx="${X(tx(last[0]))}" cy="${Y(last[1])}" r="3.5" fill="${s.color}"/>`;
+  }
+  svg += `<line class="hover-line" x1="0" x2="0" y1="${M.t}" y2="${M.t + ph}" style="display:none"/>`;
+  svg += `<rect x="${M.l}" y="${M.t}" width="${pw}" height="${ph}" fill="transparent" class="hit"/></svg>`;
+  box.innerHTML = `<div class="chart-wrap">${svg}<div class="chart-tip" style="display:none"></div></div>`;
+
+  // แตะ/ชี้บนกราฟ -> โชว์ค่าของวันนั้น
+  const wrap = box.firstChild, tip = wrap.querySelector(".chart-tip"), vline = wrap.querySelector(".hover-line");
+  const base = opt.series[0].data;
+  const show = (ev) => {
+    const r = wrap.getBoundingClientRect();
+    const cx = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+    const t = x0 + ((cx - M.l) / pw) * (x1 - x0);
+    let best = base[0];
+    for (const p of base) if (Math.abs(tx(p[0]) - t) < Math.abs(tx(best[0]) - t)) best = p;
+    const vals = opt.series.map((s) => {
+      const p = s.data.find((q) => q[0] === best[0]) || s.data.reduce((a, q) => (Math.abs(tx(q[0]) - tx(best[0])) < Math.abs(tx(a[0]) - tx(best[0])) ? q : a), s.data[0]);
+      return `<span style="color:${s.color || "var(--text)"}">${esc(s.label || "")} ${p && p[1] != null ? (opt.tipFmt || fmtY)(p[1]) : "–"}</span>`;
+    });
+    const x = X(tx(best[0]));
+    vline.setAttribute("x1", x); vline.setAttribute("x2", x); vline.style.display = "";
+    tip.innerHTML = `<b>${esc(thaiDate(best[0]))}</b><br>${vals.join("<br>")}`;
+    tip.style.display = "";
+    tip.style.left = Math.min(Math.max(0, x - 70), W - 150) + "px";
+  };
+  const hide = () => { tip.style.display = "none"; vline.style.display = "none"; };
+  const hit = wrap.querySelector(".hit");
+  hit.addEventListener("mousemove", show); hit.addEventListener("mouseleave", hide);
+  hit.addEventListener("touchstart", show, { passive: true }); hit.addEventListener("touchmove", show, { passive: true });
+  hit.addEventListener("touchend", () => setTimeout(hide, 2500));
+}
+
+function chartBox(id, opt) {
+  const box = document.getElementById(id);
+  if (!box) return;
+  const render = () => drawChart(box, opt);
+  CHARTS.push(render);
+  render();
+}
+
+let _rz;
+window.addEventListener("resize", () => { clearTimeout(_rz); _rz = setTimeout(() => CHARTS.forEach((f) => f()), 200); });
+
+function legendHTML(items) {
+  return `<div class="legend-row">${items.map(([c, t, dash]) => `<span><i style="background:${dash ? "transparent" : c};border-top:${dash ? `2px dashed ${c}` : "none"}"></i>${t}</span>`).join("")}</div>`;
+}
+
+function infoHTML(sec, asof, asofText) {
+  return `<p class="update-info">📅 ข้อมูล${asofText ? "" : " ณ"} <b>${esc(asofText || thaiDate(asof))}</b> · ปรับปรุง: ${esc(sec.freq)}<br>
+    ⏭ รอบถัดไปประมาณ <b>${esc(thaiDate(sec.next))}</b></p>`;
+}
+
+function extraPanel(id, title, sec, bodyFn) {
+  const el = document.getElementById(id);
+  if (!sec || !sec.ok) { el.innerHTML = failHTML(title, sec); return; }
+  el.innerHTML = sectionShell(title, "", bodyFn(), sec);
+}
+
+const C = { blue: "#5aa9ff", gold: "#ffd479", green: "#2fbf71", red: "#f0566a", purple: "#b48cff", gray: "#8b98a8" };
+const sgn = (v, d = 2) => (v > 0 ? "+" : "") + fmt(v, d);
+
+function renderExtra(x) {
+  if (!x) return;
+  CHARTS.length = 0;
+
+  extraPanel("us-dxy", "Dollar Index (DXY)", x.dxy, () => {
+    const L = x.dxy.latest, s = x.dxy.dxy, first = s[0][1];
+    return `<p class="big-num">${fmt(L.value, 2)} <span class="small">(${sgn((L.value / first - 1) * 100, 1)}% ใน 2 ปี)</span></p>
+      <p class="panel-sub">ค่าเงินดอลลาร์เทียบ 6 สกุลหลัก · ดอลลาร์แข็ง (กราฟขึ้น) มักกดดันเงินบาทและเงินทุนไหลออกจากตลาดเกิดใหม่</p>
+      <div id="ch-dxy"></div>${infoHTML(x.dxy, L.date)}`;
+  });
+  if (x.dxy && x.dxy.ok) chartBox("ch-dxy", { series: [{ data: x.dxy.dxy, color: C.gold, label: "DXY" }], yFmt: (v) => fmt(v, 0), tipFmt: (v) => fmt(v, 2) });
+
+  extraPanel("us-yields", "อัตราผลตอบแทนพันธบัตรรัฐบาลสหรัฐฯ", x.yields, () => {
+    const L = x.yields.latest;
+    return `<p class="big-num">10 ปี ${pct(L.y10)} · 2 ปี ${pct(L.y2)}</p>
+      <p class="panel-sub">ส่วนต่าง 10 ปี − 2 ปี = <b class="${L.spread < 0 ? "neg" : ""}">${sgn(L.spread)}%</b> · ถ้าติดลบ (yield curve กลับหัว) มักเป็นสัญญาณเตือนเศรษฐกิจถดถอย</p>
+      ${legendHTML([[C.blue, "10 ปี"], [C.purple, "2 ปี"]])}<div id="ch-yields"></div>
+      ${legendHTML([[C.gold, "ส่วนต่าง 10 ปี − 2 ปี"]])}<div id="ch-spread"></div>${infoHTML(x.yields, L.date)}`;
+  });
+  if (x.yields && x.yields.ok) {
+    chartBox("ch-yields", { series: [{ data: x.yields.y10, color: C.blue, label: "10 ปี" }, { data: x.yields.y2, color: C.purple, label: "2 ปี" }], yFmt: (v) => fmt(v, 1) + "%", tipFmt: (v) => fmt(v, 2) + "%" });
+    chartBox("ch-spread", { height: 130, zero: true, series: [{ data: x.yields.spread, color: C.gold, label: "ส่วนต่าง", width: 1.6 }], yFmt: (v) => fmt(v, 1), tipFmt: (v) => sgn(v) + "%" });
+  }
+
+  extraPanel("us-nfp", "การจ้างงานนอกภาคเกษตร (NFP) + อัตราว่างงาน", x.nfp, () => {
+    const L = x.nfp.latest;
+    return `<p class="big-num">${sgn(L.nfp, 0)}K ตำแหน่ง <span class="small">(${esc(thaiMonth(L.month))})</span></p>
+      <p class="panel-sub">จำนวนงานที่เพิ่ม/ลดในเดือนนั้น (พันตำแหน่ง) · อัตราว่างงานล่าสุด <b>${fmt(L.unrate, 1)}%</b> · เฟดใช้ดูตลาดแรงงานคู่กับเงินเฟ้อ</p>
+      ${legendHTML([[C.green, "งานเพิ่ม/ลดต่อเดือน (พันตำแหน่ง)"]])}<div id="ch-nfp"></div>
+      ${legendHTML([[C.red, "อัตราว่างงาน (%)"]])}<div id="ch-unrate"></div>${infoHTML(x.nfp, null, "เดือน " + thaiMonth(L.month))}`;
+  });
+  if (x.nfp && x.nfp.ok) {
+    chartBox("ch-nfp", { series: [{ data: x.nfp.nfp, color: C.green, type: "bar", label: "NFP" }], yFmt: (v) => fmt(v, 0), tipFmt: (v) => sgn(v, 0) + "K" });
+    chartBox("ch-unrate", { height: 130, series: [{ data: x.nfp.unrate, color: C.red, label: "ว่างงาน" }], yFmt: (v) => fmt(v, 1) + "%", tipFmt: (v) => fmt(v, 1) + "%" });
+  }
+
+  extraPanel("us-fedbs", "งบดุลเฟด (Fed Balance Sheet)", x.fedbs, () => {
+    const L = x.fedbs.latest, s = x.fedbs.walcl, first = s[0][1];
+    return `<p class="big-num">$${fmt(L.value, 2)}T <span class="small">(${sgn(L.value - first, 2)}T ใน 2 ปี)</span></p>
+      <p class="panel-sub">สินทรัพย์รวมของเฟด · เส้นลง = เฟดดูดสภาพคล่องออก (QT) · เส้นขึ้น = อัดสภาพคล่องเข้าระบบ (QE) · T = ล้านล้านดอลลาร์</p>
+      <div id="ch-fedbs"></div>${infoHTML(x.fedbs, L.date)}`;
+  });
+  if (x.fedbs && x.fedbs.ok) chartBox("ch-fedbs", { series: [{ data: x.fedbs.walcl, color: C.blue, label: "งบดุล" }], yFmt: (v) => "$" + fmt(v, 1) + "T", tipFmt: (v) => "$" + fmt(v, 3) + "T" });
+
+  extraPanel("us-debt", "หนี้รัฐบาลกลางสหรัฐฯ + เพดานหนี้", x.debt, () => {
+    const L = x.debt.latest;
+    const room = L.limit ? L.limit - (L.subject || L.debt) : null;
+    return `<p class="big-num">$${fmt(L.debt, 2)}T <span class="small">เพดาน $${L.limit ? fmt(L.limit, 2) + "T" : "–"}</span></p>
+      <p class="panel-sub">${room != null ? `เหลือช่องว่างก่อนชนเพดานประมาณ <b>$${fmt(room, 2)}T</b> ${L.subject ? "(คิดจากหนี้ที่นับรวมเพดาน)" : ""} · ` : ""}ช่วงที่เส้นเพดานหายไป = สภาฯ ระงับเพดานหนี้ชั่วคราว · ย้อนหลัง 5 ปี</p>
+      ${legendHTML([[C.gold, "หนี้รวม"], [C.red, "เพดานหนี้", true]])}<div id="ch-debt"></div>${infoHTML(x.debt, L.date)}`;
+  });
+  if (x.debt && x.debt.ok) chartBox("ch-debt", { height: 220, series: [{ data: x.debt.debt, color: C.gold, label: "หนี้" }, { data: x.debt.limit, color: C.red, type: "step", dash: true, label: "เพดาน", noDot: true }], yFmt: (v) => "$" + fmt(v, 0) + "T", tipFmt: (v) => "$" + fmt(v, 2) + "T" });
 }
 
 loadUS();

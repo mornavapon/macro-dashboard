@@ -433,7 +433,7 @@ def build_debt():
     # ค่าล่าสุดของ "หนี้ที่นับรวมเพดาน" และ "เพดานหนี้" จากรายงานรายวันของกระทรวงการคลัง (ถ้าอ่านได้)
     subject, statutory = None, None
     try:
-        u = f"{FISCAL}/v1/accounting/dts/debt_subject_to_limit?sort=-record_date&page[size]=20"
+        u = f"{FISCAL}/v1/accounting/dts/debt_subject_to_limit?sort=-record_date&page[size]=60"
         dts = json.loads(get(u, headers={"Accept": "application/json"}))["data"]
         save_debug("dts_debt_limit", u, json.dumps(dts[:12], ensure_ascii=False, indent=1))
         latest_date = dts[0]["record_date"]

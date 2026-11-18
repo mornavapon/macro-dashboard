@@ -132,6 +132,26 @@ body {
 .idx-table td.up { color: var(--up); }
 .idx-table td.down { color: var(--down); }
 
+/* ---------- กราฟ ---------- */
+.big-num { font-family: var(--mono); font-size: 24px; margin: 2px 0 6px !important; color: var(--text) !important; }
+.big-num .small { font-family: "IBM Plex Sans Thai", sans-serif; }
+.chart-wrap { position: relative; margin: 2px 0 8px; }
+.chart-svg { display: block; overflow: visible; }
+.chart-svg .grid { stroke: var(--line); stroke-width: 1; }
+.chart-svg .vgrid { stroke-dasharray: 2 4; opacity: .6; }
+.chart-svg .zero { stroke: var(--muted); stroke-width: 1.2; }
+.chart-svg .ytick { fill: var(--muted); font-size: 12.5px; text-anchor: end; font-family: var(--mono); }
+.chart-svg .xtick { fill: var(--muted); font-size: 12.5px; text-anchor: middle; }
+.chart-svg .hover-line { stroke: var(--text); stroke-width: 1; opacity: .5; }
+.chart-tip { position: absolute; top: 4px; background: rgba(23, 30, 38, .95); border: 1px solid var(--line);
+  border-radius: 8px; padding: 6px 9px; font-size: 13.5px; line-height: 1.5; pointer-events: none; min-width: 130px; }
+.legend-row { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin: 6px 0 2px; }
+.legend-row i { display: inline-block; width: 16px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+.update-info { font-size: 13.5px; color: var(--muted) !important; line-height: 1.7; margin: 4px 0 0 !important;
+  border-top: 1px dashed var(--line); padding-top: 8px; }
+.update-info b { color: var(--text); }
+b.neg { color: var(--down); }
+
 /* ---------- dots ---------- */
 .dots {
   position: fixed; left: 0; right: 0; bottom: max(14px, env(safe-area-inset-bottom));
