@@ -1,0 +1,146 @@
+{
+ "ok": true,
+ "latest": {
+  "period": "2026-09",
+  "year": 2026,
+  "end_month": 9,
+  "fdi": {
+   "projects": 1309,
+   "projects_prev": 1882,
+   "projects_chg": -30,
+   "value": 1550784,
+   "value_prev": 957404,
+   "value_chg": 62
+  },
+  "total": {
+   "projects": 1954,
+   "value": 1707427,
+   "value_chg": 28
+  },
+  "industries": [
+   {
+    "name": "ดิจิทัล",
+    "projects": 102,
+    "value": 1174200,
+    "value_chg": 145
+   },
+   {
+    "name": "เครื่องใช้ไฟฟ้าและอิเล็กทรอนิกส์",
+    "projects": 246,
+    "value": 185994,
+    "value_chg": 6
+   },
+   {
+    "name": "เกษตรและแปรรูปอาหาร",
+    "projects": 77,
+    "value": 51135,
+    "value_chg": 133
+   },
+   {
+    "name": "ยานยนต์",
+    "projects": 153,
+    "value": 32200,
+    "value_chg": -52
+   },
+   {
+    "name": "แร่โลหะและวัสดุ",
+    "projects": 152,
+    "value": 23593,
+    "value_chg": -72
+   },
+   {
+    "name": "เครื่องจักรระบบอัตโนมัติและหุ่นยนต์",
+    "projects": 106,
+    "value": 18061,
+    "value_chg": -8
+   }
+  ],
+  "countries": [
+   {
+    "name": "สิงคโปร์",
+    "projects": 214,
+    "value": 1164595
+   },
+   {
+    "name": "จีน",
+    "projects": 493,
+    "value": 63390
+   },
+   {
+    "name": "สหราชอาณาจักร",
+    "projects": 15,
+    "value": 48311
+   },
+   {
+    "name": "ญี่ปุ่น",
+    "projects": 192,
+    "value": 45478
+   },
+   {
+    "name": "ไต้หวัน",
+    "projects": 70,
+    "value": 43243
+   },
+   {
+    "name": "สหรัฐอเมริกา",
+    "projects": 34,
+    "value": 40992
+   }
+  ],
+  "new_projects": {
+   "projects": 788,
+   "value_share": 83
+  },
+  "pdf": "https://www.boi.go.th/upload/content/FDI%20Q3%202026%20final_6af29e7b03bdb.pdf",
+  "label": "ม.ค.–ก.ย. 2569"
+ },
+ "annual": [
+  {
+   "year": 2022,
+   "label": "2565",
+   "value": 386210,
+   "projects": 1009,
+   "full": true
+  },
+  {
+   "year": 2023,
+   "label": "2566",
+   "value": 663239,
+   "projects": 1394,
+   "full": true
+  },
+  {
+   "year": 2024,
+   "label": "2567",
+   "value": 818978,
+   "projects": 2000,
+   "full": true
+  },
+  {
+   "year": 2025,
+   "label": "2568",
+   "value": 1359925,
+   "projects": 2421,
+   "full": true
+  },
+  {
+   "year": 2026,
+   "label": "2569 (9 ด.)",
+   "value": 1550784,
+   "projects": 1309,
+   "full": false
+  }
+ ],
+ "pending": null,
+ "news_check_ok": true,
+ "next": {
+  "period": "2026-12",
+  "label": "ทั้งปี 2569",
+  "expected": "ปลายเดือนม.ค. – ต้นเดือนก.พ."
+ },
+ "freq": "รายไตรมาส (BOI แถลงหลังสิ้นไตรมาสประมาณ 3–5 สัปดาห์)",
+ "source": "สำนักงานคณะกรรมการส่งเสริมการลงทุน (BOI)",
+ "link": "https://www.boi.go.th/index.php?page=statistics_oversea_report_st&language=th",
+ "updated_at": "2026-11-18T21:48+07:00",
+ "log": "OK 2026-09 FDI 1,550,784 · pending=False"
+}
