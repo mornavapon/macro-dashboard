@@ -345,6 +345,54 @@ def build_exports():
             "link": TRADE + "/th/stat/reportmonth01"}
 
 
+# ---------------------------------------------------------------- นักลงทุนแต่ละกลุ่ม (SET)
+SET_API = "https://www.set.or.th/api/set/market/SET/"
+INV_ORDER = ["institution", "proprietary", "foreign", "individual"]
+
+
+def set_json(path):
+    return json.loads(get(SET_API + path, headers={
+        "Accept": "application/json", "Referer": "https://www.set.or.th/th/market/statistics/investor-type"}))
+
+
+def build_investor():
+    try:  # เปิดหน้าเว็บก่อนเพื่อรับ cookie
+        get("https://www.set.or.th/th/market/statistics/investor-type")
+    except Exception:  # noqa: BLE001
+        pass
+    summ = set_json("investor-type-summary")
+
+    def pack(block):
+        inv = {i["type"]: i for i in block["investors"]}
+        return {"begin": block["beginDate"][:10], "end": block["endDate"][:10],
+                "rows": [{"type": t, "buy": round(inv[t]["buyValue"] / 1e6, 2),
+                          "sell": round(inv[t]["sellValue"] / 1e6, 2),
+                          "net": round(inv[t]["netValue"] / 1e6, 2),
+                          "pct_buy": round(inv[t]["percentBuyValue"], 2)} for t in INV_ORDER if t in inv]}
+
+    out = {"mtd": pack(summ["mtd"]), "ytd": pack(summ["ytd"])}
+    # เดือนที่แล้ว (ปิดเดือน): สุทธิจากกราฟรายเดือน
+    try:
+        chart = set_json("investor-type-chart?period=1Y")
+        cur_month = out["mtd"]["begin"][:7]
+        prev = [c for c in chart if c["date"][:7] < cur_month]
+        if prev:
+            c = prev[-1]
+            out["prev_month"] = {"month": c["date"][:7],
+                                 "net": {t: round(c[t] / 1e6, 2) for t in INV_ORDER if t in c}}
+    except Exception as e:  # noqa: BLE001
+        LOG.append(f"investor chart FAIL {err_text(e)}")
+    try:
+        rem = set_json("investor-type-remark")["remark"]["thai"]
+        out["remark"] = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", rem)).replace("หมายเหตุ", "", 1).strip()
+    except Exception:  # noqa: BLE001
+        pass
+    LOG.append(f"SET investor: MTD ถึง {out['mtd']['end']}")
+    out.update({"source": "ตลาดหลักทรัพย์ฯ (set.or.th)",
+                "link": "https://www.settrade.com/th/equities/market-data/historical-report/investor-type?market=SET"})
+    return out
+
+
 # ---------------------------------------------------------------- runner
 def run_section(name, fn, old):
     try:
@@ -387,6 +435,7 @@ def main():
         "mpc": mpc,
         "cpi": run_section("cpi", build_cpi, old.get("cpi")),
         "exports": run_section("exports", build_exports, old.get("exports")),
+        "investor": run_section("investor", build_investor, old.get("investor")),
         "releases": build_releases(mpc),
     }
     os.makedirs(os.path.dirname(OUT), exist_ok=True)

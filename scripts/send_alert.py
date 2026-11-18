@@ -149,9 +149,55 @@ def th_export_new(cfg, test):
             json.dump(state, f, ensure_ascii=False, indent=2)
 
 
+def msci_alert(test):
+    """MSCI: แจ้ง 1 วันก่อนวันประกาศผล และ 1 วันก่อนวันปรับพอร์ตจริง"""
+    with open(os.path.join(ROOT, "data", "msci.json"), encoding="utf-8") as f:
+        d = json.load(f)
+    link = "https://mornavapon.github.io/macro-dashboard/"
+    latest, reviews = d.get("latest") or {}, [r for r in [d.get("latest")] + (d.get("schedule") or []) if r]
+    today = datetime.datetime.now(BKK).date()
+    tomorrow = (today + datetime.timedelta(days=1)).isoformat()
+
+    def changes_text(r):
+        if not r.get("ok"):
+            return "ยังดึงรายชื่อหุ้นไม่ได้ ดูในเว็บแอป"
+        lines = []
+        for key, label in (("standard", "ดัชนีหลัก (Standard)"), ("smallcap", "หุ้นขนาดเล็ก (Small Cap)")):
+            sec = r.get(key) or {}
+            lines.append(f"{label}\n  ➕ {', '.join(sec.get('add') or []) or 'ไม่มี'}\n  ➖ {', '.join(sec.get('delete') or []) or 'ไม่มี'}")
+        return "\n".join(lines)
+
+    if test:
+        nxt = d.get("next") or {}
+        send("[ทดสอบ] แจ้งเตือน MSCI",
+             f"✅ ทดสอบสำเร็จ\n\nรอบล่าสุด: {latest.get('review', '-')}\n{changes_text(latest)}\n\n"
+             f"รอบถัดไป: {nxt.get('review', '-')} ประกาศ {thai_date(nxt['announce_thai'])}" if nxt else "✅ ทดสอบสำเร็จ",
+             link, ["test_tube", "thailand"])
+        return
+    sent = False
+    for r in reviews:
+        ann_thai = datetime.datetime.fromisoformat(r["announce_thai"])
+        if r["announce_cet"] == today.isoformat():
+            send(f"คืนนี้ MSCI ประกาศผลทบทวน {r['review']}",
+                 f"📅 ประกาศหลัง 23:00 น. เวลายุโรป = {ann_thai.strftime('%H:%M')} น. {thai_date(ann_thai.date().isoformat())} (เวลาไทย)\n"
+                 f"🔁 ปรับพอร์ตจริง: ปิดตลาด{thai_date(r['trade_close'])}", link, ["calendar", "thailand"])
+            sent = True
+        if r["trade_close"] == tomorrow:
+            body = f"🔁 พรุ่งนี้ ({thai_date(r['trade_close'])}) กองทุนปรับพอร์ตตาม MSCI ช่วงปิดตลาด มักมีแรงซื้อขายหนัก\n\n"
+            if r.get("review") == latest.get("review"):
+                body += "หุ้นไทยที่ปรับรอบนี้\n" + changes_text(latest)
+            send(f"พรุ่งนี้ MSCI ปรับพอร์ตจริง ({r['review']})", body, link, ["warning", "thailand"])
+            sent = True
+    if not sent:
+        print("msci: วันนี้ไม่มีอะไรต้องแจ้ง")
+
+
 def main():
     key = sys.argv[1]
     test = "--test" in sys.argv
+    if key == "msci":
+        msci_alert(test)
+        return
     cfg = TOPICS[key]
     if key == "th_cpi":
         th_cpi_new(cfg, test)

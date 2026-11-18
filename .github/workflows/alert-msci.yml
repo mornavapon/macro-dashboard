@@ -1,0 +1,24 @@
+name: แจ้งเตือน MSCI ปรับหุ้นไทย (ล่วงหน้า 1 วัน)
+
+# แจ้ง 2 จังหวะ: วันที่ MSCI จะประกาศผล (คืนนั้น) และ 1 วันก่อนวันปรับพอร์ตจริง
+# ปิดแจ้งเตือนอันนี้: แท็บ Actions > คลิกชื่อ workflow นี้ > ปุ่ม ... มุมขวา > Disable workflow
+on:
+  schedule:
+    - cron: "13 2 * * *"   # ทุกวัน 09:13 น. เวลาไทย
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "ส่งข้อความทดสอบทันที"
+        type: boolean
+        default: true
+
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: ส่งแจ้งเตือน
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC_MACRO }}
+        run: python3 scripts/send_alert.py msci ${{ inputs.test && '--test' || '' }}

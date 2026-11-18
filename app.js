@@ -550,6 +550,69 @@ function renderThExport(sec) {
     sec);
 }
 
+const INV_NAME = { institution: "สถาบันในประเทศ", proprietary: "บัญชีบริษัทหลักทรัพย์", foreign: "นักลงทุนต่างประเทศ", individual: "นักลงทุนรายย่อยในประเทศ" };
+const netCell = (v) => `<td class="num ${v > 0 ? "up" : v < 0 ? "down" : ""}">${v == null ? "–" : (v > 0 ? "+" : "") + fmt(v, 0)}</td>`;
+
+function renderThInvestor(sec) {
+  const el = document.getElementById("th-investor");
+  const title = "มูลค่าซื้อขายตามกลุ่มนักลงทุน (SET)";
+  if (!sec || !sec.mtd) { el.innerHTML = failHTML(title, sec); return; }
+  const prev = sec.prev_month || null;
+  const mtd = Object.fromEntries(sec.mtd.rows.map((r) => [r.type, r]));
+  const ytd = Object.fromEntries(sec.ytd.rows.map((r) => [r.type, r]));
+  const types = sec.mtd.rows.map((r) => r.type);
+  const range = (b) => `${thaiDateShort(b.begin)} – ${thaiDateShort(b.end)}`;
+  const t1 = types.map((t) => `<tr><td class="inv-name">${INV_NAME[t] || t}</td>
+      ${prev ? netCell(prev.net[t]) : ""}${netCell(mtd[t].net)}${netCell(ytd[t].net)}</tr>`).join("");
+  const t2 = types.map((t) => `<tr><td class="inv-name">${INV_NAME[t] || t}</td>
+      <td class="num">${fmt(mtd[t].buy, 0)}</td><td class="num">${fmt(mtd[t].sell, 0)}</td>${netCell(mtd[t].net)}</tr>`).join("");
+  el.innerHTML = sectionShell(title, "ซื้อ/ขายสุทธิ หน่วย: ล้านบาท · สีเขียว = ซื้อสุทธิ · สีแดง = ขายสุทธิ", `
+    <table class="idx-table inv-table"><thead><tr><th>กลุ่ม</th>
+      ${prev ? `<th class="num">${esc(thaiMonth(prev.month))}<br><span class="th-sub">ปิดเดือน</span></th>` : ""}
+      <th class="num">เดือนนี้<br><span class="th-sub">${esc(range(sec.mtd))}</span></th>
+      <th class="num">ตั้งแต่ต้นปี<br><span class="th-sub">ถึง ${esc(thaiDateShort(sec.ytd.end))}</span></th></tr></thead><tbody>${t1}</tbody></table>
+    <p class="panel-sub" style="margin-top:12px !important">รายละเอียดเดือนนี้ (${esc(range(sec.mtd))})</p>
+    <table class="idx-table inv-table"><thead><tr><th>กลุ่ม</th><th class="num">ซื้อ</th><th class="num">ขาย</th><th class="num">สุทธิ</th></tr></thead><tbody>${t2}</tbody></table>
+    ${sec.remark ? `<p class="small" style="margin-top:8px">หมายเหตุ: ${esc(sec.remark)}</p>` : ""}
+    <p class="update-info">📅 ข้อมูล ณ <b>${esc(thaiDate(sec.mtd.end))}</b> · ปรับปรุงทุกวันทำการ (บอทดึงทุก 6 ชั่วโมง)</p>`, sec);
+}
+
+function renderThMSCI(d) {
+  const el = document.getElementById("th-msci");
+  const title = "MSCI ปรับเพิ่ม/ลดหุ้นไทย";
+  if (!d) { el.innerHTML = failHTML(title, { error: "โหลดข้อมูลไม่ได้" }); return; }
+  const L = d.latest, N = d.next;
+  const list = (arr) => (arr && arr.length ? arr.map((x) => `<li>${esc(x)}</li>`).join("") : `<li class="small">ไม่มี</li>`);
+  let body = "";
+  if (L && L.ok) {
+    const sec = (key, label) => {
+      const s = L[key] || {};
+      return `<div class="msci-sec"><p class="msci-h">${label}</p>
+        <div class="msci-cols"><div><p class="up">➕ เพิ่มเข้า</p><ul>${list(s.add)}</ul></div>
+        <div><p class="down">➖ ถูกคัดออก</p><ul>${list(s.delete)}</ul></div></div></div>`;
+    };
+    body = `<p class="big-num" style="font-size:20px">รอบ ${esc(L.review)} ${L.manual ? '<span class="small">(ข้อมูลใส่โดย Claude)</span>' : ""}</p>
+      <p class="panel-sub">ประกาศ ${esc(thaiDateTime(L.announce_thai))} · ปรับพอร์ตจริงตอนปิดตลาด <b>${esc(thaiDate(L.trade_close))}</b></p>
+      ${sec("standard", "MSCI Thailand (ดัชนีหลัก)")}${sec("smallcap", "MSCI Thailand Small Cap (หุ้นขนาดเล็ก)")}`;
+  } else if (L) {
+    body = `<div class="msci-warn">⚠️ MSCI ประกาศผลรอบ <b>${esc(L.review)}</b> แล้ว (${esc(thaiDateTime(L.announce_thai))})
+      แต่บอทดึงรายชื่อหุ้นอัตโนมัติไม่สำเร็จ<br><br>👉 <b>บอก Claude ว่า "MSCI ปรับรายชื่อหุ้นรอบ ${esc(L.review)} แล้ว ช่วยดึงข้อมูลมาแสดงให้หน่อย"</b></div>`;
+  }
+  const nextTxt = N ? `<p class="update-info">⏭ รอบถัดไป: <b>${esc(N.review)}</b> · ประกาศ ${esc(thaiDateTime(N.announce_thai))} · ปรับพอร์ตจริงปิดตลาด ${esc(thaiDate(N.trade_close))}<br>
+    🔔 แจ้งเตือน ntfy: วันที่ MSCI จะประกาศ และ 1 วันก่อนวันปรับพอร์ตจริง</p>` : "";
+  el.innerHTML = sectionShell(title, "ทบทวนปีละ 4 ครั้ง (ก.พ. / พ.ค. / ส.ค. / พ.ย.) · กองทุนที่อิงดัชนี MSCI ซื้อขายตามวันปรับพอร์ตจริง", body + nextTxt,
+    { link: "https://www.msci.com/quarterly-index-review", source: "MSCI (Public List)" });
+}
+
+async function loadMSCI() {
+  try {
+    const r = await fetch("data/msci.json?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    renderThMSCI(await r.json());
+  } catch (e) { renderThMSCI(null); }
+}
+loadMSCI();
+
 async function loadTH() {
   const upd = document.getElementById("th-updated");
   try {
@@ -557,7 +620,7 @@ async function loadTH() {
     if (!r.ok) throw new Error("HTTP " + r.status);
     const d = await r.json();
     upd.textContent = "อัปเดตล่าสุด: " + thaiDateTime(d.updated_at) + " (เวลาไทย)";
-    for (const [fn, sec] of [[renderThGDP, d.gdp], [renderThMPC, d.mpc], [renderThCPI, d.cpi], [renderThExport, d.exports]]) {
+    for (const [fn, sec] of [[renderThGDP, d.gdp], [renderThMPC, d.mpc], [renderThCPI, d.cpi], [renderThExport, d.exports], [renderThInvestor, d.investor]]) {
       try { fn(sec); } catch (e) { console.error(e); }
     }
   } catch (e) {
