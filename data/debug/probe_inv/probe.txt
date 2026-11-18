@@ -1,0 +1,64 @@
+== set page len=492344
+
+APIS in html []
+
+JS HITS (11 chunks) /api/set/market/SET/investor-type-average
+/api/set/market/mai/investor-type-average
+/education-research/research/market-report/investor-sentiment-index-cmri
+/en/education-research/research/market-report/investor-sentiment-index-cmri
+/en/tsd/services/investors/calculators/right-offering
+/en/tsd/services/investors/calculators/stock-dividend
+/en/tsd/services/investors/sustainability/issuers-using-eservices
+/en/tsd/services/investors/transaction/certificate/certificate-loss-list
+/en/tsd/services/investors/transaction/certificate/name-changes-record
+/investor-type
+/investor-type-average
+/investor-type-chart?period=1Y
+/investor-type-chart?period=5D
+/investor-type-remark
+/investor-type-summary
+/market/statistics/investor-type
+/statistics/investor-type
+/th/education-research/research/market-report/investor-sentiment-index-cmri
+/th/tsd/services/investors/calculators/right-offering
+/th/tsd/services/investors/calculators/stock-dividend
+/th/tsd/services/investors/sustainability/issuers-using-eservices
+/th/tsd/services/investors/transaction/certificate/certificate-loss-list
+/th/tsd/services/investors/transaction/certificate/name-changes-record
+/tsd/services/investors/calculators/right-offering
+/tsd/services/investors/calculators/stock-dividend
+/tsd/services/investors/sustainability/issuers-using-eservices
+/tsd/services/investors/transaction/certificate/name-changes-record
+api/set/tfex/market/investor-type/condition/market-list?type=
+api/set/tfex/market/investor-type?type=
+education-research/research/market-report/investor-sentiment-index-cmri
+market/statistics/investor-type
+tsd/services/investors/calculators/right-offering
+tsd/services/investors/calculators/stock-dividend
+tsd/services/investors/sustainability/issuers-using-eservices
+tsd/services/investors/transaction/certificate/certificate-loss-list
+tsd/services/investors/transaction/certificate/name-changes-record
+
+== settrade page len=302926
+
+APIS in html []
+
+JS HITS (11 chunks) /api/set/tfex/market/investor-type/summary
+/api/set/tfex/market/investor-type?type=
+/derivatives/market-data/investor-type
+/equities/market-data/historical-report/investor-type
+/investor-type
+/investor-type-chart?period=1Y
+/investor-type-remark
+/investor-type-summary
+derivative/overview/marketdata/investorType/index.js
+derivatives/market-data/investor-type
+equities/market-data/historical-report/investor-type
+
+TRY https://www.set.or.th/api/set/market/SET/investor-type/trading?period=M&lang=th FAIL HTTP Error 404: 
+
+TRY https://www.set.or.th/api/set/investor-type/trading?market=SET&period=M FAIL HTTP Error 404: 
+
+TRY https://www.settrade.com/api/set/market/SET/investor-type-trading?period=M FAIL HTTP Error 403: Forbidden
+
+TRY https://www.set.or.th/api/set/market/investor-type?market=SET FAIL HTTP Error 404: 
