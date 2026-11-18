@@ -42,9 +42,10 @@ def parse_list(html):
         if cap:
             rows.append({"s": s, "n": n.group(1) if n else s, "cap": float(cap.group(1)),
                          "ex": ex.group(1) if ex else None})
-    text = re.sub(r"\s+", " ", re.sub(r"(?s)<[^>]+>", " ", html))
-    tot = re.search(r"Total Market Cap\s+([\d.]+)\s*([TB])", text)
-    cnt = re.search(r"Total Stocks\s+([\d,]+)", text)
+    text = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", html)
+    text = re.sub(r"\s+", " ", re.sub(r"(?s)<[^>]+>", " ", text))
+    tot = re.search(r"Total Market Cap\D{0,40}?([\d.]+)\s*([TB])", text)
+    cnt = re.search(r"Total Stocks\D{0,40}?([\d,]+)", text)
     total = None
     if tot:
         total = float(tot.group(1)) * (1e12 if tot.group(2) == "T" else 1e9)
@@ -73,7 +74,10 @@ def main():
     nyse_rows, nyse_total, nyse_n = parse_list(get(SA + "nyse-stocks/"))
     sp_rows, sp_total, sp_n = parse_list(get(SA + "sp-500-stocks/"))
     dow_rows, dow_total, dow_n = parse_list(get(SA + "dow-jones-stocks/"))
-    if not all([nasdaq_total, nyse_total, sp_rows, dow_rows]):
+    check = {"nasdaq_total": nasdaq_total, "nyse_total": nyse_total,
+             "sp_rows": len(sp_rows), "dow_rows": len(dow_rows), "nasdaq_rows": len(nasdaq_rows)}
+    print("check:", check)
+    if not all(check.values()):
         raise SystemExit("อ่านข้อมูลไม่ครบ (หน้าเว็บอาจเปลี่ยนรูปแบบ)")
 
     exch_of = {r["s"]: r["ex"] for r in nasdaq_rows + nyse_rows if r["ex"]}
