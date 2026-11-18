@@ -614,6 +614,46 @@ async function loadMSCI() {
 }
 loadMSCI();
 
+// ---- ค่าเงินบาท USD/THB (ไฟล์แยก data/fx.json) ----
+function renderThFX(sec) {
+  const el = document.getElementById("th-fx");
+  const title = "ค่าเงินบาท (USD/THB)";
+  const tv = "https://th.tradingview.com/symbols/USDTHB/";
+  if (!sec || !sec.ok) {
+    el.innerHTML = failHTML(title, sec) + `<div class="panel-foot"><a class="btn" href="${tv}" target="_blank" rel="noopener">ดูใน TradingView ↗</a></div>`;
+    return;
+  }
+  const L = sec.latest;
+  const move = (old, lab) => {
+    const pc = (L.value / old - 1) * 100;          // USD/THB ขึ้น = บาทอ่อน
+    const weak = pc > 0.05, strong = pc < -0.05;
+    return `<div class="fx-chip ${strong ? "in" : weak ? "out" : ""}"><span class="small">${lab}</span><b>${strong ? "บาทแข็งขึ้น" : weak ? "บาทอ่อนลง" : "ทรงตัว"}</b><span class="small">${fmt(old, 2)} → ${fmt(L.value, 2)} (${fmt(Math.abs(pc), 1)}%)</span></div>`;
+  };
+  el.innerHTML = `<h2>${title}</h2>
+    <p class="big-num">${fmt(L.value, 2)} <span class="small">บาท ต่อ 1 ดอลลาร์</span></p>
+    <div class="fx-chips">${move(L.m1, "1 เดือน")}${move(L.m3, "3 เดือน")}${move(L.y1, "1 ปี")}</div>
+    <div id="ch-fx"></div>
+    <p class="panel-sub">เส้น<b>ขึ้น</b> = <b class="down">บาทอ่อน</b> (ต้องใช้บาทมากขึ้นแลก 1 ดอลลาร์) · เส้น<b>ลง</b> = <b class="up">บาทแข็ง</b> · ช่วง 1 ปี: ${fmt(L.lo, 2)} – ${fmt(L.hi, 2)}<br>
+      ดูคู่กับเงินต่างชาติในตราสารหนี้/หุ้นด้านล่าง: เงินต่างชาติไหลเข้า มักทำให้บาทแข็ง</p>
+    ${sec.stale ? `<p class="stale">⚠ ข้อมูลเก่า – รอบล่าสุดดึงไม่สำเร็จ (${esc(sec.error)})</p>` : ""}
+    <p class="update-info">📅 ข้อมูล ณ <b>${esc(thaiDate(L.date))}</b> · ปรับปรุงทุก 3 ชั่วโมง (จ.–ศ.)</p>
+    <div class="panel-foot"><a class="btn" href="${tv}" target="_blank" rel="noopener">ดูใน TradingView ↗</a><span class="src">ที่มา: ${esc(sec.source)}</span></div>`;
+  chartBox("ch-fx", { height: 200, series: [{ data: sec.data, color: "#e6edf3", label: "USD/THB", width: 1.6 }],
+    yFmt: (v) => fmt(v, 1), tipFmt: (v) => fmt(v, 2) + " บาท" });
+}
+
+async function loadFX() {
+  try {
+    const r = await fetch("data/fx.json?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error("โหลดไฟล์ข้อมูลไม่ได้ (HTTP " + r.status + ")");
+    renderThFX(await r.json());
+  } catch (e) {
+    console.error(e);
+    try { renderThFX({ ok: false, error: e.message }); } catch (_) {}
+  }
+}
+loadFX();
+
 // ---- BOI / FDI (ไฟล์แยก data/boi.json, data/fdi.json) ----
 const chgTxt = (v) => `<span class="${v > 0 ? "up" : v < 0 ? "down" : ""}">${v > 0 ? "+" : ""}${fmt(v, 0)}%</span>`;
 const bn = (v) => fmt(v / 1000, 0);   // ล้านบาท -> พันล้านบาท

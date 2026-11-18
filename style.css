@@ -215,3 +215,11 @@ b.neg { color: var(--down); }
 .hbar { display: block; height: 100%; background: #4ea1ff; border-radius: 4px; }
 .hbar.part { background: rgba(78,161,255,.45); }
 .hbar-val { width: 54px; text-align: right; font-variant-numeric: tabular-nums; }
+
+.fx-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 8px 0 10px; }
+.fx-chip { border: 1px solid rgba(255,255,255,.12); border-left: 4px solid var(--muted); border-radius: 8px; padding: 6px 8px; display: flex; flex-direction: column; gap: 2px; }
+.fx-chip b { font-size: 15.5px; }
+.fx-chip.in { border-left-color: var(--up); } .fx-chip.in b { color: var(--up); }
+.fx-chip.out { border-left-color: var(--down); } .fx-chip.out b { color: var(--down); }
+.fx-chip .small { font-size: 13px; }
+.panel-sub b.up { color: var(--up); } .panel-sub b.down { color: var(--down); }
