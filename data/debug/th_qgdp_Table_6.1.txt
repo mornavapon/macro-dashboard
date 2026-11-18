@@ -1,5 +1,5 @@
 URL: https://www.nesdc.go.th/wp-content/uploads/2026/11/All-Tables-QGDP-Download-Excel-Files-1.xlsx
-FETCHED: 2026-11-18T04:07:01.833663+07:00
+FETCHED: 2026-11-18T12:38:54.126024+07:00
 
 GDP column = AA
 {"A": "Table 6.1 :  Gross domestic product, chain volume measures [reference year = 2002] (Seasonally Adjusted) q-o-q Growth Rate"}

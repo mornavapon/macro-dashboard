@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T04:06+07:00",
+  "updated_at": "2026-11-18T12:38+07:00",
   "gdp": {
     "rows": [
       {
@@ -36,7 +36,7 @@
     "source": "สศช. (ไฟล์ All Tables QGDP)",
     "link": "https://www.nesdc.go.th/info/economic-aspect/",
     "ok": true,
-    "fetched_at": "2026-11-18T04:07+07:00"
+    "fetched_at": "2026-11-18T12:38+07:00"
   },
   "mpc": {
     "year": 2026,
@@ -96,7 +96,7 @@
     "source": "ธนาคารแห่งประเทศไทย",
     "link": "https://www.bot.or.th/th/our-roles/monetary-policy/mpc-meeting.html",
     "ok": true,
-    "fetched_at": "2026-11-18T04:06+07:00"
+    "fetched_at": "2026-11-18T12:38+07:00"
   },
   "cpi": {
     "rows": [
@@ -141,7 +141,7 @@
     "source": "สนค. กระทรวงพาณิชย์",
     "link": "https://index.tpso.go.th/cpi",
     "ok": true,
-    "fetched_at": "2026-11-18T04:07+07:00"
+    "fetched_at": "2026-11-18T12:39+07:00"
   },
   "exports": {
     "rows": [
@@ -197,7 +197,91 @@
     "source": "กระทรวงพาณิชย์ (tradereport.moc.go.th)",
     "link": "https://tradereport.moc.go.th/th/stat/reportmonth01",
     "ok": true,
-    "fetched_at": "2026-11-18T04:07+07:00"
+    "fetched_at": "2026-11-18T12:39+07:00"
+  },
+  "investor": {
+    "mtd": {
+      "begin": "2026-11-01",
+      "end": "2026-11-17",
+      "rows": [
+        {
+          "type": "institution",
+          "buy": 58171.12,
+          "sell": 53432.61,
+          "net": 4738.5,
+          "pct_buy": 7.1
+        },
+        {
+          "type": "proprietary",
+          "buy": 77252.99,
+          "sell": 86969.67,
+          "net": -9716.68,
+          "pct_buy": 9.43
+        },
+        {
+          "type": "foreign",
+          "buy": 447625.23,
+          "sell": 448884.51,
+          "net": -1259.27,
+          "pct_buy": 54.65
+        },
+        {
+          "type": "individual",
+          "buy": 235952.17,
+          "sell": 229714.72,
+          "net": 6237.46,
+          "pct_buy": 28.81
+        }
+      ]
+    },
+    "ytd": {
+      "begin": "2026-01-01",
+      "end": "2026-11-17",
+      "rows": [
+        {
+          "type": "institution",
+          "buy": 1067496.39,
+          "sell": 1143689.52,
+          "net": -76193.13,
+          "pct_buy": 7.28
+        },
+        {
+          "type": "proprietary",
+          "buy": 1050471.2,
+          "sell": 1057102.0,
+          "net": -6630.8,
+          "pct_buy": 7.17
+        },
+        {
+          "type": "foreign",
+          "buy": 8033101.38,
+          "sell": 8015847.78,
+          "net": 17253.6,
+          "pct_buy": 54.8
+        },
+        {
+          "type": "individual",
+          "buy": 4507469.93,
+          "sell": 4441899.6,
+          "net": 65570.33,
+          "pct_buy": 30.75
+        }
+      ]
+    },
+    "prev_month": {
+      "month": "2026-10",
+      "net": {
+        "institution": -99897.87,
+        "proprietary": 3005.8,
+        "foreign": 12078.35,
+        "individual": 84813.71
+      }
+    },
+    "remark": "เปลี่ยนการจัดหมวดหมู่ Total Return Swap (TRS) จากกลุ่ม \"นักลงทุนต่างประเทศ\" มายัง \"บัญชีบริษัทหลักทรัพย์\" ตั้งแต่ 16 พฤศจิกายน 2569 เป็นต้นไป ข้อมูลก่อนและหลังการเปลี่ยนการจัดหมวดหมู่ (ระหว่าง 2 มกราคม 2568 - 13 พฤศจิกายน 2569) คลิกที่นี่",
+    "source": "ตลาดหลักทรัพย์ฯ (set.or.th)",
+    "link": "https://www.settrade.com/th/equities/market-data/historical-report/investor-type?market=SET",
+    "ok": true,
+    "fetched_at": "2026-11-18T12:39+07:00"
   },
   "releases": {
     "mpc": {
