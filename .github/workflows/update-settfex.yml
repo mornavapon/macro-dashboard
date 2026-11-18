@@ -1,0 +1,40 @@
+name: อัปเดตข้อมูลเสริมจาก settfex (หน้า 3)
+
+# แยกจาก workflow อื่นทั้งหมด: ถ้า settfex ติดตั้งไม่ได้หรือพัง จะกระทบเฉพาะ data/settfex.json
+on:
+  schedule:
+    - cron: "23 11 * * 1-5"   # จ.–ศ. 18:23 น. เวลาไทย (หลัง ThaiBMA ประกาศ yield curve)
+    - cron: "23 0 * * 2-6"    # อ.–ส. 07:23 น. เวลาไทย (รอบเก็บตก)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commit
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: ติดตั้ง settfex
+        continue-on-error: true   # ติดตั้งไม่ได้ก็ยังรันต่อ เพื่อให้หน้าเว็บขึ้น "ดึงข้อมูลไม่สำเร็จ"
+        run: pip install -q settfex
+      - name: ดึง yield curve พันธบัตรไทย (ThaiBMA)
+        run: python3 scripts/fetch_settfex.py
+      - name: บันทึกข้อมูลกลับเข้า repo
+        run: |
+          git config user.name "macro-bot"
+          git config user.email "macro-bot@users.noreply.github.com"
+          git add data/settfex.json
+          if ! git diff --cached --quiet; then
+            git commit -m "update settfex data"
+            git pull --rebase
+            git push
+          fi

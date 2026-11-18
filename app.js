@@ -613,6 +613,44 @@ async function loadMSCI() {
 }
 loadMSCI();
 
+// ---- ข้อมูลเสริมจาก settfex (ไฟล์แยก data/settfex.json) ----
+function renderThYields(sec) {
+  const title = "อัตราผลตอบแทนพันธบัตรรัฐบาลไทย";
+  extraPanel("th-yields", title, sec, () => {
+    const L = sec.latest;
+    const rows = (sec.curve || []).map((r) => {
+      const ch = r.year_ago == null ? null : r.now - r.year_ago;
+      return `<tr><td>${esc(r.tenor.replace("M", " เดือน").replace("Y", " ปี"))}</td><td class="num">${fmt(r.now, 2)}%</td>
+        <td class="num">${r.year_ago == null ? "–" : fmt(r.year_ago, 2) + "%"}</td>
+        <td class="num ${ch > 0 ? "up" : ch < 0 ? "down" : ""}">${ch == null ? "–" : sgn(ch)}</td></tr>`;
+    }).join("");
+    return `<p class="big-num">10 ปี ${pct(L.y10)} · 2 ปี ${pct(L.y2)}</p>
+      <p class="panel-sub">ส่วนต่าง 10 ปี − 2 ปี = <b class="${L.spread < 0 ? "neg" : ""}">${sgn(L.spread)}%</b> · yield ระยะสั้นสะท้อนความคาดหวังดอกเบี้ยนโยบาย กนง. ส่วนระยะยาวสะท้อนมุมมองเศรษฐกิจและเงินเฟ้อ</p>
+      ${legendHTML([[C.blue, "10 ปี"], [C.purple, "2 ปี"]])}<div id="ch-th-yields"></div>
+      ${legendHTML([[C.gold, "ส่วนต่าง 10 ปี − 2 ปี"]])}<div id="ch-th-spread"></div>
+      <table class="idx-table"><thead><tr><th>อายุ</th><th class="num">ล่าสุด</th><th class="num">1 ปีก่อน<br><span class="small">${esc(thaiDateShort(sec.year_ago_date))}</span></th><th class="num">เปลี่ยน</th></tr></thead><tbody>${rows}</tbody></table>
+      ${infoHTML(sec, L.date)}`;
+  });
+  if (sec && sec.ok) {
+    chartBox("ch-th-yields", { series: [{ data: sec.y10, color: C.blue, label: "10 ปี" }, { data: sec.y2, color: C.purple, label: "2 ปี" }], yFmt: (v) => fmt(v, 1) + "%", tipFmt: (v) => fmt(v, 2) + "%" });
+    chartBox("ch-th-spread", { height: 130, zero: true, series: [{ data: sec.spread, color: C.gold, label: "ส่วนต่าง", width: 1.6 }], yFmt: (v) => fmt(v, 1), tipFmt: (v) => sgn(v) + "%" });
+  }
+}
+
+async function loadSettfex() {
+  let d = null;
+  try {
+    const r = await fetch("data/settfex.json?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error("โหลดไฟล์ข้อมูลไม่ได้ (HTTP " + r.status + ")");
+    d = await r.json();
+    renderThYields(d.th_yields);
+  } catch (e) {
+    console.error(e);
+    try { renderThYields({ ok: false, error: e.message }); } catch (_) {}
+  }
+}
+loadSettfex();
+
 async function loadTH() {
   const upd = document.getElementById("th-updated");
   try {
