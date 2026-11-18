@@ -22,8 +22,8 @@
   },
   "source": "stockanalysis.com",
   "log": [
-    "Nasdaq symbol directory FAIL HTTP Error 406: Not Acceptable -> ใช้เฉพาะรายชื่อหุ้นใหญ่",
-    "S&P ที่หาตลาดไม่เจอ (นับเป็น NYSE): ['CBOE', 'FIS', 'SJM', 'AVY', 'TXT', 'GDDY', 'MAA', 'DOC', 'BAX', 'CLX', 'IVZ', 'PNW', 'GL', 'MKC', 'HII', 'IT', 'FDS', 'DECK', 'PNR', 'GNRC', 'UDR', 'AES', 'LII', 'ALB', 'BXP', 'UHS', 'CPT', 'FRT', 'NCLH', 'APTV', 'AOS', 'ARE', 'HRL', 'MOS', 'DVA', 'MGM', 'BF.B']",
+    "Nasdaq symbol directory: 5610 ตัว",
+    "S&P ที่หาตลาดไม่เจอ (นับเป็น NYSE): []",
     "Dow ที่หาตลาดไม่เจอ (นับเป็น NYSE): []"
   ]
 }
