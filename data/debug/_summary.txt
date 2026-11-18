@@ -1,4 +1,4 @@
-run at 2026-11-18T17:14:47.549224+07:00
+run at 2026-11-18T18:37:37.446992+07:00
 
 spx.level OK via Yahoo Finance (^GSPC)
 spx.market_cap OK via stockanalysis.com
@@ -19,5 +19,5 @@ sse.level OK via Yahoo Finance (000001.SS)
 sse[0] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-18 -> found ['pe', 'market_cap'] (json)
 vni.level OK via Yahoo Finance (^VNINDEX.VN)
 vni_24h html https://24hmoney.vn/indices/vn-index -> found ['pe']
-vix OK (504 วัน ล่าสุด ['2026-11-18', 23.51])
+vix OK (504 วัน ล่าสุด ['2026-11-18', 23.96])
 soxx OK (501 วัน ล่าสุด ['2026-11-17', 159.26])

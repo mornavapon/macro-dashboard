@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T17:14+07:00",
+  "updated_at": "2026-11-18T18:37+07:00",
   "indices": [
     {
       "id": "spx",
@@ -71,19 +71,19 @@
         "source": "Yahoo Finance (^SET.BK)"
       },
       "market_cap": {
-        "value": 18606386400000.0,
-        "asof": "17 Nov 2026",
+        "value": 18572594740000.0,
+        "asof": "18 Nov 2026",
         "source": "www.set.or.th",
         "currency": "THB"
       },
       "pe": {
-        "value": 13.72,
-        "asof": "17 Nov 2026",
+        "value": 13.7,
+        "asof": "18 Nov 2026",
         "source": "www.set.or.th"
       },
       "pbv": {
-        "value": 1.35,
-        "asof": "17 Nov 2026",
+        "value": 1.34,
+        "asof": "18 Nov 2026",
         "source": "www.set.or.th"
       }
     },
@@ -2193,12 +2193,12 @@
       ],
       [
         "2026-11-18",
-        23.51
+        23.96
       ]
     ],
     "latest": {
       "date": "2026-11-18",
-      "value": 23.51
+      "value": 23.96
     },
     "source": "Cboe ผ่าน Yahoo Finance (^VIX)",
     "link": "https://th.tradingview.com/symbols/TVC-VIX/"
