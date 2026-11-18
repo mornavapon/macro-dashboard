@@ -1,4 +1,4 @@
 URL: https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-18
-FETCHED: 2026-11-18T01:33:05.635419+07:00
+FETCHED: 2026-11-18T09:53:28.436432+07:00
 
 {"actionErrors":[],"actionMessages":[],"fieldErrors":{},"isPagination":"false","jsonCallBack":"","locale":"en_US","pageHelp":{"beginPage":1,"cacheSize":5,"data":null,"endDate":null,"endPage":null,"objectResult":null,"pageCount":null,"pageNo":1,"pageSize":10,"pageSizeWithOutLimit":10,"searchDate":null,"sort":null,"startDate":null,"total":0},"pageNo":null,"pageSize":null,"queryDate":"","result":[],"securityCode":"","sqlId":"COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C","texts":null,"type":"inParams","validateCode":""}
