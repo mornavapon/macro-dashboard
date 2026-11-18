@@ -375,11 +375,12 @@ def build_investor():
     try:
         chart = set_json("investor-type-chart?period=1Y")
         cur_month = out["mtd"]["begin"][:7]
+        # ข้อมูลกราฟเป็นยอด "สะสม" ในช่วง 1 ปี -> สุทธิของเดือน = สะสมเดือนนั้น - สะสมเดือนก่อน
         prev = [c for c in chart if c["date"][:7] < cur_month]
-        if prev:
-            c = prev[-1]
+        if len(prev) >= 2:
+            c, b = prev[-1], prev[-2]
             out["prev_month"] = {"month": c["date"][:7],
-                                 "net": {t: round(c[t] / 1e6, 2) for t in INV_ORDER if t in c}}
+                                 "net": {t: round((c[t] - b[t]) / 1e6, 2) for t in INV_ORDER if t in c and t in b}}
     except Exception as e:  # noqa: BLE001
         LOG.append(f"investor chart FAIL {err_text(e)}")
     try:
