@@ -1,0 +1,7 @@
+{
+ "_note": "ลิงก์ไฟล์ PDF 'สถิติการลงทุนโดยตรงจากต่างประเทศ' ของ BOI แต่ละรอบ (หาได้ที่ https://www.boi.go.th/index.php?page=statistics_oversea_report_st) · period = ปี ค.ศ.-เดือนสุดท้ายของช่วง · Claude เพิ่มรอบใหม่ต่อท้ายเมื่อ BOI ประกาศ",
+ "reports": [
+  {"period": "2026-06", "pdf": "https://www.boi.go.th/upload/content/FDI%20Report%20Q269%20Final_6a8d4b517b226.pdf"},
+  {"period": "2026-09", "pdf": "https://www.boi.go.th/upload/content/FDI%20Q3%202026%20final_6af29e7b03bdb.pdf"}
+ ]
+}
