@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-18T14:26+07:00",
+ "updated_at": "2026-11-19T02:26+07:00",
  "settfex_version": "0.27.0",
  "th_yields": {
   "y2": [
@@ -1930,6 +1930,10 @@
    [
     "2026-11-17",
     1.207
+   ],
+   [
+    "2026-11-18",
+    1.21
    ]
   ],
   "y10": [
@@ -3860,6 +3864,10 @@
    [
     "2026-11-17",
     2.053
+   ],
+   [
+    "2026-11-18",
+    2.047
    ]
   ],
   "spread": [
@@ -5790,58 +5798,62 @@
    [
     "2026-11-17",
     0.846
+   ],
+   [
+    "2026-11-18",
+    0.837
    ]
   ],
   "curve": [
    {
     "tenor": "3M",
-    "now": 0.881,
-    "year_ago": 1.259
+    "now": 0.882,
+    "year_ago": 1.256
    },
    {
     "tenor": "1Y",
-    "now": 0.946,
-    "year_ago": 1.277
+    "now": 0.95,
+    "year_ago": 1.268
    },
    {
     "tenor": "2Y",
-    "now": 1.207,
-    "year_ago": 1.36
+    "now": 1.21,
+    "year_ago": 1.331
    },
    {
     "tenor": "5Y",
-    "now": 1.592,
-    "year_ago": 1.479
+    "now": 1.596,
+    "year_ago": 1.43
    },
    {
     "tenor": "10Y",
-    "now": 2.053,
-    "year_ago": 1.748
+    "now": 2.047,
+    "year_ago": 1.701
    },
    {
     "tenor": "20Y",
-    "now": 2.957,
-    "year_ago": 2.308
+    "now": 2.958,
+    "year_ago": 2.264
    },
    {
     "tenor": "30Y",
-    "now": 3.198,
-    "year_ago": 2.421
+    "now": 3.197,
+    "year_ago": 2.394
    }
   ],
-  "year_ago_date": "2025-11-17",
+  "year_ago_date": "2025-11-18",
   "latest": {
-   "date": "2026-11-17",
-   "y2": 1.207,
-   "y10": 2.053,
-   "spread": 0.846
+   "date": "2026-11-18",
+   "y2": 1.21,
+   "y10": 2.047,
+   "spread": 0.837
   },
   "freq": "ทุกวันทำการ (ThaiBMA ประกาศช่วงเย็น)",
-  "next": "2026-11-18",
+  "next": "2026-11-19",
   "source": "ThaiBMA ผ่าน settfex",
   "link": "https://www.thaibma.or.th/EN/Market/YieldCurve/Government.aspx",
   "ok": true,
-  "fetched_at": "2026-11-18T14:26+07:00"
+  "fetched_at": "2026-11-19T02:26+07:00"
  },
  "log": [
   "th_yields: OK"
