@@ -81,7 +81,8 @@ def main():
     print("check:", check)
     os.makedirs(os.path.join(ROOT, "data", "debug"), exist_ok=True)
     with open(os.path.join(ROOT, "data", "debug", "universe_debug.txt"), "w", encoding="utf-8") as f:
-        f.write(json.dumps(check) + "\n\n" + "\n".join(m.group(0) for m in re.finditer(r".{0,200}Total.{0,200}", NASDAQ_HTML))[:20000])
+        f.write(json.dumps(check) + "\n\n" + "\n".join(m.group(0) for m in re.finditer(r".{0,120}(?:[A-Za-z]*[Cc]ount|[a-z]*[Tt]otal[A-Za-z]*|marketCapSum|sumMarketCap)\s*:\s*[0-9.e+]+.{0,120}", NASDAQ_HTML))[:20000]
+                + "\n\nLEN " + str(len(NASDAQ_HTML)) + "\nTAIL " + NASDAQ_HTML[-3000:])
     if not all(check.values()):
         raise SystemExit("อ่านข้อมูลไม่ครบ (หน้าเว็บอาจเปลี่ยนรูปแบบ)")  # ดู data/debug/universe_debug.txt
 
