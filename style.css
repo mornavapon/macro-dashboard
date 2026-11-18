@@ -207,3 +207,11 @@ b.neg { color: var(--down); }
 .flow-verdict b.warn { color: var(--warn); }
 .soxx-guide { padding-left: 18px; margin: 8px 0; font-size: 15.5px; line-height: 1.6; }
 .soxx-guide li { margin-bottom: 4px; } .soxx-guide b.up { color: var(--up); } .soxx-guide b.down { color: var(--down); }
+
+.hbars { margin: 6px 0 12px; }
+.hbar-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; font-size: 15px; }
+.hbar-lab { width: 92px; flex: none; color: var(--muted); }
+.hbar-track { flex: 1; height: 16px; background: rgba(255,255,255,.05); border-radius: 4px; overflow: hidden; }
+.hbar { display: block; height: 100%; background: #4ea1ff; border-radius: 4px; }
+.hbar.part { background: rgba(78,161,255,.45); }
+.hbar-val { width: 54px; text-align: right; font-variant-numeric: tabular-nums; }

@@ -1,0 +1,41 @@
+name: แจ้งเตือน FDI ไทย ไตรมาสใหม่
+
+# เตือนเมื่อแบงก์ชาติออกตัวเลข FDI ไตรมาสใหม่ · ปีละ 4 ครั้ง
+# ปิดแจ้งเตือนอันนี้: แท็บ Actions > คลิกชื่อ workflow นี้ > ปุ่ม ... มุมขวา > Disable workflow
+on:
+  schedule:
+    - cron: "47 3 * * 1-5"   # จ.–ศ. 10:47 น. เวลาไทย (หลังบอทอ่านข้อมูลแบงก์ชาติรอบ 10:17)
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "ส่งข้อความทดสอบทันที"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commit
+  cancel-in-progress: false
+
+jobs:
+  alert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: ส่งแจ้งเตือน
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC_MACRO }}
+        run: python3 scripts/send_alert.py fdi ${{ inputs.test && '--test' || '' }}
+      - name: จำสถานะการแจ้งเตือน
+        run: |
+          git config user.name "macro-bot"
+          git config user.email "macro-bot@users.noreply.github.com"
+          git add data/alert_state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "alert state: fdi"
+            git pull --rebase
+            git push
+          fi

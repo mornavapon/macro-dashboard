@@ -614,6 +614,106 @@ async function loadMSCI() {
 }
 loadMSCI();
 
+// ---- BOI / FDI (ไฟล์แยก data/boi.json, data/fdi.json) ----
+const chgTxt = (v) => `<span class="${v > 0 ? "up" : v < 0 ? "down" : ""}">${v > 0 ? "+" : ""}${fmt(v, 0)}%</span>`;
+const bn = (v) => fmt(v / 1000, 0);   // ล้านบาท -> พันล้านบาท
+
+function renderThBOI(sec) {
+  const el = document.getElementById("th-boi");
+  const title = "BOI: ต่างชาติยื่นขอลงทุน";
+  if (!sec || !sec.ok) { el.innerHTML = failHTML(title, sec); return; }
+  const L = sec.latest, F = L.fdi, ind = L.industries || [], co = L.countries || [];
+  const indShare = ind[0] ? Math.round((ind[0].value / F.value) * 100) : null;
+  const coShare = co[0] ? Math.round((co[0].value / F.value) * 100) : null;
+  let cls, head, why;
+  if (F.value_chg > 0 && F.projects_chg < 0) {
+    cls = "mid"; head = "มูลค่าพุ่ง แต่จำนวนโครงการลดลง";
+    why = `มูลค่าโตเพราะ <b>โครงการใหญ่ไม่กี่โครงการ</b>: กลุ่ม${esc(ind[0].name)} คิดเป็น ${indShare}% ของมูลค่า และมาจาก${esc(co[0].name)} ${coShare}% · จำนวนโครงการลดลง ${Math.abs(F.projects_chg)}% แปลว่าการลงทุน<b>ไม่ได้กระจายตัว</b>`;
+  } else if (F.value_chg >= 0 && F.projects_chg >= 0) {
+    cls = "in"; head = "เพิ่มขึ้นทั้งมูลค่าและจำนวนโครงการ"; why = "ต่างชาติสนใจลงทุนในไทยมากขึ้นแบบกระจายตัว = สัญญาณดี";
+  } else if (F.value_chg < 0 && F.projects_chg < 0) {
+    cls = "out"; head = "ลดลงทั้งมูลค่าและจำนวนโครงการ"; why = "ต่างชาติชะลอแผนลงทุนในไทย ควรจับตา";
+  } else {
+    cls = "mid"; head = "โครงการมากขึ้น แต่ขนาดเล็กลง"; why = "มีนักลงทุนสนใจมากขึ้น แต่เป็นโครงการขนาดเล็ก";
+  }
+  const pend = sec.pending ? `<div class="msci-warn">⚠️ BOI ประกาศตัวเลขรอบ <b>${esc(sec.pending.label)}</b> แล้ว (ข่าววันที่ ${esc(thaiDateShort(sec.pending.date))})<br>
+      ด้านล่างยังเป็นรอบ ${esc(L.label)} · บอก Claude ว่า <b>"BOI ประกาศตัวเลขรอบ ${esc(sec.pending.label)} แล้ว ช่วยดึงข้อมูลให้หน่อย"</b>
+      <br><a href="${esc(sec.pending.link)}" target="_blank" rel="noopener">อ่านข่าว ↗</a></div>` : "";
+  const coRows = co.slice(0, 5).map((c, i) => `<tr><td>${i + 1}. ${esc(c.name)}</td><td class="num">${bn(c.value)}</td><td class="num">${Math.round((c.value / F.value) * 100)}%</td><td class="num">${fmt(c.projects, 0)}</td></tr>`).join("");
+  const indRows = ind.slice(0, 5).map((c) => `<tr><td>${esc(c.name)}</td><td class="num">${bn(c.value)}</td><td class="num">${chgTxt(c.value_chg)}</td><td class="num">${fmt(c.projects, 0)}</td></tr>`).join("");
+  el.innerHTML = sectionShell(title, "คำขอรับส่งเสริมการลงทุนของต่างชาติ = <b>แผน</b>ที่จะลงทุน (ยังไม่ใช่เงินจริง) · ตัวบอกล่วงหน้า 1–3 ปี", `
+    ${pend}
+    <div class="flow-verdict ${cls}">
+      <p class="fv-head">${esc(L.label)} ต่างชาติยื่นขอลงทุน<b class="${cls === "in" ? "up" : cls === "out" ? "down" : "warn"}">${fmt(F.value / 1e6, 2)} ล้านล้านบาท · ${head}</b></p>
+      <p>${why}</p>
+    </div>
+    <table class="idx-table"><thead><tr><th></th><th class="num">โครงการ</th><th class="num">เทียบปีก่อน</th><th class="num">มูลค่า<br><span class="small">พันล้านบาท</span></th><th class="num">เทียบปีก่อน</th></tr></thead><tbody>
+      <tr><td>ต่างชาติ</td><td class="num">${fmt(F.projects, 0)}</td><td class="num">${chgTxt(F.projects_chg)}</td><td class="num"><b>${bn(F.value)}</b></td><td class="num">${chgTxt(F.value_chg)}</td></tr>
+      ${L.total ? `<tr><td>ทั้งหมด<br><span class="small">(ไทย+ต่างชาติ)</span></td><td class="num">${fmt(L.total.projects, 0)}</td><td class="num">–</td><td class="num">${bn(L.total.value)}</td><td class="num">${chgTxt(L.total.value_chg)}</td></tr>` : ""}
+    </tbody></table>
+    <h3 class="flow-h3">มาจากประเทศไหน (5 อันดับแรกตามมูลค่า)</h3>
+    <table class="idx-table"><thead><tr><th>ประเทศ</th><th class="num">พันล้านบาท</th><th class="num">สัดส่วน</th><th class="num">โครงการ</th></tr></thead><tbody>${coRows}</tbody></table>
+    <h3 class="flow-h3">ลงทุนในอุตสาหกรรมไหน</h3>
+    <table class="idx-table"><thead><tr><th>อุตสาหกรรม</th><th class="num">พันล้านบาท</th><th class="num">เทียบปีก่อน</th><th class="num">โครงการ</th></tr></thead><tbody>${indRows}</tbody></table>
+    <h3 class="flow-h3">ยอดคำขอของต่างชาติรายปี</h3>
+    <p class="small">หน่วยพันล้านบาท · แถบสีอ่อน = ยังไม่ครบปี</p>
+    <div class="hbars">${sec.annual.map((x) => { const mx = Math.max(...sec.annual.map((y) => y.value));
+      return `<div class="hbar-row"><span class="hbar-lab">${esc(x.label)}</span><span class="hbar-track"><span class="hbar ${x.full ? "" : "part"}" style="width:${(x.value / mx) * 100}%"></span></span><span class="hbar-val">${bn(x.value)}</span></div>`; }).join("")}</div>
+    <details class="details flow-guide"><summary>📖 วิธีอ่านแบบง่ายๆ (แตะเพื่ออ่าน)</summary><ul>
+      <li>BOI = ตัวเลข <b>"ยื่นขอ"</b> ส่งเสริมการลงทุน คือแผนที่จะลงทุน ยังไม่ใช่เงินที่เข้ามาจริง</li>
+      <li>โครงการที่ยื่นวันนี้ มักลงเงินจริงใน 1–3 ปีข้างหน้า จึงใช้ดู<b>แนวโน้มล่วงหน้า</b></li>
+      <li>ดู<b>ทั้งมูลค่าและจำนวนโครงการ</b>: มูลค่าพุ่งแต่โครงการลด = มีโครงการยักษ์ไม่กี่ตัว (เช่น ดาต้าเซ็นเตอร์) ถ้าโครงการพวกนี้เลื่อน/ยกเลิก ตัวเลขจะหายไปเยอะ</li>
+      <li>ดูคู่กับกล่อง <b>FDI</b> ด้านล่าง: คำขอ BOI สูง แต่ FDI จริงยังไม่เพิ่ม = เงินยังไม่ได้เข้ามาจริง</li></ul></details>
+    <p class="update-info">📅 ข้อมูลรอบ <b>${esc(L.label)}</b> · ${esc(sec.freq)}<br>รอบถัดไป: <b>${esc(sec.next.label)}</b> คาดว่าประกาศ${esc(sec.next.expected)}</p>`, sec);
+}
+
+function renderThFDI(sec) {
+  const el = document.getElementById("th-fdi");
+  const title = "FDI: เงินลงทุนจริงจากต่างชาติ";
+  if (!sec || !sec.ok) { el.innerHTML = failHTML(title, sec); return; }
+  const L = sec.latest, qLab = (y, q) => `ไตรมาส ${q}/${y + 543}`;
+  const ytdLab = L.quarter === 4 ? `ทั้งปี ${L.year + 543}` : `${L.quarter === 1 ? "ไตรมาสแรก" : L.quarter === 2 ? "ครึ่งปีแรก" : "9 เดือนแรก"} ปี ${L.year + 543}`;
+  const ch = L.ytd_prev ? Math.round((L.ytd / L.ytd_prev - 1) * 100) : null;
+  let cls = "mid", head = "ใกล้เคียงปีก่อน", why = "เงินลงทุนจริงจากต่างชาติไหลเข้าในระดับใกล้เคียงเดิม";
+  if (L.ytd < 0) { cls = "out"; head = "ต่างชาติถอนเงินลงทุนสุทธิ"; why = "เงินที่ต่างชาติถอนออก/ปิดกิจการมากกว่าเงินที่เข้ามาลงทุนใหม่ ควรจับตา"; }
+  else if (ch != null && ch >= 10) { cls = "in"; head = "เงินลงทุนจริงเพิ่มขึ้น"; why = "ต่างชาติเอาเงินเข้ามาตั้งโรงงาน/ธุรกิจในไทยมากขึ้น = สัญญาณดีต่อเศรษฐกิจระยะยาว"; }
+  else if (ch != null && ch <= -10) { cls = "out"; head = "เงินลงทุนจริงลดลง"; why = "ต่างชาติเอาเงินเข้ามาลงทุนจริงน้อยลง ถึงแม้คำขอ BOI อาจยังสูง"; }
+  const annRows = sec.annual.map((a) => `<tr><td>${a.full ? "ปี " + (a.year + 543) : `ปี ${a.year + 543} (ถึงไตรมาส ${L.quarter})`}</td><td class="num"><b>${fmt(a.value, 0)}</b></td></tr>`).join("");
+  el.innerHTML = sectionShell(title, "เงินที่ต่างชาติเอาเข้ามาตั้งโรงงาน/ธุรกิจในไทย<b>จริงแล้ว</b> (สุทธิ หักเงินที่ถอนออก) · จากแบงก์ชาติ", `
+    <div class="flow-verdict ${cls}">
+      <p class="fv-head">${ytdLab} เข้ามาจริง<b class="${cls === "in" ? "up" : cls === "out" ? "down" : "warn"}">${fmt(L.ytd, 0)} ล้านดอลลาร์ · ${head}</b></p>
+      <p>${L.ytd_prev != null ? `ช่วงเดียวกันปีก่อน ${fmt(L.ytd_prev, 0)} ล้านดอลลาร์ (${ch > 0 ? "+" : ""}${ch}%) · ` : ""}${why}</p>
+    </div>
+    <p class="panel-sub">ล่าสุด ${qLab(L.year, L.quarter)}: <b>${fmt(L.value, 0)}</b> ล้านดอลลาร์${L.same_q_last_year != null ? ` · ไตรมาสเดียวกันปีก่อน ${fmt(L.same_q_last_year, 0)}` : ""}</p>
+    <h3 class="flow-h3">FDI รายไตรมาส (ล้านดอลลาร์)</h3>
+    <p class="small">แท่งเขียว = เงินไหลเข้าสุทธิ · แดง = ถอนออกสุทธิ</p>
+    <div id="ch-fdi"></div>
+    <table class="idx-table"><thead><tr><th>รวมทั้งปี</th><th class="num">ล้านดอลลาร์</th></tr></thead><tbody>${annRows}</tbody></table>
+    <details class="details flow-guide"><summary>📖 วิธีอ่านแบบง่ายๆ (แตะเพื่ออ่าน)</summary><ul>
+      <li>FDI = เงินที่ต่างชาติ<b>เอาเข้ามาลงทุนจริงแล้ว</b> เช่น ตั้งโรงงาน ซื้อกิจการ เพิ่มทุนบริษัทลูก (หักเงินที่ถอนกลับแล้ว)</li>
+      <li>ต่างจาก BOI ด้านบนที่เป็นแค่ <b>"คำขอ/แผน"</b> · ปกติคำขอ BOI จะกลายเป็น FDI จริงใน 1–3 ปี</li>
+      <li>FDI เป็นเงินระยะยาว ไม่เข้าออกเร็วแบบเงินในตลาดหุ้น/พันธบัตร จึงสะท้อนความเชื่อมั่นต่อเศรษฐกิจไทยระยะยาว</li>
+      <li>ตัวเลขออกช้า (2–4 เดือนหลังจบไตรมาส) และแบงก์ชาติปรับย้อนหลังบ่อย ให้ดูแนวโน้มมากกว่าตัวเลขเป๊ะๆ</li></ul></details>
+    <p class="update-info">📅 ข้อมูลถึง <b>${qLab(L.year, L.quarter)}</b> · ปรับปรุง: ${esc(sec.freq)}</p>`, sec);
+  chartBox("ch-fdi", { height: 180, series: [{ data: sec.quarters.map((q) => [`${q.year}-${String(q.quarter * 3 - 1).padStart(2, "0")}-15`, q.value]), type: "bar", color: C.green, label: "" }],
+    yFmt: (v) => fmt(v, 0), tipFmt: (v) => fmt(v, 0) + " ล้านดอลลาร์",
+    tipDate: (d) => qLab(+d.slice(0, 4), Math.ceil(+d.slice(5, 7) / 3)) });
+}
+
+async function loadBOIFDI() {
+  for (const [file, fn] of [["boi", renderThBOI], ["fdi", renderThFDI]]) {
+    try {
+      const r = await fetch(`data/${file}.json?t=` + Date.now(), { cache: "no-store" });
+      if (!r.ok) throw new Error("โหลดไฟล์ข้อมูลไม่ได้ (HTTP " + r.status + ")");
+      fn(await r.json());
+    } catch (e) {
+      console.error(e);
+      try { fn({ ok: false, error: e.message }); } catch (_) {}
+    }
+  }
+}
+loadBOIFDI();
+
 // ---- เงินต่างชาติในตลาดตราสารหนี้ไทย (ไฟล์แยก data/bondflow.json) ----
 const flowWord = (v) => (v >= 0 ? "เข้า" : "ออก");
 const flowCls = (v) => (v > 0 ? "up" : v < 0 ? "down" : "");

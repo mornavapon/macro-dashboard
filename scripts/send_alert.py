@@ -244,6 +244,76 @@ def bondflow_alert(test):
         json.dump(state, f, ensure_ascii=False, indent=2)
 
 
+# ---- BOI / FDI ----
+def _load_state():
+    try:
+        with open(STATE, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def _save_state(state):
+    with open(STATE, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False, indent=2)
+
+
+def boi_alert(test):
+    """BOI ประกาศตัวเลขรอบใหม่ (จับจากข่าว) -> เตือนให้มาบอก Claude ดึงข้อมูล"""
+    with open(os.path.join(ROOT, "data", "boi.json"), encoding="utf-8") as f:
+        d = json.load(f)
+    if not d.get("ok"):
+        print("boi: ข้อมูลล่าสุดดึงไม่สำเร็จ ข้ามการแจ้งเตือน")
+        return
+    L, P = d["latest"], d.get("pending")
+    F = L["fdi"]
+    summary = (f"ข้อมูลในเวปแอปตอนนี้: {L['label']}\n"
+               f"ต่างชาติยื่นขอลงทุน {F['value']:,} ล้านบาท ({F['value_chg']:+d}%) · {F['projects']:,} โครงการ ({F['projects_chg']:+d}%)")
+    if test:
+        send("[ทดสอบ] แจ้งเตือน BOI", "✅ ทดสอบสำเร็จ\n\n" + summary + f"\n\nรอบถัดไป: {d['next']['label']} คาดว่าประกาศ{d['next']['expected']}", SITE, ["test_tube", "factory"])
+        return
+    state = _load_state()
+    if P and state.get("boi_pending") != P["period"]:
+        send(f"🏭 BOI ประกาศยอดขอลงทุนรอบ {P['label']} แล้ว",
+             f"ข่าว: {P['title']}\n\n👉 บอก Claude ว่า \"BOI ประกาศตัวเลขรอบ {P['label']} แล้ว ช่วยดึงข้อมูลให้หน่อย\"\n\n" + summary,
+             P.get("link") or SITE, ["factory", "thailand"])
+        state["boi_pending"] = P["period"]
+        _save_state(state)
+    else:
+        print("boi: ไม่มีรอบใหม่ที่ยังไม่ได้แจ้ง")
+
+
+def fdi_alert(test):
+    """แบงก์ชาติออกตัวเลข FDI ไตรมาสใหม่"""
+    with open(os.path.join(ROOT, "data", "fdi.json"), encoding="utf-8") as f:
+        d = json.load(f)
+    if not d.get("ok"):
+        print("fdi: ข้อมูลล่าสุดดึงไม่สำเร็จ ข้ามการแจ้งเตือน")
+        return
+    L = d["latest"]
+    qlab = f"ไตรมาส {L['quarter']}/{L['year'] + 543}"
+    body = f"{qlab}: เงินลงทุนจริงจากต่างชาติ (สุทธิ) {L['value']:,} ล้านดอลลาร์"
+    if L.get("same_q_last_year") is not None:
+        body += f"\nไตรมาสเดียวกันปีก่อน: {L['same_q_last_year']:,}"
+    if L.get("ytd_prev"):
+        ch = (L["ytd"] / L["ytd_prev"] - 1) * 100
+        body += f"\nตั้งแต่ต้นปี: {L['ytd']:,} ({ch:+.0f}% จากปีก่อน)"
+    if test:
+        send("[ทดสอบ] แจ้งเตือน FDI", "✅ ทดสอบสำเร็จ · ตัวเลขล่าสุด\n\n" + body, SITE, ["test_tube", "moneybag"])
+        return
+    state = _load_state()
+    if state.get("fdi") is None:            # ครั้งแรก: จำไว้เฉยๆ ไม่แจ้ง
+        state["fdi"] = L["q"]
+        _save_state(state)
+        print("fdi: บันทึกไตรมาสปัจจุบันไว้", L["q"])
+    elif state["fdi"] != L["q"]:
+        send(f"💰 FDI ไทย {qlab} ออกแล้ว", body, SITE, ["moneybag", "thailand"])
+        state["fdi"] = L["q"]
+        _save_state(state)
+    else:
+        print("fdi: ยังไม่มีไตรมาสใหม่")
+
+
 def main():
     key = sys.argv[1]
     test = "--test" in sys.argv
@@ -252,6 +322,12 @@ def main():
         return
     if key == "bondflow":
         bondflow_alert(test)
+        return
+    if key == "boi":
+        boi_alert(test)
+        return
+    if key == "fdi":
+        fdi_alert(test)
         return
     cfg = TOPICS[key]
     if key == "th_cpi":
