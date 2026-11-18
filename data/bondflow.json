@@ -1547,9 +1547,12 @@
   ]
  },
  "week_p80": 13110,
+ "week_p95": 23553,
+ "week_min_2y": -46469,
+ "weeks_out_over_20k_2y": 10,
  "freq": "ทุกวันทำการ วันละ 3 รอบ (08:30 / 12:00 / 16:30 น.)",
  "source": "ThaiBMA (Non-resident Flows)",
  "link": "https://www.thaibma.or.th/EN/Market/NR/NRDaily.aspx",
- "updated_at": "2026-11-18T16:53+07:00",
+ "updated_at": "2026-11-18T16:58+07:00",
  "log": "OK"
 }
