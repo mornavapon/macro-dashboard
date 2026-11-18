@@ -1,0 +1,9 @@
+name: ทดสอบแหล่ง FDI/BOI (ชั่วคราว)
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install -q pypdf && python3 scripts/probe_fdi.py
