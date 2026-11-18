@@ -1,0 +1,29 @@
+{
+  "asof": "2026-11-18",
+  "next": "2026-12-01",
+  "freq": "ประมาณทุก 2 สัปดาห์ (วันที่ 1 และ 15 ของเดือน)",
+  "nyse": {
+    "cap": 47654153680044.0,
+    "count": 1910
+  },
+  "nasdaq": {
+    "cap": 46247912163693.0,
+    "count": 3424
+  },
+  "sp500": {
+    "cap": 66997340420275.0,
+    "count": 503,
+    "nyse_frac": 0.4244
+  },
+  "dow": {
+    "cap": 27134756381145.0,
+    "count": 30,
+    "nyse_frac": 0.2422
+  },
+  "source": "stockanalysis.com",
+  "log": [
+    "Nasdaq symbol directory FAIL HTTP Error 406: Not Acceptable -> ใช้เฉพาะรายชื่อหุ้นใหญ่",
+    "S&P ที่หาตลาดไม่เจอ (นับเป็น NYSE): ['CBOE', 'FIS', 'SJM', 'AVY', 'TXT', 'GDDY', 'MAA', 'DOC', 'BAX', 'CLX', 'IVZ', 'PNW', 'GL', 'MKC', 'HII', 'IT', 'FDS', 'DECK', 'PNR', 'GNRC', 'UDR', 'AES', 'LII', 'ALB', 'BXP', 'UHS', 'CPT', 'FRT', 'NCLH', 'APTV', 'AOS', 'ARE', 'HRL', 'MOS', 'DVA', 'MGM', 'BF.B']",
+    "Dow ที่หาตลาดไม่เจอ (นับเป็น NYSE): []"
+  ]
+}
