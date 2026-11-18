@@ -25,8 +25,8 @@ UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 SA = "https://stockanalysis.com/list/"
 
 
-def get(url):
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/html"})
+def get(url, accept="text/html"):
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": accept})
     with urllib.request.urlopen(req, timeout=60) as r:
         return r.read().decode("utf-8", errors="replace")
 
@@ -57,7 +57,7 @@ def parse_list(html):
 
 def nasdaq_symbols():
     """รายชื่อหุ้นทุกตัวที่จดทะเบียนใน Nasdaq (ไฟล์ทางการของ Nasdaq Trader)"""
-    t = get("https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt")
+    t = get("https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt", accept="*/*")
     return {line.split("|")[0] for line in t.splitlines()[1:] if "|" in line}
 
 
