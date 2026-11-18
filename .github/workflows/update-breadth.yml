@@ -1,0 +1,34 @@
+name: อัปเดต Market Breadth S&P 500 (หน้า 1)
+
+# แยกจาก workflow อื่นทั้งหมด: ถ้าพัง จะกระทบเฉพาะ data/breadth.json
+# คำนวณจากราคาหุ้น S&P 500 ทุกตัว (~500 ตัว ใช้เวลาไม่กี่นาที) วันละครั้งหลังตลาดสหรัฐฯ ปิด
+on:
+  schedule:
+    - cron: "37 23 * * 1-5"   # อ.–ส. 06:37 น. เวลาไทย (หลังตลาดสหรัฐฯ ปิด)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-commit
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: คำนวณ % หุ้น S&P 500 ที่อยู่เหนือเส้นค่าเฉลี่ย 200 วัน
+        run: python3 scripts/fetch_breadth.py
+      - name: บันทึกข้อมูลกลับเข้า repo
+        run: |
+          git config user.name "macro-bot"
+          git config user.email "macro-bot@users.noreply.github.com"
+          git add data/breadth.json
+          if ! git diff --cached --quiet; then
+            git commit -m "update market breadth"
+            git pull --rebase
+            git push
+          fi
