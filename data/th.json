@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T12:38+07:00",
+  "updated_at": "2026-11-18T12:40+07:00",
   "gdp": {
     "rows": [
       {
@@ -36,7 +36,7 @@
     "source": "สศช. (ไฟล์ All Tables QGDP)",
     "link": "https://www.nesdc.go.th/info/economic-aspect/",
     "ok": true,
-    "fetched_at": "2026-11-18T12:38+07:00"
+    "fetched_at": "2026-11-18T12:40+07:00"
   },
   "mpc": {
     "year": 2026,
@@ -96,7 +96,7 @@
     "source": "ธนาคารแห่งประเทศไทย",
     "link": "https://www.bot.or.th/th/our-roles/monetary-policy/mpc-meeting.html",
     "ok": true,
-    "fetched_at": "2026-11-18T12:38+07:00"
+    "fetched_at": "2026-11-18T12:40+07:00"
   },
   "cpi": {
     "rows": [
@@ -141,7 +141,7 @@
     "source": "สนค. กระทรวงพาณิชย์",
     "link": "https://index.tpso.go.th/cpi",
     "ok": true,
-    "fetched_at": "2026-11-18T12:39+07:00"
+    "fetched_at": "2026-11-18T12:41+07:00"
   },
   "exports": {
     "rows": [
@@ -197,7 +197,7 @@
     "source": "กระทรวงพาณิชย์ (tradereport.moc.go.th)",
     "link": "https://tradereport.moc.go.th/th/stat/reportmonth01",
     "ok": true,
-    "fetched_at": "2026-11-18T12:39+07:00"
+    "fetched_at": "2026-11-18T12:41+07:00"
   },
   "investor": {
     "mtd": {
@@ -271,17 +271,17 @@
     "prev_month": {
       "month": "2026-10",
       "net": {
-        "institution": -99897.87,
-        "proprietary": 3005.8,
-        "foreign": 12078.35,
-        "individual": 84813.71
+        "institution": 4987.88,
+        "proprietary": -3470.69,
+        "foreign": -6597.33,
+        "individual": 5080.13
       }
     },
     "remark": "เปลี่ยนการจัดหมวดหมู่ Total Return Swap (TRS) จากกลุ่ม \"นักลงทุนต่างประเทศ\" มายัง \"บัญชีบริษัทหลักทรัพย์\" ตั้งแต่ 16 พฤศจิกายน 2569 เป็นต้นไป ข้อมูลก่อนและหลังการเปลี่ยนการจัดหมวดหมู่ (ระหว่าง 2 มกราคม 2568 - 13 พฤศจิกายน 2569) คลิกที่นี่",
     "source": "ตลาดหลักทรัพย์ฯ (set.or.th)",
     "link": "https://www.settrade.com/th/equities/market-data/historical-report/investor-type?market=SET",
     "ok": true,
-    "fetched_at": "2026-11-18T12:39+07:00"
+    "fetched_at": "2026-11-18T12:41+07:00"
   },
   "releases": {
     "mpc": {
