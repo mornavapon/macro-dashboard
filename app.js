@@ -141,6 +141,7 @@ async function loadIndices() {
     if (!r.ok) throw new Error("HTTP " + r.status);
     const data = await r.json();
     upd.textContent = "อัปเดตล่าสุด: " + thaiDateTime(data.updated_at) + " (เวลาไทย)";
+    try { renderVIX(data.vix); } catch (e) { console.error(e); }
     grid.innerHTML = `
       <table class="idx-table">
         <thead><tr>
@@ -271,7 +272,7 @@ async function loadUS() {
 // ============================================================
 // กราฟ (SVG ทำเอง ไม่ต้องโหลดไลบรารีเพิ่ม) - แกนนอน = เวลา, แกนตั้ง = ค่า
 // ============================================================
-const CHARTS = []; // เก็บไว้วาดใหม่ตอนหมุนจอ/ปรับขนาดหน้าต่าง
+const CHARTS = {}; // เก็บไว้วาดใหม่ตอนหมุนจอ/ปรับขนาดหน้าต่าง (key = id ของกล่องกราฟ)
 
 function niceTicks(min, max, count) {
   const span = max - min || 1;
@@ -295,6 +296,7 @@ function drawChart(box, opt) {
   if (x0 === x1) x1 = x0 + 864e5;
   let y0 = Math.min(...all.map((p) => p[1])), y1 = Math.max(...all.map((p) => p[1]));
   if (opt.zero || opt.series.some((s) => s.type === "bar")) { y0 = Math.min(0, y0); y1 = Math.max(0, y1); }
+  for (const v of opt.yInclude || []) { y0 = Math.min(y0, v); y1 = Math.max(y1, v); }
   const pad = (y1 - y0) * 0.08 || Math.abs(y1) * 0.05 || 1;
   y0 -= opt.zero && y0 === 0 ? 0 : pad; y1 += pad;
   const X = (t) => M.l + ((t - x0) / (x1 - x0)) * pw;
@@ -302,11 +304,21 @@ function drawChart(box, opt) {
   const fmtY = opt.yFmt || ((v) => fmt(v, 1));
 
   let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" class="chart-svg">`;
+  // พื้นหลังแบ่งโซน (เช่น VIX: โลภ / ปกติ / กลัว)
+  for (const b of opt.bands || []) {
+    const top = Y(Math.min(b.to, y1)), bot = Y(Math.max(b.from, y0));
+    if (bot > top) svg += `<rect x="${M.l}" y="${top}" width="${pw}" height="${bot - top}" fill="${b.color}" opacity="${b.opacity || 0.13}"/>`;
+    if (b.label && bot - top > 16) svg += `<text x="${M.l + 6}" y="${top + 15}" class="band-label" fill="${b.text || b.color}">${b.label}</text>`;
+  }
   for (const v of niceTicks(y0, y1, 4)) {
     svg += `<line x1="${M.l}" x2="${W - M.r}" y1="${Y(v)}" y2="${Y(v)}" class="grid"/>`;
     svg += `<text x="${M.l - 6}" y="${Y(v) + 4}" class="ytick">${fmtY(v)}</text>`;
   }
   if (y0 < 0 && y1 > 0) svg += `<line x1="${M.l}" x2="${W - M.r}" y1="${Y(0)}" y2="${Y(0)}" class="zero"/>`;
+  for (const l of opt.hlines || []) {
+    svg += `<line x1="${M.l}" x2="${W - M.r}" y1="${Y(l.y)}" y2="${Y(l.y)}" stroke="${l.color}" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+    svg += `<text x="${W - M.r - 16}" y="${Y(l.y) - 5}" class="hline-label" fill="${l.color}">${l.label || l.y}</text>`;
+  }
   // แกนเวลา: ป้ายเดือน/ปี ประมาณ 4-6 จุด
   const months = Math.max(1, Math.round((x1 - x0) / (30.4 * 864e5)));
   const every = [1, 2, 3, 4, 6, 12, 24].find((e) => months / e <= (W < 420 ? 4 : 6)) || 24;
@@ -376,12 +388,12 @@ function chartBox(id, opt) {
   const box = document.getElementById(id);
   if (!box) return;
   const render = () => drawChart(box, opt);
-  CHARTS.push(render);
+  CHARTS[id] = render;
   render();
 }
 
 let _rz;
-window.addEventListener("resize", () => { clearTimeout(_rz); _rz = setTimeout(() => CHARTS.forEach((f) => f()), 200); });
+window.addEventListener("resize", () => { clearTimeout(_rz); _rz = setTimeout(() => Object.values(CHARTS).forEach((f) => f()), 200); });
 
 function legendHTML(items) {
   return `<div class="legend-row">${items.map(([c, t, dash]) => `<span><i style="background:${dash ? "transparent" : c};border-top:${dash ? `2px dashed ${c}` : "none"}"></i>${t}</span>`).join("")}</div>`;
@@ -403,7 +415,6 @@ const sgn = (v, d = 2) => (v > 0 ? "+" : "") + fmt(v, d);
 
 function renderExtra(x) {
   if (!x) return;
-  CHARTS.length = 0;
 
   extraPanel("us-dxy", "Dollar Index (DXY)", x.dxy, () => {
     const L = x.dxy.latest, s = x.dxy.dxy, first = s[0][1];
@@ -555,3 +566,117 @@ async function loadTH() {
 }
 
 loadTH();
+
+// ============================================================
+// หน้า 1: ภาพวงกลมขนาดตลาด/ดัชนีสหรัฐฯ + VIX
+// ============================================================
+// พื้นที่ของวงกลมรัศมี r ที่อยู่ "ซ้าย" ของเส้นแนวตั้งซึ่งห่างจากจุดศูนย์กลางไปทางขวา h
+function leftArea(h, r) {
+  h = Math.max(-r, Math.min(r, h));
+  const seg = (d) => r * r * Math.acos(d / r) - d * Math.sqrt(r * r - d * d);
+  return h >= 0 ? Math.PI * r * r - seg(h) : seg(-h);
+}
+// หา h ที่ทำให้สัดส่วนพื้นที่ด้านซ้าย = frac
+function solveH(frac, r) {
+  let lo = -r, hi = r;
+  for (let i = 0; i < 60; i++) {
+    const mid = (lo + hi) / 2;
+    if (leftArea(mid, r) / (Math.PI * r * r) < frac) lo = mid; else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
+function drawUniverse(box, u) {
+  const W = Math.max(280, box.clientWidth || 320);
+  const R = Math.min(W * 0.46, 210), H = 2 * R + 16;
+  const cx = W / 2, cy = R + 8;
+  const total = u.nyse.cap + u.nasdaq.cap;
+  const k = (Math.PI * R * R) / total; // พื้นที่ต่อ 1 ดอลลาร์
+  const chordX = cx + solveH(u.nyse.cap / total, R);
+  const rs = Math.sqrt((u.sp500.cap * k) / Math.PI);
+  let sx = chordX - solveH(u.sp500.nyse_frac, rs);
+  sx = Math.max(cx - (R - rs), Math.min(cx + (R - rs), sx)); // ต้องอยู่ในวงใหญ่
+  const rd = Math.sqrt((u.dow.cap * k) / Math.PI);
+  let dx = chordX - solveH(u.dow.nyse_frac, rd);
+  dx = Math.max(sx - (rs - rd), Math.min(sx + (rs - rd), dx)); // ต้องอยู่ในวง S&P 500
+  const dy = cy - Math.min(rs - rd - Math.abs(dx - sx), rs * 0.25) * 0.6; // ยก Dow ขึ้นเล็กน้อยให้ดูง่าย
+
+  box.innerHTML = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" class="universe-svg">
+    <defs><clipPath id="u-big"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath></defs>
+    <g clip-path="url(#u-big)">
+      <rect x="${cx - R}" y="${cy - R}" width="${chordX - (cx - R)}" height="${2 * R}" fill="#378ADD" opacity=".38"/>
+      <rect x="${chordX}" y="${cy - R}" width="${cx + R - chordX}" height="${2 * R}" fill="#7F77DD" opacity=".38"/>
+    </g>
+    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#8b98a8" stroke-width="1"/>
+    <line x1="${chordX}" x2="${chordX}" y1="${cy - Math.sqrt(R * R - (chordX - cx) ** 2)}" y2="${cy + Math.sqrt(R * R - (chordX - cx) ** 2)}" stroke="#e6edf3" stroke-width="1.2" stroke-dasharray="5 4" opacity=".7"/>
+    <circle cx="${sx}" cy="${cy}" r="${rs}" fill="#EF9F27" fill-opacity=".30" stroke="#EF9F27" stroke-width="2.2"/>
+    <circle cx="${dx}" cy="${dy}" r="${rd}" fill="#E24B4A" fill-opacity=".45" stroke="#ff7b7a" stroke-width="2.2"/>
+    <text x="${cx - R * 0.72}" y="${cy - R * 0.62}" class="u-label">NYSE</text>
+    <text x="${cx + R * 0.72}" y="${cy - R * 0.62}" class="u-label" text-anchor="end">Nasdaq</text>
+    <text x="${dx}" y="${dy + 5}" class="u-label" text-anchor="middle">Dow</text>
+    <text x="${sx}" y="${cy + rs * 0.72}" class="u-label" text-anchor="middle">S&amp;P 500</text>
+  </svg>`;
+}
+
+function renderUniverse(u) {
+  const el = document.getElementById("w-universe");
+  const title = "ขนาดตลาดหุ้นสหรัฐฯ และดัชนี (พื้นที่ = Market Cap)";
+  if (!u || !u.nyse) { el.innerHTML = failHTML(title, u); return; }
+  const total = u.nyse.cap + u.nasdaq.cap;
+  const T = (v) => "$" + fmt(v / 1e12, 1) + "T";
+  const share = (v) => fmt((v / total) * 100, 0) + "%";
+  const item = (color, name, cap, extra) =>
+    `<li><i style="background:${color}"></i><b>${name}</b> ${T(cap)} <span class="small">${extra}</span></li>`;
+  el.innerHTML = `<h2>${title}</h2>
+    <p class="panel-sub">วงใหญ่ = ตลาดหุ้นสหรัฐฯ ทั้งหมด แบ่งเป็นฝั่ง NYSE | Nasdaq (เส้นประ) · S&amp;P 500 คร่อมทั้ง 2 ตลาด · Dow อยู่ใน S&amp;P 500</p>
+    <div id="universe-box"></div>
+    <ul class="u-legend">
+      ${item("#378ADD", "NYSE Composite", u.nyse.cap, `${fmt(u.nyse.count, 0)} ตัว`)}
+      ${item("#7F77DD", "Nasdaq Composite", u.nasdaq.cap, `${fmt(u.nasdaq.count, 0)} ตัว`)}
+      ${item("#EF9F27", "S&amp;P 500", u.sp500.cap, `= ${share(u.sp500.cap)} ของทั้งตลาด · อยู่ NYSE ${fmt(u.sp500.nyse_frac * 100, 0)}% / Nasdaq ${fmt(100 - u.sp500.nyse_frac * 100, 0)}%`)}
+      ${item("#E24B4A", "Dow Jones (30 ตัว)", u.dow.cap, `= ${share(u.dow.cap)} ของทั้งตลาด · อยู่ NYSE ${fmt(u.dow.nyse_frac * 100, 0)}% / Nasdaq ${fmt(100 - u.dow.nyse_frac * 100, 0)}%`)}
+    </ul>
+    <p class="small">ขนาดพื้นที่ใกล้เคียงสัดส่วนจริง (วงกลมซ้อนกันหลายชั้นให้ตรงทุกส่วนทางเรขาคณิตไม่ได้)</p>
+    <p class="update-info">📅 ภาพนี้เป็นข้อมูลวันที่ <b>${esc(thaiDate(u.asof))}</b> · ปรับปรุง: ${esc(u.freq)}<br>
+      ⏭ สร้างภาพใหม่ครั้งถัดไปประมาณ <b>${esc(thaiDate(u.next))}</b></p>
+    <div class="panel-foot"><span class="src">ที่มา: ${esc(u.source)} · Nasdaq Trader</span></div>`;
+  const box = document.getElementById("universe-box");
+  const render = () => drawUniverse(box, u);
+  CHARTS["universe-box"] = render;
+  render();
+}
+
+function renderVIX(v) {
+  const el = document.getElementById("w-vix");
+  const title = "VIX (ดัชนีความกลัว)";
+  if (!v || !v.ok) { el.innerHTML = failHTML(title, v); return; }
+  const L = v.latest;
+  const zone = L.value >= 30 ? ["กลัวมาก", "var(--down)"] : L.value >= 18 ? ["ปกติ / เริ่มกังวล", "var(--warn)"] : ["ตลาดชิล / โลภ", "var(--up)"];
+  el.innerHTML = sectionShell(title, "", `
+    <p class="big-num">${fmt(L.value, 2)} <span class="small" style="color:${zone[1]}">● ${zone[0]}</span></p>
+    <p class="panel-sub">ความผันผวนที่ตลาดคาดใน S&amp;P 500 อีก 30 วัน · ต่ำกว่า 18 = ตลาดชิล/โลภ · 18–30 = ปกติ/เริ่มกังวล · เกิน 30 = กลัวมาก · ย้อนหลัง 2 ปี</p>
+    <div id="ch-vix"></div>
+    <p class="update-info">📅 ข้อมูล ณ <b>${esc(thaiDate(L.date))}</b> · ปรับปรุงทุก 3 ชั่วโมง (พร้อมดัชนีด้านบน)</p>`, v);
+  chartBox("ch-vix", {
+    height: 210, yInclude: [10, 34],
+    series: [{ data: v.data, color: "#e6edf3", label: "VIX", width: 1.6 }],
+    bands: [
+      { from: -100, to: 18, color: "#2fbf71", label: "โลภ" },
+      { from: 18, to: 30, color: "#f2b33d", label: "ปกติ" },
+      { from: 30, to: 1000, color: "#f0566a", label: "กลัว" },
+    ],
+    hlines: [{ y: 30, color: "#f0566a", label: "30" }, { y: 18, color: "#2fbf71", label: "18" }],
+    yFmt: (x) => fmt(x, 0), tipFmt: (x) => fmt(x, 2),
+  });
+}
+
+async function loadUniverse() {
+  try {
+    const r = await fetch("data/universe.json?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    renderUniverse(await r.json());
+  } catch (e) {
+    renderUniverse({ error: "โหลดข้อมูลไม่ได้ (" + e.message + ")" });
+  }
+}
+loadUniverse();

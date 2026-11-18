@@ -152,6 +152,15 @@ body {
 .update-info b { color: var(--text); }
 b.neg { color: var(--down); }
 
+/* ---------- ภาพวงกลม / VIX ---------- */
+.universe-svg { display: block; margin: 4px auto 8px; }
+.universe-svg .u-label { fill: #e6edf3; font-size: 14px; font-weight: 600; paint-order: stroke; stroke: rgba(15,20,25,.75); stroke-width: 3px; }
+.u-legend { list-style: none; padding: 0; margin: 6px 0; display: grid; gap: 6px; font-size: 14.5px; }
+.u-legend li { line-height: 1.5; }
+.u-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.chart-svg .band-label { font-size: 12.5px; opacity: .85; }
+.chart-svg .hline-label { font-size: 12.5px; text-anchor: end; font-family: var(--mono); }
+
 /* ---------- dots ---------- */
 .dots {
   position: fixed; left: 0; right: 0; bottom: max(14px, env(safe-area-inset-bottom));
