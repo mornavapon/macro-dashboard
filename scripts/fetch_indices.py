@@ -601,12 +601,37 @@ def merge_with_previous(new, old):
     return new
 
 
+def build_vix():
+    """ดัชนีความกลัว VIX ย้อนหลัง 2 ปี (รายวัน)"""
+    url = "https://query1.finance.yahoo.com/v8/finance/chart/%5EVIX?range=2y&interval=1d"
+    res = json.loads(get(url))["chart"]["result"][0]
+    tz = ZoneInfo(res["meta"].get("exchangeTimezoneName") or "America/Chicago")
+    closes = res["indicators"]["quote"][0]["close"]
+    data = [[datetime.datetime.fromtimestamp(t, tz).date().isoformat(), round(c, 2)]
+            for t, c in zip(res["timestamp"], closes) if c is not None]
+    price = res["meta"].get("regularMarketPrice")
+    ptime = res["meta"].get("regularMarketTime")
+    if price is not None and ptime:
+        d = datetime.datetime.fromtimestamp(ptime, tz).date().isoformat()
+        if data and data[-1][0] == d:
+            data[-1][1] = round(price, 2)
+        elif not data or d > data[-1][0]:
+            data.append([d, round(price, 2)])
+    if not data:
+        raise ValueError("Yahoo ไม่มีข้อมูล VIX")
+    PROBE_LOG.append(f"vix OK ({len(data)} วัน ล่าสุด {data[-1]})")
+    return {"ok": True, "data": data, "latest": {"date": data[-1][0], "value": data[-1][1]},
+            "source": "Cboe ผ่าน Yahoo Finance (^VIX)",
+            "link": "https://th.tradingview.com/symbols/TVC-VIX/"}
+
+
 def main():
     try:
         with open(OUT, encoding="utf-8") as f:
-            previous = {i["id"]: i for i in json.load(f).get("indices", [])}
+            prev_all = json.load(f)
+        previous = {i["id"]: i for i in prev_all.get("indices", [])}
     except Exception:  # noqa: BLE001
-        previous = {}
+        prev_all, previous = {}, {}
 
     result = []
     for idx in INDICES:
@@ -624,10 +649,17 @@ def main():
             entry[f] = merge_with_previous(fund[f], old.get(f))
         result.append(entry)
 
+    try:
+        vix = build_vix()
+    except Exception as e:  # noqa: BLE001
+        PROBE_LOG.append(f"vix FAIL {err_text(e)}")
+        old_vix = prev_all.get("vix") or {}
+        vix = dict(old_vix, stale=True, error=err_text(e)) if old_vix.get("ok") else {"ok": False, "error": err_text(e)}
+
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump({"updated_at": now_bkk().isoformat(timespec="minutes"),
-                   "indices": result}, f, ensure_ascii=False, indent=2)
+                   "indices": result, "vix": vix}, f, ensure_ascii=False, indent=2)
 
     os.makedirs(DEBUG_DIR, exist_ok=True)
     with open(os.path.join(DEBUG_DIR, "_summary.txt"), "w", encoding="utf-8") as f:
