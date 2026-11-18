@@ -573,7 +573,7 @@ function renderThInvestor(sec) {
       <th class="num">ตั้งแต่ต้นปี<br><span class="th-sub">ถึง ${esc(thaiDateShort(sec.ytd.end))}</span></th></tr></thead><tbody>${t1}</tbody></table>
     <p class="panel-sub" style="margin-top:12px !important">รายละเอียดเดือนนี้ (${esc(range(sec.mtd))})</p>
     <table class="idx-table inv-table"><thead><tr><th>กลุ่ม</th><th class="num">ซื้อ</th><th class="num">ขาย</th><th class="num">สุทธิ</th></tr></thead><tbody>${t2}</tbody></table>
-    ${sec.remark ? `<p class="small" style="margin-top:8px">หมายเหตุ: ${esc(sec.remark)}</p>` : ""}
+    ${sec.remark ? `<p class="small" style="margin-top:8px">หมายเหตุ: ${esc(sec.remark.replace(/\s*คลิกที่นี่\s*\.?$/, ""))}</p>` : ""}
     <p class="update-info">📅 ข้อมูล ณ <b>${esc(thaiDate(sec.mtd.end))}</b> · ปรับปรุงทุกวันทำการ (บอทดึงทุก 6 ชั่วโมง)</p>`, sec);
 }
 
