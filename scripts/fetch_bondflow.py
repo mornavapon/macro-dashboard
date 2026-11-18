@@ -127,6 +127,7 @@ def build():
     roll = [sum(x["flow"] for x in recent[i - 4:i + 1]) for i in range(4, len(recent))]
     roll_sorted = sorted(abs(v) for v in roll)
     p80 = roll_sorted[int(len(roll_sorted) * 0.8)] if roll_sorted else None
+    p95 = roll_sorted[int(len(roll_sorted) * 0.95)] if roll_sorted else None
 
     return {
         "ok": True,
@@ -141,7 +142,11 @@ def build():
         "holding_year_ago": {"date": year_ago["date"].isoformat(), "total": round(year_ago["h"])},
         "holding_ytd_base": {"date": ytd_base["date"].isoformat(), "total": round(ytd_base["h"])} if ytd_base and ytd_base["h"] else None,
         "holding": holding,
+        # ขนาด flow รวม 5 วันทำการ (ค่าสัมบูรณ์) ใน 2 ปีที่ผ่านมา: 80% ของช่วงเวลาไม่เกิน p80, 95% ไม่เกิน p95
         "week_p80": round(p80) if p80 else None,
+        "week_p95": round(p95) if p95 else None,
+        "week_min_2y": round(min(roll)) if roll else None,
+        "weeks_out_over_20k_2y": sum(1 for v in roll if v <= -20000),
         "freq": "ทุกวันทำการ วันละ 3 รอบ (08:30 / 12:00 / 16:30 น.)",
         "source": "ThaiBMA (Non-resident Flows)",
         "link": PAGE,

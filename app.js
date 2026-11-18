@@ -373,7 +373,7 @@ function drawChart(box, opt) {
     });
     const x = X(tx(best[0]));
     vline.setAttribute("x1", x); vline.setAttribute("x2", x); vline.style.display = "";
-    tip.innerHTML = `<b>${esc(thaiDate(best[0]))}</b><br>${vals.join("<br>")}`;
+    tip.innerHTML = `<b>${esc((opt.tipDate || thaiDate)(best[0]))}</b><br>${vals.join("<br>")}`;
     tip.style.display = "";
     tip.style.left = Math.min(Math.max(0, x - 70), W - 150) + "px";
   };
@@ -612,6 +612,96 @@ async function loadMSCI() {
   } catch (e) { renderThMSCI(null); }
 }
 loadMSCI();
+
+// ---- เงินต่างชาติในตลาดตราสารหนี้ไทย (ไฟล์แยก data/bondflow.json) ----
+const flowWord = (v) => (v >= 0 ? "เข้า" : "ออก");
+const flowCls = (v) => (v > 0 ? "up" : v < 0 ? "down" : "");
+const flowAbs = (v) => fmt(Math.abs(v), 0);
+
+function weekRange(a, b) {
+  const da = new Date(a + "T00:00:00"), db = new Date(b + "T00:00:00");
+  const m = (d) => d.toLocaleDateString("th-TH", { month: "short" });
+  return da.getMonth() === db.getMonth() ? `${da.getDate()}–${db.getDate()} ${m(db)}` : `${da.getDate()} ${m(da)}–${db.getDate()} ${m(db)}`;
+}
+
+function flowVerdict(sec) {
+  const w = sec.week, v = w.flow, a = Math.abs(v);
+  const inflow = v >= 0;
+  let size = "อยู่ในระดับปกติ";
+  if (sec.week_p95 && a >= sec.week_p95) size = "<b>มากเป็นพิเศษ</b> (มากกว่า 95% ของช่วง 5 วันใน 2 ปีที่ผ่านมา)";
+  else if (sec.week_p80 && a >= sec.week_p80) size = "<b>มากกว่าปกติ</b> (มากกว่า 80% ของช่วง 5 วันใน 2 ปีที่ผ่านมา)";
+  // ส่วนไหนเป็นตัวหลัก: ระยะสั้น / ระยะยาว / ตราสารครบอายุ
+  const parts = [["st", inflow ? w.st : -w.st], ["lt", inflow ? w.lt : -w.lt], ["exp", inflow ? 0 : w.exp]];
+  parts.sort((x, y) => y[1] - x[1]);
+  const main = parts[0][1] > 0 ? parts[0][0] : null;
+  const why = {
+    st: inflow ? "ส่วนใหญ่เป็น <b>เงินระยะสั้น</b> (เงินร้อน) มักเข้ามาเก็งกำไรค่าเงิน/ดอกเบี้ย ช่วยให้เงินบาทแข็ง แต่ออกได้เร็ว"
+               : "ส่วนใหญ่เป็น <b>เงินระยะสั้น</b> (เงินร้อน) ไหลออก มักกดดันให้เงินบาทอ่อน",
+    lt: inflow ? "ส่วนใหญ่เป็น <b>เงินระยะยาว</b> แปลว่านักลงทุนตั้งใจถือพันธบัตรไทยนาน เป็นสัญญาณความเชื่อมั่น"
+               : "ส่วนใหญ่เป็น <b>เงินระยะยาว</b> แปลว่านักลงทุนที่ตั้งใจถือนานกำลังลดการลงทุนในไทย ควรจับตา",
+    exp: "ส่วนใหญ่มาจาก <b>พันธบัตรที่ต่างชาติถือครบอายุ</b> (ได้เงินคืน ไม่ได้ขาย) และยังไม่ได้ซื้อใหม่ทดแทน",
+  }[main] || "";
+  return `<div class="flow-verdict ${inflow ? "in" : "out"}">
+    <p class="fv-head">5 วันทำการล่าสุด ต่างชาติ<b class="${flowCls(v)}">${inflow ? "นำเงินเข้า" : "ดึงเงินออก"} ${flowAbs(v)} ล้านบาท</b></p>
+    <p>ขนาด${size}</p>${why ? `<p>${why}</p>` : ""}</div>`;
+}
+
+function renderThBondFlow(sec) {
+  const title = "เงินต่างชาติในตลาดตราสารหนี้ไทย";
+  const el = document.getElementById("th-bondflow");
+  if (!sec || !sec.ok) { el.innerHTML = failHTML(title, sec); return; }
+  const L = sec.latest, H = sec.holding_now;
+  const row = (label, sub, x) => `<tr><td>${label}<br><span class="small">${sub}</span></td>
+    <td class="num ${flowCls(x.flow)}"><b>${flowWord(x.flow)} ${flowAbs(x.flow)}</b></td>
+    <td class="num ${flowCls(x.st)}">${sgn(x.st, 0)}</td><td class="num ${flowCls(x.lt)}">${sgn(x.lt, 0)}</td></tr>`;
+  const exps = [["วันล่าสุด", L], ["5 วัน", sec.week], ["เดือนนี้", sec.mtd], ["ต้นปี", sec.ytd]].filter(([, x]) => x.exp > 0)
+    .map(([n, x]) => `${n} ${fmt(x.exp, 0)}`).join(" · ");
+  const table = `<table class="idx-table flow-table"><thead><tr><th>ช่วงเวลา</th><th class="num">สุทธิ<br><span class="small">(ล้านบาท)</span></th><th class="num">ระยะสั้น</th><th class="num">ระยะยาว</th></tr></thead><tbody>
+    ${row("วันล่าสุด", esc(thaiDateShort(L.date)), L)}
+    ${row("5 วันทำการ", esc(weekRange(sec.week.from, sec.week.to)), sec.week)}
+    ${row("เดือนนี้", esc(thaiMonth(sec.mtd.month)), sec.mtd)}
+    ${row("ตั้งแต่ต้นปี", "ปี " + (sec.ytd.year + 543), sec.ytd)}</tbody></table>
+    <p class="small flow-note">สุทธิ = ระยะสั้น + ระยะยาว − พันธบัตรที่ต่างชาติถือแล้วครบอายุ${exps ? ` (ครบอายุ: ${exps})` : ""}</p>`;
+  const yb = sec.holding_ytd_base, ya = sec.holding_year_ago;
+  const cmp = (base, label) => base ? `<span class="${flowCls(H.total - base.total)}">${label} ${sgn(H.total - base.total, 0)}</span>` : "";
+  const ltShare = H.total ? Math.round((H.lt / H.total) * 100) : null;
+  const hold = `<h3 class="flow-h3">ต่างชาติถือตราสารหนี้ไทยอยู่เท่าไหร่</h3>
+    <p class="big-num">${fmt(H.total, 0)} <span class="small">ล้านบาท (≈ ${fmt(H.total / 1e6, 2)} ล้านล้านบาท)</span></p>
+    <p class="panel-sub">${cmp(yb, "เทียบต้นปี")} · ${cmp(ya, "เทียบ 1 ปีก่อน")}${ltShare != null ? ` · เป็นระยะยาว ${ltShare}% ระยะสั้น ${100 - ltShare}%` : ""}</p>
+    <div id="ch-bond-hold"></div>`;
+  const guide = `<details class="details flow-guide"><summary>📖 วิธีอ่านแบบง่ายๆ (แตะเพื่ออ่าน)</summary><ul>
+    <li><b>เงินไหลเข้า</b> = ต่างชาติแลกดอลลาร์เป็นเงินบาทมาซื้อพันธบัตรไทย → เงินบาทมักแข็งขึ้น<br><b>เงินไหลออก</b> = ต่างชาติขายพันธบัตรแล้วแลกกลับเป็นดอลลาร์ → เงินบาทมักอ่อนลง</li>
+    <li><b>ระยะสั้น</b> (พันธบัตรอายุเหลือไม่เกิน 1 ปี) = เงินร้อน เข้าเร็วออกเร็ว มักมาเก็งกำไรค่าเงิน</li>
+    <li><b>ระยะยาว</b> (อายุเหลือเกิน 1 ปี) = นักลงทุนที่ตั้งใจถือนาน สะท้อนความเชื่อมั่นต่อไทยจริงๆ <b>ให้น้ำหนักกับตัวนี้มากกว่า</b></li>
+    <li><b>ครบอายุ</b> = พันธบัตรที่ต่างชาติถือหมดอายุ ได้เงินคืน นับเป็นเงินไหลออกด้วย (ถึงจะไม่ได้ขาย)</li>
+    <li>ดูคู่กับกล่อง <b>กลุ่มนักลงทุน (ตลาดหุ้น)</b> ด้านบน: ถ้าต่างชาติขายทั้งหุ้นและพันธบัตรพร้อมกัน = เงินต่างชาติกำลังถอนออกจากไทยจริงจัง</li>
+    <li>ดูคู่กับกล่อง <b>yield พันธบัตรไทย</b> ด้านล่าง: ต่างชาติขายหนักมักทำให้ yield ขึ้น</li></ul></details>`;
+  const partial = L.partial ? `<p class="stale">⏳ ข้อมูลวันนี้ยังไม่ครบ: ${esc(L.partial)}</p>` : "";
+  const info = `<p class="update-info">📅 ข้อมูล ณ <b>${esc(thaiDate(L.date))}</b> · ปรับปรุง: ${esc(sec.freq)}<br>
+    ยอดถือครองคิดตามมูลค่าที่ตราไว้ และอาจถูกปรับเล็กน้อยช่วงสัปดาห์ที่ 3 ของเดือน</p>`;
+  el.innerHTML = sectionShell(title, "เงินต่างชาติไหลเข้า/ออกพันธบัตรและหุ้นกู้ไทย · ตัวช่วยดู fund flow และทิศทางเงินบาท",
+    flowVerdict(sec) + partial + table + guide +
+    `<h3 class="flow-h3">เงินเข้า/ออกรายเดือน ย้อนหลัง 24 เดือน</h3>
+     <p class="small">แท่งเขียว = เงินไหลเข้า · แท่งแดง = เงินไหลออก · หน่วยพันล้านบาท · เดือนล่าสุดยังไม่ครบเดือน</p>
+     <div id="ch-bond-month"></div>` + hold + info, sec);
+  chartBox("ch-bond-month", { height: 190, series: [{ data: sec.monthly.map((m) => [m.month + "-15", m.flow]), type: "bar", color: C.green, label: "" }],
+    yFmt: (v) => fmt(v / 1000, 0), tipFmt: (v) => (v >= 0 ? "ไหลเข้า " : "ไหลออก ") + flowAbs(v) + " ล้านบาท",
+    tipDate: (d) => thaiMonth(d.slice(0, 7)) });
+  chartBox("ch-bond-hold", { series: [{ data: sec.holding.total, color: C.blue, label: "ยอดถือครอง" }],
+    yFmt: (v) => fmt(v, 0), tipFmt: (v) => fmt(v, 1) + " พันล้านบาท" });
+}
+
+async function loadBondFlow() {
+  try {
+    const r = await fetch("data/bondflow.json?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error("โหลดไฟล์ข้อมูลไม่ได้ (HTTP " + r.status + ")");
+    renderThBondFlow(await r.json());
+  } catch (e) {
+    console.error(e);
+    try { renderThBondFlow({ ok: false, error: e.message }); } catch (_) {}
+  }
+}
+loadBondFlow();
 
 // ---- ข้อมูลเสริมจาก settfex (ไฟล์แยก data/settfex.json) ----
 function renderThYields(sec) {

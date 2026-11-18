@@ -192,11 +192,66 @@ def msci_alert(test):
         print("msci: วันนี้ไม่มีอะไรต้องแจ้ง")
 
 
+# ---- เงินต่างชาติในตราสารหนี้ไทย ----
+BONDFLOW_THRESHOLD = 20000   # ล้านบาท: เตือนเมื่อรวม 5 วันทำการล่าสุด ไหลออกเกินเท่านี้ (20,000 = 2 หมื่นล้าน)
+BONDFLOW_RESET = 10000       # ล้านบาท: เตือนแล้วจะไม่เตือนซ้ำ จนกว่ายอดไหลออก 5 วันจะลดลงต่ำกว่าเท่านี้
+
+
+def bondflow_alert(test):
+    """ต่างชาติดึงเงินออกจากตราสารหนี้ไทยหนัก: รวม 5 วันทำการล่าสุดไหลออกเกินเกณฑ์ (เตือนครั้งเดียวต่อรอบ)"""
+    with open(os.path.join(ROOT, "data", "bondflow.json"), encoding="utf-8") as f:
+        d = json.load(f)
+    if not d.get("ok"):
+        print("bondflow: ข้อมูลล่าสุดดึงไม่สำเร็จ ข้ามการแจ้งเตือน")
+        return
+    w, mtd, ytd = d["week"], d["mtd"], d["ytd"]
+    try:
+        with open(STATE, encoding="utf-8") as f:
+            state = json.load(f)
+    except Exception:  # noqa: BLE001
+        state = {}
+    st = state.get("bondflow") or {"alerted": False}
+    out = -w["flow"]   # บวก = ไหลออก
+
+    def fmt_m(v):
+        return f"{'เข้า' if v >= 0 else 'ออก'} {abs(v):,.0f}"
+
+    a, b = datetime.date.fromisoformat(w["from"]), datetime.date.fromisoformat(w["to"])
+    rng = f"{a.day} {TH_MON[a.month]}–{b.day} {TH_MON[b.month]}"
+    main_part = "เงินระยะสั้น (เงินร้อน)" if abs(min(w["st"], 0)) >= abs(min(w["lt"], 0)) else "เงินระยะยาว"
+    meaning = ("ส่วนใหญ่เป็นเงินร้อน มักกดดันให้เงินบาทอ่อน" if main_part.startswith("เงินระยะสั้น")
+               else "ส่วนใหญ่เป็นเงินระยะยาว = นักลงทุนที่ตั้งใจถือนานลดการลงทุนในไทย ควรจับตา")
+    body = (f"5 วันทำการ ({rng}) ต่างชาติไหล{fmt_m(w['flow'])} ล้านบาท\n"
+            f"• ระยะสั้น (เงินร้อน): {w['st']:+,.0f}\n"
+            f"• ระยะยาว: {w['lt']:+,.0f}\n"
+            + (f"• พันธบัตรครบอายุ: −{w['exp']:,.0f}\n" if w["exp"] else "")
+            + f"\n💡 {meaning}\n\n"
+            f"เดือนนี้: ไหล{fmt_m(mtd['flow'])} ล้าน · ตั้งแต่ต้นปี: ไหล{fmt_m(ytd['flow'])} ล้าน\n"
+            f"(เกณฑ์แจ้งเตือน: ไหลออกเกิน {BONDFLOW_THRESHOLD:,} ล้านบาทใน 5 วันทำการ)")
+    if test:
+        send("[ทดสอบ] แจ้งเตือนเงินต่างชาติในตราสารหนี้ไทย", "✅ ทดสอบสำเร็จ · สถานะตอนนี้\n\n" + body, SITE, ["test_tube", "thailand"])
+        return
+    if out >= BONDFLOW_THRESHOLD and not st.get("alerted"):
+        send(f"⚠️ ต่างชาติดึงเงินออกจากตราสารหนี้ไทย {out:,.0f} ล้าน (5 วัน)", body, SITE, ["warning", "thailand"])
+        st = {"alerted": True, "date": w["to"], "out": round(out)}
+    elif out < BONDFLOW_RESET and st.get("alerted"):
+        print(f"bondflow: ยอดไหลออกลดลงแล้ว ({out:,.0f}) -> พร้อมเตือนรอบใหม่")
+        st = {"alerted": False}
+    else:
+        print(f"bondflow: ไหลออก 5 วัน {out:,.0f} ล้าน · เตือนไปแล้ว={st.get('alerted')} -> ไม่ส่ง")
+    state["bondflow"] = st
+    with open(STATE, "w", encoding="utf-8") as f:
+        json.dump(state, f, ensure_ascii=False, indent=2)
+
+
 def main():
     key = sys.argv[1]
     test = "--test" in sys.argv
     if key == "msci":
         msci_alert(test)
+        return
+    if key == "bondflow":
+        bondflow_alert(test)
         return
     cfg = TOPICS[key]
     if key == "th_cpi":

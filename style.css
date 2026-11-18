@@ -184,3 +184,21 @@ b.neg { color: var(--down); }
   .brand { display: none; }
   .tabs { width: 100%; justify-content: space-between; }
 }
+
+/* ---- เงินต่างชาติในตราสารหนี้ไทย ---- */
+.flow-verdict { border-left: 5px solid var(--muted); background: rgba(255,255,255,0.04); border-radius: 10px; padding: 10px 12px; margin: 6px 0 12px; }
+.flow-verdict.in { border-left-color: var(--up); }
+.flow-verdict.out { border-left-color: var(--down); }
+.flow-verdict p { margin: 4px 0; font-size: 16px; line-height: 1.55; }
+.flow-verdict .fv-head { font-size: 18.5px; }
+.flow-verdict .fv-head b { display: block; font-size: 23px; margin-top: 2px; }
+.flow-verdict b.up { color: var(--up); } .flow-verdict b.down { color: var(--down); }
+.flow-table td .small { font-size: 13px; }
+.flow-note { margin-top: 4px; }
+.flow-h3 { font-size: 17.5px; margin: 18px 0 4px; }
+.flow-guide li { margin-bottom: 6px; }
+.panel-sub span.up { color: var(--up); } .panel-sub span.down { color: var(--down); }
+.flow-guide { font-size: 16px; color: var(--text); } .flow-guide summary { color: var(--gold, #ffd479); font-weight: 600; }
+.flow-table th, .flow-table td { padding-left: 4px; padding-right: 4px; }
+.flow-table td:nth-child(3), .flow-table td:nth-child(4) { font-size: 14px; }
+.flow-table td:first-child { white-space: nowrap; }
