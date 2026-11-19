@@ -1,5 +1,5 @@
 URL: https://www.multpl.com/s-p-500-price-to-book
-FETCHED: 2026-11-19T03:28:47.229420+07:00
+FETCHED: 2026-11-19T09:32:56.779941+07:00
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +14,7 @@ FETCHED: 2026-11-19T03:28:47.229420+07:00
 <meta property="og:site_name" content="Multpl" />
 
 
-<meta name="description" content="S&P 500 Price to Book Value chart, historic, and current data. Current S&P 500 Price to Book Value is 5.82, a change of -0.06 from previous market close." />
+<meta name="description" content="S&P 500 Price to Book Value chart, historic, and current data. Current S&P 500 Price to Book Value is 5.80, a change of -0.02 from previous market close." />
 <link rel="canonical"
 href="https://www.multpl.com/s-p-500-price-to-book">
 <link rel="alternate" type="application/rss+xml"
