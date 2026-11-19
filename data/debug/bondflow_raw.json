@@ -1,5 +1,27 @@
 [
 {
+"DisplayAsof": "2026-11-19T00:00:00",
+"Asof": "2026-11-19T00:00:00",
+"P1Buy": 1459.05615,
+"P1Sell": 815.682434,
+"P1Net": 643.3738,
+"P2Buy": 25.4312973,
+"P2Sell": 448.721039,
+"P2Net": -423.289734,
+"P3Buy": null,
+"P3Sell": null,
+"P3Net": null,
+"ShortTermTrade": 166.0,
+"LongTermTrade": 53.0,
+"TotalNetTrade": 219.0,
+"ExpireToday": 600.0,
+"NetFlow": -381.0,
+"ExpireNextDay": 0.0,
+"ShortTermHolding": null,
+"LongTermHolding": null,
+"NetHolding": null
+},
+{
 "DisplayAsof": "2026-11-18T00:00:00",
 "Asof": "2026-11-18T00:00:00",
 "P1Buy": 347.5163,
@@ -636,27 +658,5 @@
 "ShortTermHolding": 61780.41,
 "LongTermHolding": 844798.25,
 "NetHolding": 906578.6
-},
-{
-"DisplayAsof": "2026-10-05T00:00:00",
-"Asof": "2026-10-05T00:00:00",
-"P1Buy": 1789.49866,
-"P1Sell": 2872.08374,
-"P1Net": -1082.58508,
-"P2Buy": 2352.77441,
-"P2Sell": 2421.62866,
-"P2Net": -68.85427,
-"P3Buy": 359.186981,
-"P3Sell": 102.635818,
-"P3Net": 256.551147,
-"ShortTermTrade": 1958.0,
-"LongTermTrade": -2853.0,
-"TotalNetTrade": -895.0,
-"ExpireToday": 2.0,
-"NetFlow": -897.0,
-"ExpireNextDay": 0.0,
-"ShortTermHolding": 62477.6172,
-"LongTermHolding": 844115.4,
-"NetHolding": 906593.0
 }
 ]

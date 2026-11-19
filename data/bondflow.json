@@ -1553,6 +1553,8 @@
  "freq": "ทุกวันทำการ วันละ 3 รอบ (08:30 / 12:00 / 16:30 น.)",
  "source": "ThaiBMA (Non-resident Flows)",
  "link": "https://www.thaibma.or.th/EN/Market/NR/NRDaily.aspx",
- "updated_at": "2026-11-18T16:58+07:00",
- "log": "OK"
+ "updated_at": "2026-11-19T16:28+07:00",
+ "log": "FAIL TypeError: type NoneType doesn't define __round__ method",
+ "stale": true,
+ "error": "TypeError: type NoneType doesn't define __round__ method"
 }
