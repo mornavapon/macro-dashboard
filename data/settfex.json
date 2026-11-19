@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-19T14:39+07:00",
+ "updated_at": "2026-11-20T02:31+07:00",
  "settfex_version": "0.28.0",
  "th_yields": {
   "y2": [
@@ -5853,9 +5853,11 @@
   "source": "ThaiBMA ผ่าน settfex",
   "link": "https://www.thaibma.or.th/EN/Market/YieldCurve/Government.aspx",
   "ok": true,
-  "fetched_at": "2026-11-19T14:39+07:00"
+  "fetched_at": "2026-11-19T14:39+07:00",
+  "stale": true,
+  "error": "FetchError: Failed to fetch https://www.thaibma.or.th/yieldcurve/avail after 4 attempts"
  },
  "log": [
-  "th_yields: OK"
+  "th_yields: FAIL FetchError: Failed to fetch https://www.thaibma.or.th/yieldcurve/avail after 4 attempts"
  ]
 }
