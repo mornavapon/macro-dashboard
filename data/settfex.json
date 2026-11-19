@@ -1,6 +1,6 @@
 {
- "updated_at": "2026-11-19T02:26+07:00",
- "settfex_version": "0.27.0",
+ "updated_at": "2026-11-19T14:39+07:00",
+ "settfex_version": "0.28.0",
  "th_yields": {
   "y2": [
    [
@@ -5853,7 +5853,7 @@
   "source": "ThaiBMA ผ่าน settfex",
   "link": "https://www.thaibma.or.th/EN/Market/YieldCurve/Government.aspx",
   "ok": true,
-  "fetched_at": "2026-11-19T02:26+07:00"
+  "fetched_at": "2026-11-19T14:39+07:00"
  },
  "log": [
   "th_yields: OK"
