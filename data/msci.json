@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-18T12:39+07:00",
+  "updated_at": "2026-11-19T11:28+07:00",
   "latest": {
     "review": "November 2026",
     "announce_cet": "2026-11-11",
@@ -62,8 +62,6 @@
   ],
   "link": "https://www.msci.com/quarterly-index-review",
   "log": [
-    "ปฏิทิน MSCI: อ่านจาก ir_dates.pdf สำเร็จ",
-    "November 2026 standard: เพิ่ม [] / ลด []",
-    "November 2026 smallcap: เพิ่ม [] / ลด ['BANGKOK COMM ASSET MGT', 'BCPG', 'ENERGY ABSOLUTE', 'SIAM CITY CEMENT']"
+    "ปฏิทิน MSCI: อ่านจาก ir_dates.pdf สำเร็จ"
   ]
 }
