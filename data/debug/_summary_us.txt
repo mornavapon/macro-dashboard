@@ -1,11 +1,11 @@
-run at 2026-11-19T14:52:45.921656+07:00
+run at 2026-11-20T03:56:53.321255+07:00
 
 FRED GDP OK (27 แถว, ล่าสุด 2026-07-01)
 FRED A191RL1Q225SBEA OK (27 แถว, ล่าสุด 2026-07-01)
 gdp: OK
 FOMC meetings 2026: 8 ครั้ง (federalreserve.gov)
-FRED DFEDTARU OK (353 แถว, ล่าสุด 2026-11-18)
-FRED DFEDTARL OK (353 แถว, ล่าสุด 2026-11-18)
+FRED DFEDTARU OK (354 แถว, ล่าสุด 2026-11-19)
+FRED DFEDTARL OK (354 แถว, ล่าสุด 2026-11-19)
 fed: OK
 FRED CPIAUCNS OK (93 แถว, ล่าสุด 2026-10-01)
 cpi: OK
@@ -15,9 +15,9 @@ FRED UNRATE OK (22 แถว, ล่าสุด 2026-10-01)
 nfp: OK
 Yahoo DXY OK (504 วัน ล่าสุด 2026-11-19)
 dxy: OK
-FRED DGS2 OK (498 แถว, ล่าสุด 2026-11-17)
-FRED DGS10 OK (498 แถว, ล่าสุด 2026-11-17)
-FRED T10Y2Y OK (499 แถว, ล่าสุด 2026-11-18)
+FRED DGS2 OK (497 แถว, ล่าสุด 2026-11-17)
+FRED DGS10 OK (497 แถว, ล่าสุด 2026-11-17)
+FRED T10Y2Y OK (498 แถว, ล่าสุด 2026-11-18)
 yields: OK
 FRED WALCL OK (104 แถว, ล่าสุด 2026-11-11)
 fedbs: OK
