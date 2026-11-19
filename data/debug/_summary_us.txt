@@ -1,4 +1,4 @@
-run at 2026-11-19T03:52:17.523508+07:00
+run at 2026-11-19T14:52:45.921656+07:00
 
 FRED GDP OK (27 แถว, ล่าสุด 2026-07-01)
 FRED A191RL1Q225SBEA OK (27 แถว, ล่าสุด 2026-07-01)
@@ -13,13 +13,13 @@ BEA GDP releases: ['2026-11-25', '2026-12-23']
 FRED PAYEMS OK (25 แถว, ล่าสุด 2026-10-01)
 FRED UNRATE OK (22 แถว, ล่าสุด 2026-10-01)
 nfp: OK
-Yahoo DXY OK (504 วัน ล่าสุด 2026-11-18)
+Yahoo DXY OK (504 วัน ล่าสุด 2026-11-19)
 dxy: OK
-FRED DGS2 OK (497 แถว, ล่าสุด 2026-11-16)
-FRED DGS10 OK (497 แถว, ล่าสุด 2026-11-16)
-FRED T10Y2Y OK (498 แถว, ล่าสุด 2026-11-17)
+FRED DGS2 OK (498 แถว, ล่าสุด 2026-11-17)
+FRED DGS10 OK (498 แถว, ล่าสุด 2026-11-17)
+FRED T10Y2Y OK (499 แถว, ล่าสุด 2026-11-18)
 yields: OK
 FRED WALCL OK (104 แถว, ล่าสุด 2026-11-11)
 fedbs: OK
-DTS debt limit: subject=40.463305 statutory=41.103996 (2026-11-16)
+DTS debt limit: subject=40.514428 statutory=41.103996 (2026-11-17)
 debt: OK
