@@ -1,11 +1,11 @@
-run at 2026-11-20T18:35:10.431810+07:00
+run at 2026-11-21T03:14:16.648886+07:00
 
 spx.level OK via Yahoo Finance (^GSPC)
 spx.market_cap OK via stockanalysis.com
 spx.pe OK via multpl.com
 spx.pbv OK via multpl.com
 nasdaq.level OK via Yahoo Finance (^IXIC)
-nasdaq.market_cap FAIL ValueError: อ่านรายชื่อได้แค่ 100 บริษัท (น้อยผิดปกติ)
+nasdaq.market_cap OK via stockanalysis.com
 nasdaq_oneq html https://stockanalysis.com/etf/oneq/ -> found ['pe']
 nasdaq.pe OK via stockanalysis.com
 nasdaq.pbv TODO
@@ -16,9 +16,9 @@ hscei.level OK via Yahoo Finance (^HSCE)
 hscei factsheet -> found ['pe', 'market_cap']
 hscei_etf html https://stockanalysis.com/quote/hkg/2828/ -> found ['pe']
 sse.level OK via Yahoo Finance (000001.SS)
-sse[0] FAIL https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-20 -> TimeoutError: The read operation timed out
-sse[1] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-19 -> found ['pe', 'market_cap'] (json)
+sse[0] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-21 -> found nothing (json)
+sse[1] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-20 -> found ['pe', 'market_cap'] (json)
 vni.level OK via Yahoo Finance (^VNINDEX.VN)
 vni_24h html https://24hmoney.vn/indices/vn-index -> found ['pe']
-vix OK (504 วัน ล่าสุด ['2026-11-20', 29.44])
-soxx OK (502 วัน ล่าสุด ['2026-11-19', 159.2])
+vix OK (504 วัน ล่าสุด ['2026-11-20', 34.17])
+soxx OK (502 วัน ล่าสุด ['2026-11-20', 148.99])
