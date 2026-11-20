@@ -1,5 +1,5 @@
 URL: https://www.multpl.com/s-p-500-pe-ratio
-FETCHED: 2026-11-20T03:33:53.652244+07:00
+FETCHED: 2026-11-20T09:18:18.155343+07:00
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +14,7 @@ FETCHED: 2026-11-20T03:33:53.652244+07:00
 <meta property="og:site_name" content="Multpl" />
 
 
-<meta name="description" content="S&P 500 PE Ratio chart, historic, and current data. Current S&P 500 PE Ratio is 24.96, a change of -0.08 from previous market close." />
+<meta name="description" content="S&P 500 PE Ratio chart, historic, and current data. Current S&P 500 PE Ratio is 24.46, a change of -0.50 from previous market close." />
 <link rel="canonical"
 href="https://www.multpl.com/s-p-500-pe-ratio">
 <link rel="alternate" type="application/rss+xml"

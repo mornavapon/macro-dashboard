@@ -1,11 +1,11 @@
-run at 2026-11-20T03:34:07.294479+07:00
+run at 2026-11-20T09:18:32.184858+07:00
 
 spx.level OK via Yahoo Finance (^GSPC)
 spx.market_cap OK via stockanalysis.com
 spx.pe OK via multpl.com
 spx.pbv OK via multpl.com
 nasdaq.level OK via Yahoo Finance (^IXIC)
-nasdaq.market_cap FAIL ValueError: อ่านรายชื่อได้แค่ 100 บริษัท (น้อยผิดปกติ)
+nasdaq.market_cap OK via stockanalysis.com
 nasdaq_oneq html https://stockanalysis.com/etf/oneq/ -> found ['pe']
 nasdaq.pe OK via stockanalysis.com
 nasdaq.pbv TODO
@@ -20,5 +20,5 @@ sse[0] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=fa
 sse[1] OK  https://query.sse.com.cn/commonQuery.do?jsonCallBack=&isPagination=false&sqlId=COMMON_SSE_SJ_GPSJ_CJGK_MRGK_C&PRODUCT_CODE=01%2C02%2C03%2C11%2C17&type=inParams&SEARCH_DATE=2026-11-19 -> found ['pe', 'market_cap'] (json)
 vni.level OK via Yahoo Finance (^VNINDEX.VN)
 vni_24h html https://24hmoney.vn/indices/vn-index -> found ['pe']
-vix OK (504 วัน ล่าสุด ['2026-11-19', 27.63])
-soxx OK (502 วัน ล่าสุด ['2026-11-19', 159.36])
+vix OK (504 วัน ล่าสุด ['2026-11-19', 28.44])
+soxx OK (502 วัน ล่าสุด ['2026-11-19', 159.2])
