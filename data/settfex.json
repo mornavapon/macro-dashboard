@@ -1,16 +1,8 @@
 {
- "updated_at": "2026-11-20T14:30+07:00",
+ "updated_at": "2026-11-21T02:08+07:00",
  "settfex_version": "0.29.1",
  "th_yields": {
   "y2": [
-   [
-    "2024-11-18",
-    2.072
-   ],
-   [
-    "2024-11-19",
-    2.072
-   ],
    [
     "2024-11-20",
     2.071
@@ -1934,17 +1926,17 @@
    [
     "2026-11-18",
     1.21
+   ],
+   [
+    "2026-11-19",
+    1.212
+   ],
+   [
+    "2026-11-20",
+    1.214
    ]
   ],
   "y10": [
-   [
-    "2024-11-18",
-    2.448
-   ],
-   [
-    "2024-11-19",
-    2.446
-   ],
    [
     "2024-11-20",
     2.446
@@ -3868,17 +3860,17 @@
    [
     "2026-11-18",
     2.047
+   ],
+   [
+    "2026-11-19",
+    2.037
+   ],
+   [
+    "2026-11-20",
+    2.028
    ]
   ],
   "spread": [
-   [
-    "2024-11-18",
-    0.376
-   ],
-   [
-    "2024-11-19",
-    0.374
-   ],
    [
     "2024-11-20",
     0.375
@@ -5802,62 +5794,68 @@
    [
     "2026-11-18",
     0.837
+   ],
+   [
+    "2026-11-19",
+    0.825
+   ],
+   [
+    "2026-11-20",
+    0.814
    ]
   ],
   "curve": [
    {
     "tenor": "3M",
-    "now": 0.882,
+    "now": 0.88,
     "year_ago": 1.256
    },
    {
     "tenor": "1Y",
-    "now": 0.95,
-    "year_ago": 1.268
+    "now": 0.949,
+    "year_ago": 1.272
    },
    {
     "tenor": "2Y",
-    "now": 1.21,
-    "year_ago": 1.331
+    "now": 1.214,
+    "year_ago": 1.343
    },
    {
     "tenor": "5Y",
-    "now": 1.596,
-    "year_ago": 1.43
+    "now": 1.594,
+    "year_ago": 1.435
    },
    {
     "tenor": "10Y",
-    "now": 2.047,
-    "year_ago": 1.701
+    "now": 2.028,
+    "year_ago": 1.726
    },
    {
     "tenor": "20Y",
-    "now": 2.958,
-    "year_ago": 2.264
+    "now": 2.935,
+    "year_ago": 2.281
    },
    {
     "tenor": "30Y",
-    "now": 3.197,
-    "year_ago": 2.394
+    "now": 3.176,
+    "year_ago": 2.404
    }
   ],
-  "year_ago_date": "2025-11-18",
+  "year_ago_date": "2025-11-20",
   "latest": {
-   "date": "2026-11-18",
-   "y2": 1.21,
-   "y10": 2.047,
-   "spread": 0.837
+   "date": "2026-11-20",
+   "y2": 1.214,
+   "y10": 2.028,
+   "spread": 0.814
   },
   "freq": "ทุกวันทำการ (ThaiBMA ประกาศช่วงเย็น)",
-  "next": "2026-11-19",
+  "next": "2026-11-23",
   "source": "ThaiBMA ผ่าน settfex",
   "link": "https://www.thaibma.or.th/EN/Market/YieldCurve/Government.aspx",
   "ok": true,
-  "fetched_at": "2026-11-19T14:39+07:00",
-  "stale": true,
-  "error": "FetchError: Failed to fetch https://www.thaibma.or.th/yieldcurve/avail after 4 attempts"
+  "fetched_at": "2026-11-21T02:08+07:00"
  },
  "log": [
-  "th_yields: FAIL FetchError: Failed to fetch https://www.thaibma.or.th/yieldcurve/avail after 4 attempts"
+  "th_yields: OK"
  ]
 }
