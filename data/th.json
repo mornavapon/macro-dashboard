@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-20T14:32+07:00",
+  "updated_at": "2026-11-21T03:34+07:00",
   "gdp": {
     "rows": [
       {
@@ -36,7 +36,7 @@
     "source": "สศช. (ไฟล์ All Tables QGDP)",
     "link": "https://www.nesdc.go.th/info/economic-aspect/",
     "ok": true,
-    "fetched_at": "2026-11-20T14:32+07:00"
+    "fetched_at": "2026-11-21T03:34+07:00"
   },
   "mpc": {
     "year": 2026,
@@ -96,7 +96,7 @@
     "source": "ธนาคารแห่งประเทศไทย",
     "link": "https://www.bot.or.th/th/our-roles/monetary-policy/mpc-meeting.html",
     "ok": true,
-    "fetched_at": "2026-11-20T14:32+07:00"
+    "fetched_at": "2026-11-21T03:34+07:00"
   },
   "cpi": {
     "rows": [
@@ -141,7 +141,7 @@
     "source": "สนค. กระทรวงพาณิชย์",
     "link": "https://index.tpso.go.th/cpi",
     "ok": true,
-    "fetched_at": "2026-11-20T14:33+07:00"
+    "fetched_at": "2026-11-21T03:34+07:00"
   },
   "exports": {
     "rows": [
@@ -197,73 +197,73 @@
     "source": "กระทรวงพาณิชย์ (tradereport.moc.go.th)",
     "link": "https://tradereport.moc.go.th/th/stat/reportmonth01",
     "ok": true,
-    "fetched_at": "2026-11-20T14:33+07:00"
+    "fetched_at": "2026-11-21T03:35+07:00"
   },
   "investor": {
     "mtd": {
       "begin": "2026-11-01",
-      "end": "2026-11-19",
+      "end": "2026-11-20",
       "rows": [
         {
           "type": "institution",
-          "buy": 64972.02,
-          "sell": 61842.69,
-          "net": 3129.32,
-          "pct_buy": 6.87
+          "buy": 67834.86,
+          "sell": 63990.71,
+          "net": 3844.15,
+          "pct_buy": 6.73
         },
         {
           "type": "proprietary",
-          "buy": 105096.6,
-          "sell": 114854.23,
-          "net": -9757.62,
-          "pct_buy": 11.11
+          "buy": 118159.49,
+          "sell": 128483.8,
+          "net": -10324.31,
+          "pct_buy": 11.73
         },
         {
           "type": "foreign",
-          "buy": 504035.54,
-          "sell": 507824.29,
-          "net": -3788.75,
-          "pct_buy": 53.28
+          "buy": 530013.86,
+          "sell": 536168.82,
+          "net": -6154.95,
+          "pct_buy": 52.6
         },
         {
           "type": "individual",
-          "buy": 271928.28,
-          "sell": 261511.24,
-          "net": 10417.05,
-          "pct_buy": 28.74
+          "buy": 291692.21,
+          "sell": 279057.1,
+          "net": 12635.11,
+          "pct_buy": 28.95
         }
       ]
     },
     "ytd": {
       "begin": "2026-01-01",
-      "end": "2026-11-19",
+      "end": "2026-11-20",
       "rows": [
         {
           "type": "institution",
-          "buy": 1074297.3,
-          "sell": 1152099.6,
-          "net": -77802.31,
-          "pct_buy": 7.27
+          "buy": 1077160.14,
+          "sell": 1154247.62,
+          "net": -77087.48,
+          "pct_buy": 7.25
         },
         {
           "type": "proprietary",
-          "buy": 1078314.81,
-          "sell": 1084986.55,
-          "net": -6671.74,
-          "pct_buy": 7.29
+          "buy": 1091377.7,
+          "sell": 1098616.12,
+          "net": -7238.42,
+          "pct_buy": 7.35
         },
         {
           "type": "foreign",
-          "buy": 8089511.69,
-          "sell": 8074787.56,
-          "net": 14724.12,
-          "pct_buy": 54.71
+          "buy": 8115490.01,
+          "sell": 8103132.09,
+          "net": 12357.92,
+          "pct_buy": 54.66
         },
         {
           "type": "individual",
-          "buy": 4543446.04,
-          "sell": 4473696.12,
-          "net": 69749.92,
+          "buy": 4563209.96,
+          "sell": 4491241.98,
+          "net": 71967.98,
           "pct_buy": 30.73
         }
       ]
@@ -281,7 +281,7 @@
     "source": "ตลาดหลักทรัพย์ฯ (set.or.th)",
     "link": "https://www.settrade.com/th/equities/market-data/historical-report/investor-type?market=SET",
     "ok": true,
-    "fetched_at": "2026-11-20T14:33+07:00"
+    "fetched_at": "2026-11-21T03:35+07:00"
   },
   "releases": {
     "mpc": {
