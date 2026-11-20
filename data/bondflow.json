@@ -1553,7 +1553,7 @@
  "freq": "ทุกวันทำการ วันละ 3 รอบ (08:30 / 12:00 / 16:30 น.)",
  "source": "ThaiBMA (Non-resident Flows)",
  "link": "https://www.thaibma.or.th/EN/Market/NR/NRDaily.aspx",
- "updated_at": "2026-11-20T01:44+07:00",
+ "updated_at": "2026-11-20T16:09+07:00",
  "log": "FAIL URLError: <urlopen error timed out>",
  "stale": true,
  "error": "URLError: <urlopen error timed out>"
