@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-20T09:18+07:00",
+  "updated_at": "2026-11-20T18:35+07:00",
   "indices": [
     {
       "id": "spx",
@@ -14,7 +14,7 @@
         "pct": -2.02
       },
       "market_cap": {
-        "value": 68904182726264.0,
+        "value": 68799625130818.0,
         "currency": "USD",
         "source": "stockanalysis.com",
         "note": "ผลรวม Market Cap ของ 503 บริษัทใน S&P 500"
@@ -46,10 +46,13 @@
         "value": 48558582061006.0,
         "currency": "USD",
         "source": "stockanalysis.com",
-        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)"
+        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)",
+        "stale": true,
+        "error": "ดึงข้อมูลไม่สำเร็จ (ValueError: อ่านรายชื่อได้แค่ 100 บริษัท (น้อยผิดปกติ))",
+        "checked_at": "2026-11-20T18:34+07:00"
       },
       "pe": {
-        "value": 23.33,
+        "value": 23.54,
         "asof": null,
         "source": "stockanalysis.com",
         "note": "อ้างอิง ETF ONEQ"
@@ -66,24 +69,24 @@
       "flag": "🇹🇭",
       "market": "ไทย",
       "level": {
-        "value": 1472.64,
-        "asof": "2026-11-19",
+        "value": 1453.28,
+        "asof": "2026-11-20",
         "source": "Yahoo Finance (^SET.BK)"
       },
       "market_cap": {
-        "value": 18580346770000.0,
-        "asof": "19 Nov 2026",
+        "value": 18335644560000.0,
+        "asof": "20 Nov 2026",
         "source": "www.set.or.th",
         "currency": "THB"
       },
       "pe": {
-        "value": 13.71,
-        "asof": "19 Nov 2026",
+        "value": 13.52,
+        "asof": "20 Nov 2026",
         "source": "www.set.or.th"
       },
       "pbv": {
-        "value": 1.35,
-        "asof": "19 Nov 2026",
+        "value": 1.33,
+        "asof": "20 Nov 2026",
         "source": "www.set.or.th"
       }
     },
@@ -93,11 +96,11 @@
       "flag": "🇭🇰",
       "market": "ฮ่องกง",
       "level": {
-        "value": 7566.02,
+        "value": 7554.37,
         "asof": "2026-11-20",
         "source": "Yahoo Finance (^HSCE)",
-        "change": -270.25,
-        "pct": -3.45
+        "change": -135.97,
+        "pct": -1.77
       },
       "market_cap": {
         "value": 20757115000000.0,
@@ -124,11 +127,11 @@
       "flag": "🇨🇳",
       "market": "จีน",
       "level": {
-        "value": 3518.94,
+        "value": 3533.79,
         "asof": "2026-11-20",
         "source": "Yahoo Finance (000001.SS)",
-        "change": -68.89,
-        "pct": -1.92
+        "change": -43.82,
+        "pct": -1.22
       },
       "market_cap": {
         "value": 62543389000000.0,
@@ -155,7 +158,7 @@
       "flag": "🇻🇳",
       "market": "เวียดนาม",
       "level": {
-        "value": 1670.94,
+        "value": 1688.79,
         "asof": "2026-11-20",
         "source": "Yahoo Finance (^VNINDEX.VN)"
       },
@@ -179,10 +182,6 @@
   "vix": {
     "ok": true,
     "data": [
-      [
-        "2024-11-19",
-        16.35
-      ],
       [
         "2024-11-20",
         17.16
@@ -2194,11 +2193,15 @@
       [
         "2026-11-19",
         28.44
+      ],
+      [
+        "2026-11-20",
+        29.44
       ]
     ],
     "latest": {
-      "date": "2026-11-19",
-      "value": 28.44
+      "date": "2026-11-20",
+      "value": 29.44
     },
     "source": "Cboe ผ่าน Yahoo Finance (^VIX)",
     "link": "https://th.tradingview.com/symbols/TVC-VIX/"
