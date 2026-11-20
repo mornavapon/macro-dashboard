@@ -1,5 +1,5 @@
 URL: https://www.nesdc.go.th/wp-content/uploads/2026/11/All-Tables-QGDP-Download-Excel-Files-1.xlsx
-FETCHED: 2026-11-20T03:50:36.468920+07:00
+FETCHED: 2026-11-20T14:32:47.329278+07:00
 
 GDP column = N
 {"A": "Table 1 :  Expenditure on gross domestic product at current market prices (original)"}
