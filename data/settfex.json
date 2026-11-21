@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-21T02:08+07:00",
+ "updated_at": "2026-11-21T14:25+07:00",
  "settfex_version": "0.29.1",
  "th_yields": {
   "y2": [
@@ -5853,9 +5853,11 @@
   "source": "ThaiBMA ผ่าน settfex",
   "link": "https://www.thaibma.or.th/EN/Market/YieldCurve/Government.aspx",
   "ok": true,
-  "fetched_at": "2026-11-21T02:08+07:00"
+  "fetched_at": "2026-11-21T02:08+07:00",
+  "stale": true,
+  "error": "FetchError: ThaiBMA request failed for thaibma yield curve availability window: HTTP 403 (https://www.thaibma.or.th/yieldcurve/avail)"
  },
  "log": [
-  "th_yields: OK"
+  "th_yields: FAIL FetchError: ThaiBMA request failed for thaibma yield curve availability window: HTTP 403 (https://www.thaibma.or.th/yieldcurve/avail)"
  ]
 }
