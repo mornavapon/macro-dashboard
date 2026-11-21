@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-21T03:14+07:00",
+  "updated_at": "2026-11-21T09:12+07:00",
   "indices": [
     {
       "id": "spx",
@@ -7,26 +7,26 @@
       "flag": "🇺🇸",
       "market": "สหรัฐฯ",
       "level": {
-        "value": 6951.91,
+        "value": 6910.39,
         "asof": "2026-11-20",
         "source": "Yahoo Finance (^GSPC)",
-        "change": -223.92,
-        "pct": -3.12
+        "change": -265.44,
+        "pct": -3.7
       },
       "market_cap": {
-        "value": 66832808393078.0,
+        "value": 66399195244211.0,
         "currency": "USD",
         "source": "stockanalysis.com",
         "note": "ผลรวม Market Cap ของ 503 บริษัทใน S&P 500"
       },
       "pe": {
-        "value": 24.46,
-        "asof": "4:00 PM EST, Thu Nov 19",
+        "value": 23.55,
+        "asof": "4:00 PM EST, Fri Nov 20",
         "source": "multpl.com"
       },
       "pbv": {
-        "value": 5.69,
-        "asof": "4:00 PM EST, Thu Nov 19",
+        "value": 5.48,
+        "asof": "4:00 PM EST, Fri Nov 20",
         "source": "multpl.com"
       }
     },
@@ -36,20 +36,23 @@
       "flag": "🇺🇸",
       "market": "สหรัฐฯ",
       "level": {
-        "value": 22744.53,
+        "value": 22617.73,
         "asof": "2026-11-20",
         "source": "Yahoo Finance (^IXIC)",
-        "change": -1134.67,
-        "pct": -4.75
+        "change": -1261.47,
+        "pct": -5.28
       },
       "market_cap": {
         "value": 46830100584329.0,
         "currency": "USD",
         "source": "stockanalysis.com",
-        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)"
+        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)",
+        "stale": true,
+        "error": "ดึงข้อมูลไม่สำเร็จ (ValueError: อ่านรายชื่อได้แค่ 100 บริษัท (น้อยผิดปกติ))",
+        "checked_at": "2026-11-21T09:12+07:00"
       },
       "pe": {
-        "value": 23.31,
+        "value": 22.11,
         "asof": null,
         "source": "stockanalysis.com",
         "note": "อ้างอิง ETF ONEQ"
@@ -165,7 +168,7 @@
         "error": "ยังไม่มีแหล่งข้อมูลฟรี"
       },
       "pe": {
-        "value": 10.48,
+        "value": 10.51,
         "asof": null,
         "source": "24hmoney.vn"
       },
@@ -2193,12 +2196,12 @@
       ],
       [
         "2026-11-20",
-        34.17
+        35.89
       ]
     ],
     "latest": {
       "date": "2026-11-20",
-      "value": 34.17
+      "value": 35.89
     },
     "source": "Cboe ผ่าน Yahoo Finance (^VIX)",
     "link": "https://th.tradingview.com/symbols/TVC-VIX/"
@@ -4212,7 +4215,7 @@
       ],
       [
         "2026-11-20",
-        148.99
+        149.02
       ]
     ],
     "ma200": [
@@ -6227,11 +6230,11 @@
     ],
     "latest": {
       "date": "2026-11-20",
-      "value": 148.99,
+      "value": 149.02,
       "vs_ma200": -18.0,
       "chg_3m": -19.0,
-      "soxx": 124.13,
-      "spx": 6952.69
+      "soxx": 123.4,
+      "spx": 6910.39
     },
     "source": "Yahoo Finance (SOXX, ^GSPC)",
     "link": "https://th.tradingview.com/symbols/NASDAQ-SOXX/"
