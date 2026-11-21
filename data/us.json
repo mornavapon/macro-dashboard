@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-21T03:41+07:00",
+  "updated_at": "2026-11-21T14:39+07:00",
   "gdp": {
     "rows": [
       {
@@ -30,7 +30,7 @@
     "source": "BEA ผ่าน FRED",
     "link": "https://www.investing.com/economic-calendar/gdp-375",
     "ok": true,
-    "fetched_at": "2026-11-21T03:41+07:00"
+    "fetched_at": "2026-11-21T14:39+07:00"
   },
   "fed": {
     "year": 2026,
@@ -179,7 +179,7 @@
     "source": "Federal Reserve ผ่าน FRED",
     "link": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
     "ok": true,
-    "fetched_at": "2026-11-21T03:41+07:00"
+    "fetched_at": "2026-11-21T14:39+07:00"
   },
   "cpi": {
     "rows": [
@@ -212,7 +212,7 @@
     "source": "BLS ผ่าน FRED",
     "link": "https://th.investing.com/economic-calendar/cpi-733",
     "ok": true,
-    "fetched_at": "2026-11-21T03:41+07:00"
+    "fetched_at": "2026-11-21T14:39+07:00"
   },
   "releases": {
     "gdp": {
@@ -490,14 +490,10 @@
       "source": "BLS ผ่าน FRED (PAYEMS, UNRATE)",
       "link": "https://www.investing.com/economic-calendar/nonfarm-payrolls-227",
       "ok": true,
-      "fetched_at": "2026-11-21T03:41+07:00"
+      "fetched_at": "2026-11-21T14:39+07:00"
     },
     "dxy": {
       "dxy": [
-        [
-          "2024-11-20",
-          106.68
-        ],
         [
           "2024-11-21",
           106.97
@@ -2508,19 +2504,19 @@
         ],
         [
           "2026-11-20",
-          103.84
+          103.81
         ]
       ],
       "latest": {
         "date": "2026-11-20",
-        "value": 103.84
+        "value": 103.81
       },
       "freq": "ทุกวันทำการ",
       "next": "2026-11-23",
       "source": "ICE ผ่าน Yahoo Finance (DX-Y.NYB)",
       "link": "https://th.tradingview.com/symbols/TVC-DXY/",
       "ok": true,
-      "fetched_at": "2026-11-21T03:41+07:00"
+      "fetched_at": "2026-11-21T14:39+07:00"
     },
     "yields": {
       "y2": [
@@ -4511,6 +4507,10 @@
         [
           "2026-11-18",
           4.8
+        ],
+        [
+          "2026-11-19",
+          4.76
         ]
       ],
       "y10": [
@@ -6501,6 +6501,10 @@
         [
           "2026-11-18",
           5.07
+        ],
+        [
+          "2026-11-19",
+          5.04
         ]
       ],
       "spread": [
@@ -8495,20 +8499,24 @@
         [
           "2026-11-19",
           0.28
+        ],
+        [
+          "2026-11-20",
+          0.29
         ]
       ],
       "latest": {
-        "date": "2026-11-18",
-        "y2": 4.8,
-        "y10": 5.07,
-        "spread": 0.28
+        "date": "2026-11-19",
+        "y2": 4.76,
+        "y10": 5.04,
+        "spread": 0.29
       },
       "freq": "ทุกวันทำการ",
       "next": "2026-11-23",
       "source": "US Treasury ผ่าน FRED (DGS2, DGS10, T10Y2Y)",
       "link": "https://th.tradingview.com/symbols/TVC-US10Y/",
       "ok": true,
-      "fetched_at": "2026-11-21T03:41+07:00"
+      "fetched_at": "2026-11-21T14:39+07:00"
     },
     "fedbs": {
       "walcl": [
@@ -8938,7 +8946,7 @@
       "source": "Federal Reserve H.4.1 ผ่าน FRED (WALCL)",
       "link": "https://www.federalreserve.gov/releases/h41/",
       "ok": true,
-      "fetched_at": "2026-11-21T03:41+07:00"
+      "fetched_at": "2026-11-21T14:39+07:00"
     },
     "debt": {
       "debt": [
@@ -9991,8 +9999,8 @@
           40.617
         ],
         [
-          "2026-11-18",
-          40.691
+          "2026-11-19",
+          40.71
         ]
       ],
       "limit": [
@@ -11045,22 +11053,22 @@
           41.104
         ],
         [
-          "2026-11-18",
+          "2026-11-19",
           41.104
         ]
       ],
       "latest": {
-        "date": "2026-11-18",
-        "debt": 40.691,
+        "date": "2026-11-19",
+        "debt": 40.71,
         "limit": 41.104,
-        "subject": 40.491
+        "subject": 40.507
       },
       "freq": "หนี้: ทุกวันทำการ · เพดานหนี้: เปลี่ยนเมื่อสภาคองเกรสลงมติเท่านั้น",
       "next": "2026-11-23",
       "source": "US Treasury (Debt to the Penny, Daily Treasury Statement)",
       "link": "https://fiscaldata.treasury.gov/americas-finance-guide/national-debt/",
       "ok": true,
-      "fetched_at": "2026-11-21T03:41+07:00"
+      "fetched_at": "2026-11-21T14:39+07:00"
     }
   }
 }
