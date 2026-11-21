@@ -1,11 +1,11 @@
-run at 2026-11-21T09:12:27.173962+07:00
+run at 2026-11-21T17:58:12.814756+07:00
 
 spx.level OK via Yahoo Finance (^GSPC)
 spx.market_cap OK via stockanalysis.com
 spx.pe OK via multpl.com
 spx.pbv OK via multpl.com
 nasdaq.level OK via Yahoo Finance (^IXIC)
-nasdaq.market_cap FAIL ValueError: อ่านรายชื่อได้แค่ 100 บริษัท (น้อยผิดปกติ)
+nasdaq.market_cap OK via stockanalysis.com
 nasdaq_oneq html https://stockanalysis.com/etf/oneq/ -> found ['pe']
 nasdaq.pe OK via stockanalysis.com
 nasdaq.pbv TODO
