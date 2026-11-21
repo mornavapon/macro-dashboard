@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-21T17:58+07:00",
+  "updated_at": "2026-11-22T02:13+07:00",
   "indices": [
     {
       "id": "spx",
@@ -14,7 +14,7 @@
         "pct": -3.7
       },
       "market_cap": {
-        "value": 66400211035581.0,
+        "value": 66398940556261.0,
         "currency": "USD",
         "source": "stockanalysis.com",
         "note": "ผลรวม Market Cap ของ 503 บริษัทใน S&P 500"
@@ -46,10 +46,13 @@
         "value": 46006756169199.0,
         "currency": "USD",
         "source": "stockanalysis.com",
-        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)"
+        "note": "ผลรวม Market Cap ของ 500 บริษัทใหญ่สุดใน Nasdaq (ใกล้เคียงทั้งตลาด)",
+        "stale": true,
+        "error": "ดึงข้อมูลไม่สำเร็จ (ValueError: อ่านรายชื่อได้แค่ 100 บริษัท (น้อยผิดปกติ))",
+        "checked_at": "2026-11-22T02:13+07:00"
       },
       "pe": {
-        "value": 22.08,
+        "value": 22.05,
         "asof": null,
         "source": "stockanalysis.com",
         "note": "อ้างอิง ETF ONEQ"

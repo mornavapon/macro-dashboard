@@ -1,5 +1,5 @@
 URL: https://www.multpl.com/s-p-500-pe-ratio
-FETCHED: 2026-11-21T17:58:00.517701+07:00
+FETCHED: 2026-11-22T02:13:28.460103+07:00
 
 <!DOCTYPE html>
 <html lang="en">
